@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/margin_5dp"
+    android:gravity="center_horizontal"
+    android:background="@color/blue">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/general_margin"
+        android:layout_marginTop="@dimen/margin_5dp"
+        android:layout_marginEnd="@dimen/general_margin"
+        android:layout_marginBottom="@dimen/margin_5dp"
+        app:cardCornerRadius="@dimen/general_margin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/general_margin"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_AddPost"
+                android:textSize="@dimen/size_AddPost_title"/>
+
+            <LinearLayout
+                android:id="@+id/layoutPostImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_5dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_PostImage"/>
+
+                <Button
+                    android:id="@+id/btnPostFileChooser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/name_btnFileChooser"
+                    android:layout_margin="@dimen/general_margin"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutPostDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_PostDescription"/>
+
+                <EditText
+                    android:id="@+id/etPostDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/general_margin"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutCodeURL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_PostCodeURL"/>
+
+                <EditText
+                    android:id="@+id/etPostCodeURL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:layout_margin="@dimen/general_margin"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutButtons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btnPostCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tag_btnPostCancel"
+                    android:layout_margin="@dimen/margin_5dp"/>
+
+                <Button
+                    android:id="@+id/btnPostSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tag_btnPostSave"
+                    android:textColor="@color/white"
+                    android:backgroundTint="@color/dkgrey"
+                    android:layout_margin="@dimen/margin_5dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

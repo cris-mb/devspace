@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:title="@string/title_miProfile"
+        android:icon="@drawable/account_36"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:title="@string/title_miAddPost"
+        android:icon="@drawable/add_24"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:title="@string/title_miLogout"
+        app:showAsAction="never"
+        android:icon="@drawable/power_off_24"/>
+</menu>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="src/main/res/drawable/account_24.xml" value="0.167" />
+        <entry key="src/main/res/drawable/account_36.xml" value="0.167" />
+        <entry key="src/main/res/drawable/back_24.xml" value="0.167" />
+        <entry key="src/main/res/drawable/menu_24.xml" value="0.167" />
+        <entry key="src/main/res/drawable/power_off_24.xml" value="0.1" />
+        <entry key="src/main/res/layout/account_profile.xml" value="0.33" />
+        <entry key="src/main/res/layout/activity_recharge.xml" value="0.33" />
+        <entry key="src/main/res/layout/activity_recycler.xml" value="0.35625" />
+        <entry key="src/main/res/layout/add_post_activity.xml" value="0.25" />
+        <entry key="src/main/res/layout/choose_login_register.xml" value="0.35625" />
+        <entry key="src/main/res/layout/list_element.xml" value="0.33" />
+        <entry key="src/main/res/layout/login_activity.xml" value="0.5" />
+        <entry key="src/main/res/layout/post_card.xml" value="0.35625" />
+        <entry key="src/main/res/layout/profile_activity.xml" value="0.25" />
+        <entry key="src/main/res/layout/recycler_view_activity.xml" value="0.35625" />
+        <entry key="src/main/res/layout/register_activity.xml" value="0.35625" />
+        <entry key="src/main/res/layout/toolbar.xml" value="0.33" />
+        <entry key="src/main/res/menu/preferences.xml" value="0.5" />
+        <entry key="src/main/res/menu/preferences_profile.xml" value="0.17447916666666666" />
+        <entry key="src/main/res/menu/toolbar.xml" value="0.35625" />
+        <entry key="src/main/res/xml/preferences.xml" value="0.35625" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
+</project>

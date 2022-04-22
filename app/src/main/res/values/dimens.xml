@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="size_AppName">20sp</dimen>
+    <dimen name="general_margin">20sp</dimen>
+    <dimen name="padding_postDescription">10sp</dimen>
+    <dimen name="toolbar_icons_margin">10dp</dimen>
+    <dimen name="toolbar_tvAppName_marginTop">10dp</dimen>
+    <dimen name="margin_5dp">5dp</dimen>
+    <dimen name="account_icon_width">36dp</dimen>
+    <dimen name="account_icon_height">36dp</dimen>
+    <dimen name="tvAppName_marginVertical_choose_login_register">100sp</dimen>
+    <dimen name="size_AppName_choose_login_register">40sp</dimen>
+    <dimen name="profile_icon_width">200dp</dimen>
+    <dimen name="profile_icon_height">200dp</dimen>
+    <dimen name="size_AddPost_title">20sp</dimen>
+</resources>
