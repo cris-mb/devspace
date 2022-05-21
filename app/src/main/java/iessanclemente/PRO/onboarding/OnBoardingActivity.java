@@ -1,39 +1,49 @@
-package iessanclemente.PRO;
+package iessanclemente.PRO.onboarding;
 
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import iessanclemente.PRO.model.User;
-import org.w3c.dom.*;
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
 
-public class LoginRegister extends Activity {
+import iessanclemente.PRO.DatabaseOperations;
+import iessanclemente.PRO.PostRecyclerView;
+import iessanclemente.PRO.R;
+import iessanclemente.PRO.model.User;
+
+public class OnBoardingActivity extends Activity {
 
     private static final int FILE_CHOOSER = 1;
     private static final int READ_CODE = 2;
 
     private DatabaseOperations op;
+    private FirebaseAuth fAuth;
 
     private String profileImagePath;
     private Uri profileImageUri;
@@ -46,23 +56,47 @@ public class LoginRegister extends Activity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             askForReadPermission();
         }
+        fAuth = FirebaseAuth.getInstance();
         createDatabaseSimulation();
         uploadImagesFromAssets();
 
+        checkLastSession();
         // Layout 'choose_login_register'
         Button btnChooseRegister = findViewById(R.id.btnChooseRegister);
         Button btnChooseLogin = findViewById(R.id.btnChooseLogin);
 
         View.OnClickListener chooseListener = view -> {
-            if(view.getId() == R.id.btnChooseRegister)
-                launchRegisterActivity();
-            else if(view.getId() == R.id.btnChooseLogin)
-                launchLoginActivity();
-
+            if(view.getId() == R.id.btnChooseRegister) {
+                Intent intentRegister = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(intentRegister);
+            }else if(view.getId() == R.id.btnChooseLogin) {
+                Intent intentLogin = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intentLogin);
+            }
         };
 
         btnChooseRegister.setOnClickListener(chooseListener);
         btnChooseLogin.setOnClickListener(chooseListener);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(fAuth.getCurrentUser() == null){
+            Intent login = new Intent(getApplicationContext(), LoginActivity.class);
+            login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(login);
+        }
+    }
+
+    private void checkLastSession() {
+        SharedPreferences shPref = getSharedPreferences("current_user", MODE_PRIVATE);
+        boolean maintainLastSession = shPref.getBoolean("staySigned", false);
+        if(maintainLastSession){
+            Intent recycler = new Intent(getApplicationContext(), PostRecyclerView.class);
+            startActivity(recycler);
+            finish();
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -135,107 +169,6 @@ public class LoginRegister extends Activity {
         }
     }
 
-    private void launchLoginActivity() {
-        // Set the login layout
-        setContentView(R.layout.login_activity);
-
-        // Declare the layout Buttons and EditTexts
-        EditText etTag = findViewById(R.id.etLoginTag);
-        EditText etPassword = findViewById(R.id.etLoginPassword);
-        TextView tvGoBack = findViewById(R.id.tvGoBack);
-        tvGoBack.setOnClickListener(view ->  {
-            onCreate(null);
-        });
-
-        Button btnLogin = findViewById(R.id.btnLogin);
-        btnLogin.setOnClickListener(view -> {
-            User us = getUser(etTag.getText() + "");
-            if(us != null) {
-                if(checkPassword(us.getTagId(), etPassword.getText()+"")){
-                    intentRecyclerView();
-                    saveCurrentUserSession(etTag.getText()+"");
-                }else{
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.err_WrongCredentials), Toast.LENGTH_SHORT).show();
-                }
-            }else
-                Toast.makeText(getApplicationContext(), getResources().getString(R.string.err_UserDoesNotExists), Toast.LENGTH_SHORT).show();
-
-        });
-    }
-
-    private boolean checkPassword(String tagId, String pass) {
-        User us = getUser(tagId);
-        if(pass.equals(us.getPassword())){
-            return true;
-        }
-
-        return false;
-    }
-
-    private void launchRegisterActivity() {
-        // Set the register layout
-        setContentView(R.layout.register_activity);
-
-        // Declare the layout Buttons and EditTexts
-        EditText etTag = findViewById(R.id.etRegisterTag);
-        EditText etUsername = findViewById(R.id.etRegisterUsername);
-        Button btnFileChooser = findViewById(R.id.btnFileChooser);
-        EditText etEmail = findViewById(R.id.etRegisterEmail);
-        EditText etPassword = findViewById(R.id.etRegisterPassword);
-        EditText etAbout = findViewById(R.id.etRegisterAboutMe);
-        TextView tvGoBack = findViewById(R.id.tvGoBack);
-        tvGoBack.setOnClickListener(view ->  {
-            onCreate(null);
-        });
-
-        Button btnRegister = findViewById(R.id.btnRegister);
-        btnRegister.setOnClickListener(view -> {
-            User us = getUser(etTag.getText() + "");
-            if (us == null) {
-                if(!(etUsername.getText()+"").equals("") ||
-                    profileImagePath != null ||
-                    !(etEmail.getText()+"").equals("") ||
-                    !(etPassword.getText()+"").equals("") ||
-                    !(etAbout.getText()+"").equals("")){
-
-                    op = new DatabaseOperations(getApplicationContext());
-                    op.sqlLiteDB = op.getWritableDatabase();
-
-                    op.addUser(new User(etTag.getText() + "", etUsername.getText() + "", profileImagePath, profileImageUri, etEmail.getText() + "", etPassword.getText() + "", etAbout.getText() + ""));
-
-                    op.close();
-                    intentRecyclerView();
-                    saveCurrentUserSession(etTag.getText()+"");
-
-                }else{
-                    Toast.makeText(this, getResources().getString(R.string.err_IncompleteRegistration), Toast.LENGTH_SHORT).show();
-                }
-
-            } else {
-                Toast.makeText(this, getResources().getString(R.string.err_UserAlreadyExists), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        btnFileChooser.setOnClickListener(view -> {
-            openFileChooser();
-        });
-    }
-
-    private User getUser(String tagId) {
-        op = new DatabaseOperations(this);
-        op.sqlLiteDB = op.getWritableDatabase();
-
-        User us = op.getUser(tagId);
-
-        op.close();
-        return us;
-    }
-
-    private void intentRecyclerView() {
-        Intent recyclerView = new Intent(this, PostRecyclerView.class);
-        startActivity(recyclerView);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -246,16 +179,6 @@ public class LoginRegister extends Activity {
             profileImageUri = path;
             profileImagePath = path.getPath();
         }
-    }
-
-    public void openFileChooser(){
-        Intent chooser = new Intent(Intent.ACTION_GET_CONTENT);
-        chooser.setType("image /*");
-        startActivityForResult(chooser, FILE_CHOOSER);
-    }
-
-    private void saveCurrentUserSession(String tagIdValue) {
-        // TODO : with SharedPreferences
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

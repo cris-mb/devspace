@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- Custom Colors -->
-    <color name="blue">#6771DB</color>
-    <color name="dkgrey">#3C3D5C</color>
+    <color name="blue">#16D7D5</color>
+    <color name="dkblue">#036BB4</color>
+    <color name="warning">#F7A821</color>
 </resources>

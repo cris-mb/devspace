@@ -78,6 +78,15 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         return null;
     }
 
+    public User getUserByEmail(String tag){
+        Cursor datosConsulta = sqlLiteDB.rawQuery("select * from email where tagId=?", new String[]{tag});
+
+        if(datosConsulta.moveToFirst())
+            return new User(datosConsulta.getString(0), datosConsulta.getString(1), datosConsulta.getString(2), datosConsulta.getString(3), datosConsulta.getString(4), datosConsulta.getString(5));
+
+        return null;
+    }
+
     // ADD Declarations
     public long addFollow(String tagId_Followed, String tagId_Follower){
         ContentValues valores = new ContentValues();
@@ -90,7 +99,7 @@ public class DatabaseOperations extends SQLiteOpenHelper{
 
     public long addUser(User us){
         ContentValues valores = new ContentValues();
-        valores.put("tagId", us.getTagId());
+        valores.put("tagId", us.getUserTag());
         valores.put("username", us.getUsername());
         valores.put("profileImagePath", us.getProfileImagePath());
         valores.put("email", us.getEmail());

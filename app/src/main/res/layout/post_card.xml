@@ -6,11 +6,10 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:backgroundTint="@color/black"
-    android:layout_marginStart="@dimen/general_margin"
-    android:layout_marginTop="@dimen/margin_5dp"
-    android:layout_marginEnd="@dimen/general_margin"
-    android:layout_marginBottom="@dimen/margin_5dp"
-    app:cardCornerRadius="@dimen/general_margin">
+    android:layout_marginBottom="@dimen/margin_post_card"
+    android:layout_marginStart="@dimen/horizontal_margin_postcard"
+    android:layout_marginEnd="@dimen/horizontal_margin_postcard"
+    app:cardCornerRadius="@dimen/radius_post_card">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,13 +19,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/blue"
+            android:background="@color/dkblue"
             android:gravity="center_vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/ivAccountIconPost"
-                android:layout_width="@dimen/account_icon_width"
-                android:layout_height="@dimen/account_icon_height"
+                android:layout_width="@dimen/account_icon_width_height"
+                android:layout_height="@dimen/account_icon_width_height"
                 android:layout_margin="@dimen/margin_5dp"
                 android:src="@drawable/account_36"/>
 
@@ -48,7 +47,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/blue"
+            android:background="@color/dkblue"
             android:layout_gravity="bottom"
             android:orientation="vertical">
 
@@ -64,10 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/margin_5dp"
-                    android:layout_marginTop="@dimen/margin_5dp"
-                    android:layout_marginEnd="@dimen/margin_5dp"
-                    android:layout_marginBottom="@dimen/margin_5dp"
+                    android:layout_margin="@dimen/margin_ivLike"
                     android:src="@drawable/thumb_up_white_24" />
 
                 <TextView
@@ -96,7 +92,8 @@
                 android:padding="@dimen/padding_postDescription"
                 android:text="@string/tag_LearnMore"
                 android:textColor="@color/white"
-                android:backgroundTint="@color/dkgrey"/>
+                android:backgroundTint="@color/blue"
+                app:cornerRadius="@dimen/radius_btnLearnMore"/>
 
         </LinearLayout>
 

@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
 import iessanclemente.PRO.model.Post;
 import iessanclemente.PRO.model.User;
 
@@ -31,6 +34,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     private DatabaseOperations op;
 
     private List<Post> postsList;
+    private List<Post> postsListBackup;
     private Context context;
 
     public PostAdapter(Context context) {
@@ -44,6 +48,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         op.sqlLiteDB = op.getWritableDatabase();
 
         postsList = op.postsList();
+        postsListBackup = new ArrayList<>();
+        postsListBackup.addAll(postsList);
 
         op.close();
     }
@@ -61,17 +67,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
 
-            holder.setPostId(postsList.get(position).getPostId());
-            User author = getUser(postsList.get(position).getAuthor());
+        holder.setPostId(postsList.get(position).getPostId());
+        User author = getUser(postsList.get(position).getAuthor());
 
-            if(author == null) {
-                holder.tvAccountName.setText("Anonymous");
-                Drawable d = context.getDrawable(R.drawable.account_36);
-                holder.ivAccountIconPost.setImageDrawable(d);
-            }else{
-                holder.tvAccountName.setText(author.getUsername());
-                holder.ivAccountIconPost.setImageURI(Uri.fromFile(new File(author.getProfileImagePath())));
-            }
+        if(author == null) {
+            holder.tvAccountName.setText("Anonymous");
+            Drawable d = context.getDrawable(R.drawable.account_36);
+            holder.ivAccountIconPost.setImageDrawable(d);
+        }else{
+            holder.tvAccountName.setText(author.getUsername());
+            holder.ivAccountIconPost.setImageURI(Uri.fromFile(new File(author.getProfileImagePath())));
+        }
 
         holder.ivAccountMultimediaPost.setImageURI(Uri.parse(postsList.get(position).getMultimediaPath()));
         holder.tvAccountDescription.setText(postsList.get(position).getDescription());
@@ -92,6 +98,26 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         op.close();
 
         return us;
+    }
+
+    public void filter(final String pattern){
+        int ptLength = pattern.length();
+
+        if(ptLength == 0){
+            postsList.clear();
+            postsList.addAll(postsListBackup);
+        }else{
+            postsList.clear();
+
+            for (Post p:postsListBackup) {
+                String postDescription = p.getDescription().toLowerCase();
+                if(postDescription.contains(pattern.toLowerCase())){
+                    postsList.add(p);
+                }
+            }
+        }
+
+        notifyDataSetChanged();
     }
 
     @Override

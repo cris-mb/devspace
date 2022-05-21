@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tag_btnPostSave"
                     android:textColor="@color/white"
-                    android:backgroundTint="@color/dkgrey"
+                    android:backgroundTint="@color/dkblue"
                     android:layout_margin="@dimen/margin_5dp"/>
 
             </LinearLayout>

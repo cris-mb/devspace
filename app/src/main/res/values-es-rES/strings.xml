@@ -1,29 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name"><a style="font-family: 'ubuntu';">DevSpace</a></string>
-    <string name="label_Username">Nombre de usuario :</string>
-    <string name="label_Password">"Contraseña : "</string>
+    <string name="label_Name">Nombre</string>
+    <string name="label_Password">Contraseña</string>
     <string name="name_btnLogin">Inicio de sesión</string>
     <string name="name_btnRegister">Registro</string>
-    <string name="label_Email">Correo :</string>
+    <string name="label_Email">Correo</string>
     <string name="preferences_title">Preferencias</string>
     <string name="title_miProfile">Perfil</string>
     <string name="title_miLogout">Salir</string>
-    <string name="label_Tag">Tag :</string>
-    <string name="err_UserAlreadyExists">El usuario ya existe en la base de datos</string>
-    <string name="label_AboutMe">Sobre tí :</string>
-    <string name="err_UserDoesNotExists">El usuario no está registrado en la base de datos</string>
-    <string name="err_WrongCredentials">El nombre de usuario o contraseña son incorrectos</string>
+    <string name="label_Username">Usuario</string>
+    <string name="err_UserAlreadyExists">El usuario ya existe</string>
+    <string name="label_AboutMe">Sobre tí</string>
+    <string name="err_UserDoesNotExists">El usuario no está registrado</string>
     <string name="name_btnFileChooser">Elegir</string>
-    <string name="label_ProfileImage">"Imagen de perfil : "</string>
+    <string name="label_ProfileImage">Imagen de perfil</string>
     <string name="err_IncompleteRegistration">Todos los campos son obligatorios</string>
-    <string name="text_GoBack"><u>Atrás</u></string>
+    <string name="text_GoLogin">Ya tienes una cuenta ?</string>
     <string name="title_miAddPost">Añadir Publicación</string>
     <string name="title_AddPost">Añadir nueva publicación</string>
-    <string name="label_PostImage">"Imagen : "</string>
+    <string name="label_PostImage">Imagen</string>
     <string name="tag_LearnMore">Más</string>
     <string name="label_PostCodeURL">"URL del código : "</string>
-    <string name="label_PostDescription">"Descripción : "</string>
+    <string name="label_PostDescription">Descripción</string>
     <string name="tag_btnPostCancel">Cancelar</string>
     <string name="tag_btnPostSave">Guardar</string>
+    <string name="filter_hint">Busca una publicación</string>
+    <string name="err_wrong_password">Las contraseña introducida es incorrecta</string>
+    <string name="text_tvAmountLikes">Me gusta</string>
+    <string name="text_rememberMe">¿Deseas mantener la sesión iniciada?</string>
+    <string name="itMessages_title">Mensajes</string>
+    <string name="itSettings_title">Opciones</string>
+    <string name="itLogout_title">Salir</string>
+    <string name="itProfile_title">Perfil</string>
+    <string name="itPosts_title">Publicaciones</string>
+    <string name="label_ConfirmPassword">Repite la contraseña</string>
+    <string name="text_GoRegister">Crear una cuenta</string>
+    <string name="err_PasswordDoNotMatch">Las contraseñas no coinciden</string>
+    <string name="text_btnGoogleLogin">Iniciar sesión con google</string>
 </resources>

@@ -1,30 +1,44 @@
 <resources>
-    <string name="app_name" translatable="false"><a style='font-family: "ubuntu";'>DevSpace</a></string>
-    <string name="label_Username">Username : </string>
-    <string name="label_Password">Password : </string>
-    <string name="name_btnLogin">Login</string>
+    <string name="app_name" translatable="false">DevSpace</string>
+    <string name="label_Name">Name</string>
+    <string name="label_Password">Password</string>
     <string name="name_btnRegister">Register</string>
-    <string name="label_Email">Email : </string>
+    <string name="label_Email">Email</string>
     <string name="preferences_title">Settings</string>
     <string name="title_miProfile">Profile</string>
     <string name="title_miLogout">Logout</string>
-    <string name="label_Tag">Tag : </string>
-    <string name="text_tvAmountLikes" translatable="false">Likes</string>
-    <string name="err_UserAlreadyExists">This user already exists in the database</string>
-    <string name="label_AboutMe">"About You : "</string>
-    <string name="err_UserDoesNotExists">This user is not registered in the database</string>
-    <string name="err_WrongCredentials">The username or password are wrong</string>
-    <string name="hint_profileImage" translatable="false"><i>profile.png</i></string>
+    <string name="text_tvAmountLikes">Likes</string>
+    <string name="label_AboutMe">About You</string>
     <string name="name_btnFileChooser">Choose</string>
-    <string name="label_ProfileImage">Profile Image :</string>
+    <string name="label_ProfileImage">Profile Image</string>
     <string name="err_IncompleteRegistration">All fields are required</string>
-    <string name="text_GoBack"><u>Back</u></string>
-    <string name="title_miAddPost">Add Post</string>
+    <string name="text_GoLogin">Already have an account ?</string>
     <string name="title_AddPost">Add a new Post</string>
-    <string name="label_PostImage">Image :</string>
+    <string name="label_PostImage">Image</string>
     <string name="tag_LearnMore">Learn More</string>
     <string name="label_PostCodeURL">"URL to the code : "</string>
-    <string name="label_PostDescription">"Description : "</string>
+    <string name="label_PostDescription">Description</string>
     <string name="tag_btnPostCancel">Cancel</string>
     <string name="tag_btnPostSave">Save</string>
+    <string name="filter_hint">Search for any post</string>
+
+    <!-- Menu strings -->
+    <string name="itPosts_title">Posts</string>
+    <string name="itProfile_title">Profile</string>
+    <string name="itMessages_title">Messages</string>
+    <string name="itSettings_title">Settings</string>
+    <string name="itLogout_title">Logout</string>
+    <string name="title_miAddPost">Add Post</string>
+    <string name="label_ConfirmPassword">Confirm password</string>
+
+    <!-- Login strings -->
+    <string name="text_GoRegister">Create an account</string>
+    <string name="err_wrong_password">The password provided is incorrect</string>
+    <string name="text_rememberMe">Do you want to stay signed in ?</string>
+    <string name="err_UserDoesNotExists">This user is does not exist</string>
+    <string name="err_UserAlreadyExists">This user already exists</string>
+    <string name="name_btnLogin">Login</string>
+    <string name="err_PasswordDoNotMatch">The passwords provided did not match</string>
+    <string name="label_Username">User</string>
+    <string name="text_btnGoogleLogin">Sign in with google</string>
 </resources>

@@ -12,6 +12,12 @@ public class User {
     private String password;
     private String about;
 
+    public User(String tagId, String email, String password){
+        this.tagId = tagId;
+        this.email = email;
+        this.password = password;
+    }
+
     public User(String tagId, String username, String profileImagePath, String email, String password, String about) {
         this.tagId = tagId;
         this.username = username;
@@ -21,17 +27,7 @@ public class User {
         this.about = about;
     }
 
-    public User(String tagId, String username, String profileImagePath, Uri profileImageUri, String email, String password, String about) {
-        this.tagId = tagId;
-        this.username = username;
-        this.profileImagePath = profileImagePath;
-        this.profileImageUri = profileImageUri;
-        this.email = email;
-        this.password = password;
-        this.about = about;
-    }
-
-    public String getTagId() {
+    public String getUserTag() {
         return tagId;
     }
 

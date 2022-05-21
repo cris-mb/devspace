@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dkgrey">
+    android:background="@drawable/background_gradient_dkblue">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,160 +16,134 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/app_name"
-                android:textSize="@dimen/size_AppName_choose_login_register"
-                android:fontFamily="serif-monospace"
-                android:textColor="@color/blue"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/banner_height"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/proyecto_logo"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:textSize="@dimen/size_AppName_choose_login_register"
+                    android:fontFamily="@font/play_b"
+                    android:textColor="@color/dkblue"/>
+            </LinearLayout>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivAccountIconRegister"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:src="@drawable/account_125"
                 android:layout_margin="@dimen/general_margin"/>
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
+                android:id="@+id/tilUserTag"
+                android:layout_width="@dimen/til_width"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginStart="@dimen/general_margin"
-                android:layout_marginTop="@dimen/margin_5dp"
-                android:layout_marginEnd="@dimen/general_margin"
-                android:layout_marginBottom="@dimen/margin_5dp"
-                app:cardCornerRadius="@dimen/general_margin">
+                android:hint="@string/label_Username"
+                app:errorEnabled="true"
+                app:errorTextColor="@color/warning"
+                app:errorIconTint="@color/warning"
+                app:boxStrokeErrorColor="@color/warning"
+                app:startIconDrawable="@drawable/ic_user"
+                app:boxCornerRadiusTopStart="@dimen/til_corner_radius"
+                app:boxCornerRadiusTopEnd="@dimen/til_corner_radius"
+                app:boxCornerRadiusBottomStart="@dimen/til_corner_radius"
+                app:boxCornerRadiusBottomEnd="@dimen/til_corner_radius"
+                android:backgroundTint="@color/white">
 
-                <LinearLayout
-                    android:id="@+id/relativeLay"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietUserTag"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"/>
 
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <LinearLayout
-                        android:id="@+id/layoutTag"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center">
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
+                android:id="@+id/tilEmail"
+                android:layout_width="@dimen/til_width"
+                android:layout_height="wrap_content"
+                android:hint="@string/label_Email"
+                app:errorEnabled="true"
+                app:errorTextColor="@color/warning"
+                app:errorIconTint="@color/warning"
+                app:boxStrokeErrorColor="@color/warning"
+                app:startIconDrawable="@drawable/ic_email"
+                app:boxCornerRadiusTopStart="@dimen/til_corner_radius"
+                app:boxCornerRadiusTopEnd="@dimen/til_corner_radius"
+                app:boxCornerRadiusBottomStart="@dimen/til_corner_radius"
+                app:boxCornerRadiusBottomEnd="@dimen/til_corner_radius"
+                android:backgroundTint="@color/white">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/label_Tag"
-                            android:layout_margin="@dimen/general_margin"/>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"/>
 
-                        <EditText
-                            android:id="@+id/etRegisterTag"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/general_margin"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    </LinearLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
+                android:id="@+id/tilPassword"
+                android:layout_width="@dimen/til_width"
+                android:layout_height="wrap_content"
+                android:hint="@string/label_Password"
+                app:errorEnabled="true"
+                app:errorTextColor="@color/warning"
+                app:errorIconTint="@color/warning"
+                app:boxStrokeErrorColor="@color/warning"
+                app:endIconMode="password_toggle"
+                app:startIconDrawable="@drawable/ic_lock"
+                app:boxCornerRadiusTopStart="@dimen/til_corner_radius"
+                app:boxCornerRadiusTopEnd="@dimen/til_corner_radius"
+                app:boxCornerRadiusBottomStart="@dimen/til_corner_radius"
+                app:boxCornerRadiusBottomEnd="@dimen/til_corner_radius"
+                android:backgroundTint="@color/white">
 
-                    <LinearLayout
-                        android:id="@+id/layoutUsername"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/label_Username"
-                            android:layout_margin="@dimen/general_margin"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-                        <EditText
-                            android:id="@+id/etRegisterUsername"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/general_margin"/>
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
+                android:id="@+id/tilConfirmPassword"
+                android:layout_width="@dimen/til_width"
+                android:layout_height="wrap_content"
+                android:hint="@string/label_ConfirmPassword"
+                app:errorEnabled="true"
+                app:errorTextColor="@color/warning"
+                app:errorIconTint="@color/warning"
+                app:boxStrokeErrorColor="@color/warning"
+                app:endIconMode="password_toggle"
+                app:startIconDrawable="@drawable/ic_lock"
+                app:boxCornerRadiusTopStart="@dimen/til_corner_radius"
+                app:boxCornerRadiusTopEnd="@dimen/til_corner_radius"
+                app:boxCornerRadiusBottomStart="@dimen/til_corner_radius"
+                app:boxCornerRadiusBottomEnd="@dimen/til_corner_radius"
+                android:backgroundTint="@color/white">
 
-                    </LinearLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietConfirmPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"/>
 
-                    <LinearLayout
-                        android:id="@+id/layoutProfileImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/label_ProfileImage"/>
-
-                        <Button
-                            android:id="@+id/btnFileChooser"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/name_btnFileChooser"
-                            android:layout_margin="@dimen/general_margin"/>
-
-                        <TextView
-                            android:id="@+id/tvRegisterFileName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/hint_profileImage"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/label_Email"
-                            android:layout_margin="@dimen/general_margin"/>
-
-                        <EditText
-                            android:id="@+id/etRegisterEmail"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textEmailAddress"
-                            android:layout_margin="@dimen/general_margin"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/label_Password"
-                            android:layout_margin="@dimen/general_margin"/>
-
-                        <EditText
-                            android:id="@+id/etRegisterPassword"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPassword"
-                            android:layout_margin="@dimen/general_margin"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/label_AboutMe"
-                            android:layout_margin="@dimen/general_margin"/>
-
-                        <EditText
-                            android:id="@+id/etRegisterAboutMe"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/general_margin"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -183,15 +157,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/name_btnRegister"
-                    android:fontFamily="monospace"
-                    android:backgroundTint="@color/blue"/>
+                    android:fontFamily="@font/ubuntu"
+                    android:background="@drawable/btn_login"/>
 
                 <TextView
-                    android:id="@+id/tvGoBack"
+                    android:id="@+id/tvGoLogin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/blue"
-                    android:text="@string/text_GoBack"/>
+                    android:text="@string/text_GoLogin"/>
 
             </LinearLayout>
 
