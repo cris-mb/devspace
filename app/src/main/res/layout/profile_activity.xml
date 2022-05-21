@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_layout_profile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dkblue"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/general_margin"
+            android:gravity="center_horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivProfileIcon"
+                android:layout_width="@dimen/profile_icon_width"
+                android:layout_height="@dimen/profile_icon_height"
+                app:civ_border_overlay="true"
+                app:civ_border_color="@color/blue"
+                app:civ_border_width="@dimen/margin_5dp"
+                android:src="@drawable/account_36"/>
+
+            <TextView
+                android:id="@+id/tvProfileTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/general_margin"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tvProfileUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tvProfileAboutMe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/general_margin"
+                android:textColor="@color/white"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/general_margin"
+                android:background="@color/blue"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <include layout="@layout/navigation_menu" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "296623361968",
+    "project_id": "devspace-b93f2",
+    "storage_bucket": "devspace-b93f2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:296623361968:android:252a69a52520a43b629075",
+        "android_client_info": {
+          "package_name": "iessanclemente.PRO"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "296623361968-slo3mpjink1csrsid1an14valpulsb9c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBW-Nj7qKAAnuuO3_o7cz-aEwCFHc6rs78"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "296623361968-slo3mpjink1csrsid1an14valpulsb9c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

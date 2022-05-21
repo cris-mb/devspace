@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="size_AppName">30sp</dimen>
+    <dimen name="general_margin">20dp</dimen>
+    <dimen name="toolbar_icons_margin">10dp</dimen>
+    <dimen name="toolbar_tvAppName_marginTop">10dp</dimen>
+    <dimen name="margin_5dp">5dp</dimen>
+    <dimen name="tvAppName_marginVertical_choose_login_register">100sp</dimen>
+    <dimen name="profile_icon_width">200dp</dimen>
+    <dimen name="profile_icon_height">200dp</dimen>
+    <dimen name="size_AddPost_title">20sp</dimen>
+    <dimen name="cardview_components_margin">5dp</dimen>
+
+
+    <!-- Login & Register layout dimens -->
+    <dimen name="marginBottom_rememberMe">10dp</dimen>
+    <dimen name="size_AppName_choose_login_register">40sp</dimen>
+    <dimen name="til_width">275dp</dimen>
+    <dimen name="til_corner_radius">5dp</dimen>
+    <dimen name="banner_height">150dp</dimen>
+    <dimen name="banner_marginBottom">50dp</dimen>
+    <dimen name="marginTop_tvGoBack">5dp</dimen>
+
+    <!-- Post Card dimens -->
+    <dimen name="padding_postDescription">10dp</dimen>
+    <dimen name="radius_btnLearnMore">20dp</dimen>
+    <dimen name="margin_ivLike">5dp</dimen>
+    <dimen name="account_icon_width_height">36dp</dimen>
+    <dimen name="radius_post_card">20dp</dimen>
+    <dimen name="margin_post_card">20dp</dimen>
+
+    <!-- Navigation Drawer Header dimens -->
+    <dimen name="marginStart_tvAppName">20dp</dimen>
+    <dimen name="width_height_ivLogo">80dp</dimen>
+    <dimen name="margin_ivLogo">15dp</dimen>
+    <dimen name="horizontal_margin_postcard">10dp</dimen>
+
+</resources>

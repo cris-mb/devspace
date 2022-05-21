@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/itPosts"
+        android:title="@string/itPosts_title"
+        android:icon="@drawable/ic_home"/>
+
+    <item
+        android:id="@+id/itProfile"
+        android:title="@string/itProfile_title"
+        android:icon="@drawable/account_36"/>
+
+    <item
+        android:id="@+id/itMessages"
+        android:title="@string/itMessages_title"
+        android:icon="@drawable/ic_message"/>
+
+    <group>
+        <item
+            android:id="@+id/itSettings"
+            android:title="@string/itSettings_title"
+            android:icon="@drawable/ic_settings"/>
+    </group>
+
+    <group>
+        <item
+            android:id="@+id/itLogout"
+            android:title="@string/itLogout_title"
+            android:icon="@drawable/ic_login_logout"/>
+    </group>
+
+</menu>

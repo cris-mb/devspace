@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cards_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:backgroundTint="@color/black"
+    android:layout_marginBottom="@dimen/margin_post_card"
+    android:layout_marginStart="@dimen/horizontal_margin_postcard"
+    android:layout_marginEnd="@dimen/horizontal_margin_postcard"
+    app:cardCornerRadius="@dimen/radius_post_card">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/dkblue"
+            android:gravity="center_vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivAccountIconPost"
+                android:layout_width="@dimen/account_icon_width_height"
+                android:layout_height="@dimen/account_icon_width_height"
+                android:layout_margin="@dimen/margin_5dp"
+                android:src="@drawable/account_36"/>
+
+            <TextView
+                android:id="@+id/tvAccountNamePost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_5dp"
+                android:textColor="@color/white"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivAccountMultimediaPost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/power_off_24"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/dkblue"
+            android:layout_gravity="bottom"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_5dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/ivLike"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/margin_ivLike"
+                    android:src="@drawable/thumb_up_white_24" />
+
+                <TextView
+                    android:id="@+id/tvAmountLikes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_tvAmountLikes"
+                    android:textColor="@color/white"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvAccountDescriptionPost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_postDescription"
+                android:textColor="@color/white"/>
+
+            <Button
+                android:id="@+id/btnLearnMore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:padding="@dimen/padding_postDescription"
+                android:text="@string/tag_LearnMore"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/blue"
+                app:cornerRadius="@dimen/radius_btnLearnMore"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
