@@ -27,12 +27,17 @@
     <dimen name="margin_ivLike">5dp</dimen>
     <dimen name="account_icon_width_height">36dp</dimen>
     <dimen name="radius_post_card">20dp</dimen>
-    <dimen name="margin_post_card">20dp</dimen>
+    <dimen name="margin_post_card">5dp</dimen>
+    <dimen name="margin_ivComment">35dp</dimen>
 
     <!-- Navigation Drawer Header dimens -->
     <dimen name="marginStart_tvAppName">20dp</dimen>
     <dimen name="width_height_ivLogo">80dp</dimen>
     <dimen name="margin_ivLogo">15dp</dimen>
     <dimen name="horizontal_margin_postcard">10dp</dimen>
+
+    <!-- Chat dimens-->
+    <dimen name="size_iv_chat">40dp</dimen>
+    <dimen name="tvReceiverName_textSize">28sp</dimen>
 
 </resources>

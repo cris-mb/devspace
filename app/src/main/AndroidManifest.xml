@@ -48,6 +48,12 @@
             android:exported="true"
             android:parentActivityName=".PostRecyclerView">
         </activity>
+
+        <activity
+            android:name=".chat.ChatActivity"
+            android:exported="true"
+            android:parentActivityName=".PostRecyclerView">
+        </activity>
     </application>
 
 </manifest>

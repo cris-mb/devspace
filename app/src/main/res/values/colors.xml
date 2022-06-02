@@ -12,4 +12,5 @@
     <color name="blue">#16D7D5</color>
     <color name="dkblue">#036BB4</color>
     <color name="warning">#F7A821</color>
+    <color name="statusTextColor">#4D4B4B</color>
 </resources>

@@ -4,25 +4,37 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/account_36.xml" value="0.123" />
+        <entry key="app/src/main/res/drawable/account_40.xml" value="0.192" />
         <entry key="app/src/main/res/drawable/add_24.xml" value="0.1495" />
         <entry key="app/src/main/res/drawable/btn_login.xml" value="0.1475" />
         <entry key="app/src/main/res/drawable/custom_search_view.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_comment.xml" value="0.1505" />
+        <entry key="app/src/main/res/drawable/status_offline.xml" value="0.192" />
         <entry key="app/src/main/res/drawable/thumb_up_dkgrey_24.xml" value="0.1495" />
         <entry key="app/src/main/res/drawable/thumb_up_white_24.xml" value="0.1495" />
         <entry key="app/src/main/res/layout/add_post_activity.xml" value="0.115625" />
+        <entry key="app/src/main/res/layout/app_toolbar_layout.xml" value="0.3421875" />
+        <entry key="app/src/main/res/layout/chat_layout.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/chat_toolbar.xml" value="0.3421875" />
         <entry key="app/src/main/res/layout/choose_login_register.xml" value="0.24954710144927536" />
+        <entry key="app/src/main/res/layout/contact_layout.xml" value="0.67" />
+        <entry key="app/src/main/res/layout/contacts_list.xml" value="0.39963503649635035" />
         <entry key="app/src/main/res/layout/login_activity.xml" value="0.25" />
         <entry key="app/src/main/res/layout/nav_header.xml" value="0.4222222222222222" />
         <entry key="app/src/main/res/layout/navigation_menu.xml" value="0.115625" />
-        <entry key="app/src/main/res/layout/post_card.xml" value="0.30321592649310875" />
+        <entry key="app/src/main/res/layout/post_card.xml" value="0.33" />
         <entry key="app/src/main/res/layout/profile_activity.xml" value="0.20652173913043478" />
         <entry key="app/src/main/res/layout/recycler_view_activity.xml" value="0.16" />
         <entry key="app/src/main/res/layout/register_activity.xml" value="0.25" />
         <entry key="app/src/main/res/layout/toolbar.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/toolbar_chat.xml" value="0.3421875" />
         <entry key="app/src/main/res/menu/navigation_items.xml" value="0.16927083333333334" />
         <entry key="app/src/main/res/menu/navigation_menu.xml" value="0.2635416666666667" />
         <entry key="app/src/main/res/menu/preferences.xml" value="0.2635416666666667" />
         <entry key="app/src/main/res/menu/preferences_profile.xml" value="0.2635416666666667" />
+        <entry key="app/src/main/res/menu/toolbar.xml" value="0.34322916666666664" />
+        <entry key="app/src/main/res/menu/toolbar_chat.xml" value="0.3421875" />
+        <entry key="app/src/main/res/menu/toolbar_profile.xml" value="0.16927083333333334" />
       </map>
     </option>
   </component>

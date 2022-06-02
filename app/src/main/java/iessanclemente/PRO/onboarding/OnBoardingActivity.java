@@ -39,28 +39,18 @@ import iessanclemente.PRO.model.User;
 
 public class OnBoardingActivity extends Activity {
 
-    private static final int FILE_CHOOSER = 1;
-    private static final int READ_CODE = 2;
-
     private DatabaseOperations op;
-    private FirebaseAuth fAuth;
-
-    private String profileImagePath;
-    private Uri profileImageUri;
+    private EnterUtilities eu;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.choose_login_register);
+        eu = new EnterUtilities(getApplicationContext());
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            askForReadPermission();
-        }
-        fAuth = FirebaseAuth.getInstance();
         createDatabaseSimulation();
         uploadImagesFromAssets();
 
-        checkLastSession();
         // Layout 'choose_login_register'
         Button btnChooseRegister = findViewById(R.id.btnChooseRegister);
         Button btnChooseLogin = findViewById(R.id.btnChooseLogin);
@@ -82,31 +72,10 @@ public class OnBoardingActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(fAuth.getCurrentUser() == null){
+        if(!eu.checkExistingSession()){
             Intent login = new Intent(getApplicationContext(), LoginActivity.class);
             login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(login);
-        }
-    }
-
-    private void checkLastSession() {
-        SharedPreferences shPref = getSharedPreferences("current_user", MODE_PRIVATE);
-        boolean maintainLastSession = shPref.getBoolean("staySigned", false);
-        if(maintainLastSession){
-            Intent recycler = new Intent(getApplicationContext(), PostRecyclerView.class);
-            startActivity(recycler);
-            finish();
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void askForReadPermission() {
-        int permission = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
-
-        if(permission == PackageManager.PERMISSION_GRANTED){
-
-        }else{
-            this.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_CODE);
         }
     }
 
@@ -166,31 +135,6 @@ public class OnBoardingActivity extends Activity {
                     op.close();
                 }
             }.start();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == FILE_CHOOSER && resultCode == Activity.RESULT_OK){
-            if(data == null)return;
-
-            Uri path = data.getData();
-            profileImageUri = path;
-            profileImagePath = path.getPath();
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == READ_CODE){
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
-
-            }else{
-                this.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_CODE);
-            }
         }
     }
 }

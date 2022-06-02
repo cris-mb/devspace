@@ -17,6 +17,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.internal.InternalTokenProvider;
 
+import java.util.HashMap;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import iessanclemente.PRO.DatabaseOperations;
 import iessanclemente.PRO.PostRecyclerView;
@@ -40,6 +42,8 @@ public class RegisterActivity extends Activity{
     private TextInputLayout tilConfirmPassword;
     private TextView tvGoLogin;
     private Button btnRegister;
+
+    private boolean selectedCustomImage = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,17 +80,19 @@ public class RegisterActivity extends Activity{
             String email = tietEmail.getText()+"";
             String password = tietPassword.getText()+"";
             String confirmPassword = tietConfirmPassword.getText()+"";
+            String profileImageRef = selectedCustomImage?
+                            eu.searchForProfileImageRef()
+                            :"gs://devspace-b93f2.appspot.com/profile_images/anonymous.png";
 
             clearErrors();
             if(!confirmPassword.equals(password)) {
                 setErrorLayoutOn(tilPassword,"");
                 setErrorLayoutOn(tilConfirmPassword, getResources().getString(R.string.err_PasswordDoNotMatch));
-            }else if(!eu.addUser(userTag, email, password)){
+            }
+            if(!eu.addUser(userTag, email, password, profileImageRef)){
                 setErrorLayoutOn(tilUserTag, getResources().getString(R.string.err_UserAlreadyExists));
             }else{
-                Intent recycler = new Intent(getApplicationContext(), PostRecyclerView.class);
-                startActivity(recycler);
-                finish();
+                intentPostRecyclerActivity();
             }
 
             eu.stop();
@@ -94,10 +100,20 @@ public class RegisterActivity extends Activity{
 
         tvGoLogin = findViewById(R.id.tvGoLogin);
         tvGoLogin.setOnClickListener(view ->  {
-            Intent intentLogin = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intentLogin);
-            finish();
+            intentLoginActivity();
         });
+    }
+
+    public void openImageChooser(){
+        Intent chooser = new Intent(Intent.ACTION_GET_CONTENT);
+        chooser.setType("image /*");
+        startActivityForResult(chooser, FILE_CHOOSER);
+    }
+
+    private void clearErrors() {
+        tilUserTag.setError(null);
+        tilPassword.setError(null);
+        tilConfirmPassword.setError(null);
     }
 
     private void setErrorLayoutOn(TextInputLayout til, String errorMessage) {
@@ -106,44 +122,17 @@ public class RegisterActivity extends Activity{
         til.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.warning)));
     }
 
-    private void clearErrors() {
-        tilUserTag.setError(null);
-        tilPassword.setError(null);
-        tilConfirmPassword.setError(null);
+    private void intentLoginActivity() {
+        Intent intentLogin = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intentLogin);
+        finish();
     }
-//
-//    private void checkUser(String input) {
-//        if (eu.getUser(input) != null) {
-//            tilUserTag.setError(null);
-//            tilUserTag.setBoxStrokeColor(Color.GREEN);
-//            tilUserTag.setStartIconDrawable(R.drawable.check);
-//            tilUserTag.setStartIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.blue)));
-//        } else{
-//            tilUserTag.setError(getResources().getString(R.string.err_UserDoesNotExists));
-//            tilUserTag.setBoxStrokeColor(Color.GRAY);
-//            tilUserTag.setStartIconDrawable(R.drawable.ic_user);
-//            tilUserTag.setStartIconTintList(ColorStateList.valueOf(Color.GRAY));
-//        }
-//    }
-//
-//    private void checkUserCredentials(String tagId, String pass) {
-//        User us = eu.getUser(tagId);
-//        if(pass.equals(us.getPassword())){
-//            tilPassword.setError(null);
-//            tilPassword.setStartIconDrawable(R.drawable.check);
-//            tilPassword.setStartIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.dkblue)));
-//            successfulLogin();
-//        }else{
-//            tilPassword.setError(getResources().getString(R.string.err_wrong_password));
-//            tilPassword.setStartIconDrawable(R.drawable.ic_lock);
-//            tilPassword.setStartIconTintList(ColorStateList.valueOf(Color.GRAY));
-//        }
-//    }
 
-    public void openImageChooser(){
-        Intent chooser = new Intent(Intent.ACTION_GET_CONTENT);
-        chooser.setType("image /*");
-        startActivityForResult(chooser, FILE_CHOOSER);
+    private void intentPostRecyclerActivity() {
+        Intent recycler = new Intent(getApplicationContext(), PostRecyclerView.class);
+        recycler.putExtra("currUserUid", eu.getCurrentUserUid());
+        startActivity(recycler);
+        finish();
     }
 
     @Override
@@ -151,8 +140,18 @@ public class RegisterActivity extends Activity{
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == FILE_CHOOSER){
             if(resultCode == RESULT_OK){
-//                ivAccountIconRegister.setImageBitmap();
+                ivAccountIconRegister.setImageURI(data.getData());
+                eu.uploadProfileImageOnStorage(data.getData());
+                selectedCustomImage = true;
             }
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(eu.checkExistingSession()){
+            intentLoginActivity();
         }
     }
 }

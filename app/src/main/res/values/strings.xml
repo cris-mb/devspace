@@ -15,7 +15,6 @@
     <string name="text_GoLogin">Already have an account ?</string>
     <string name="title_AddPost">Add a new Post</string>
     <string name="label_PostImage">Image</string>
-    <string name="tag_LearnMore">Learn More</string>
     <string name="label_PostCodeURL">"URL to the code : "</string>
     <string name="label_PostDescription">Description</string>
     <string name="tag_btnPostCancel">Cancel</string>
@@ -41,4 +40,11 @@
     <string name="err_PasswordDoNotMatch">The passwords provided did not match</string>
     <string name="label_Username">User</string>
     <string name="text_btnGoogleLogin">Sign in with google</string>
+
+    <!-- Post card strings -->
+    <string name="tag_LearnMore">Learn More</string>
+    <string name="hint_etMessage">Type a message ...</string>
+    <string name="default_tvReceiverName">Anonymous</string>
+    <string name="successfulUpload">"was successfully uploaded"</string>
+
 </resources>

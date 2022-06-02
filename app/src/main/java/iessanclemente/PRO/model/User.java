@@ -2,6 +2,8 @@ package iessanclemente.PRO.model;
 
 import android.net.Uri;
 
+import com.google.firebase.auth.FirebaseUser;
+
 public class User {
 
     private String tagId;
@@ -11,6 +13,9 @@ public class User {
     private String email;
     private String password;
     private String about;
+
+    public User(){
+    }
 
     public User(String tagId, String email, String password){
         this.tagId = tagId;
@@ -31,7 +36,7 @@ public class User {
         return tagId;
     }
 
-    public void setTagId(String tagId) {
+    public void setUserTag(String tagId) {
         this.tagId = tagId;
     }
 

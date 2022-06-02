@@ -3,7 +3,6 @@ package iessanclemente.PRO;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
@@ -14,19 +13,26 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.navigation.NavigationView;
+import iessanclemente.PRO.adapters.PostAdapter;
+import iessanclemente.PRO.chat.ChatActivity;
 
 public class PostRecyclerView extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
     private PostAdapter adapter;
+    private DatabaseOperations op;
 
     // Some visual components
     private DrawerLayout dwLayout;
     private NavigationView navView;
 
+    private String currUserUid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recycler_view_activity);
+        op = new DatabaseOperations(PostRecyclerView.this);
+        currUserUid = getIntent().getStringExtra("currUserUid");
 
         // PostRecyclerView components
         SearchView searchView = findViewById(R.id.searchView);
@@ -56,24 +62,20 @@ public class PostRecyclerView extends AppCompatActivity implements SearchView.On
             Intent profile = new Intent(getApplicationContext(), Profile.class);
             startActivity(profile);
         } else if (getResources().getString(R.string.itMessages_title).contentEquals(title)) {
-            //TODO : Direct Messages activity
+            Intent chat = new Intent(getApplicationContext(), ChatActivity.class);
+            startActivity(chat);
         } else if (getResources().getString(R.string.itSettings_title).contentEquals(title)) {
             // TODO : Preferences xml
         } else if (getResources().getString(R.string.itLogout_title).contentEquals(title)) {
             // Remove last session credentials
-            SharedPreferences shPref = getSharedPreferences("current_user",MODE_PRIVATE);
-            shPref.edit()
-                    .remove("tag")
-                    .putBoolean("staySigned", false)
-                    .apply();
-
+            op.logout();
             finish();
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.preferences, menu);
+        getMenuInflater().inflate(R.menu.toolbar, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -82,6 +84,7 @@ public class PostRecyclerView extends AppCompatActivity implements SearchView.On
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getTitle().equals(getResources().getString(R.string.itProfile_title))){
             Intent profile = new Intent(getApplicationContext(), Profile.class);
+            profile.putExtra("currUserUid", currUserUid);
             startActivity(profile);
         }else if(item.getTitle().equals(getResources().getString(R.string.itSettings_title))){
             if(dwLayout.isDrawerOpen(navView))

@@ -3,12 +3,15 @@ package iessanclemente.PRO;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,20 +20,36 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
-
 import iessanclemente.PRO.model.User;
+import iessanclemente.PRO.onboarding.EnterUtilities;
 import iessanclemente.PRO.onboarding.OnBoardingActivity;
 
 public class Profile extends AppCompatActivity {
 
+    private static final String TAG = Profile.class.getSimpleName();
+
     private DatabaseOperations op;
+    private EnterUtilities eu;
+    private StorageReference reference;
 
     // Some visual components
     private DrawerLayout dwLayout;
     private NavigationView navView;
+    private ImageView ivProfile;
+
+    private String currUserUid;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -38,8 +57,10 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_activity);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        eu = new EnterUtilities(getApplicationContext());
+        currUserUid = getIntent().getStringExtra("currUserUid");
 
-        ImageView ivProfile = findViewById(R.id.ivProfileIcon);
+        ivProfile = findViewById(R.id.ivProfileIcon);
         TextView tvProfileTag = findViewById(R.id.tvProfileTag);
         TextView tvProfileUsername = findViewById(R.id.tvProfileUsername);
         TextView tvProfileAboutMe = findViewById(R.id.tvProfileAboutMe);
@@ -51,27 +72,23 @@ public class Profile extends AppCompatActivity {
             return false;
         });
 
-        User us = getUser(getCurrentUser());
+        User us = eu.checkUserExistence(currUserUid);
 
         if(us != null && !us.getProfileImagePath().equals("")){
             ivProfile.setImageBitmap(BitmapFactory.decodeFile(us.getProfileImagePath()));
         }else{
             ivProfile.setImageDrawable(getDrawable(R.drawable.account_36));
         }
+        ivProfile.setOnClickListener(view -> {
+            Intent pickImage = new Intent();
+            pickImage.setAction(Intent.ACTION_GET_CONTENT);
+            pickImage.setType("image/*");
+            startActivityForResult(pickImage, 100);
+        });
 
         tvProfileTag.setText(us.getUserTag());
         tvProfileUsername.setText(us.getUsername());
         tvProfileAboutMe.setText(us.getAbout());
-    }
-
-    private User getUser(String tagId) {
-        op = new DatabaseOperations(getApplicationContext());
-        op.sqlLiteDB = op.getWritableDatabase();
-
-        User us = op.getUser(tagId);
-
-        op.close();
-        return us;
     }
 
     private void navigationItemSelected(@NonNull MenuItem item) {
@@ -79,9 +96,6 @@ public class Profile extends AppCompatActivity {
         if (getResources().getString(R.string.itPosts_title).contentEquals(title)) {
             Intent home = new Intent(getApplicationContext(), PostRecyclerView.class);
             startActivity(home);
-        } else if (getResources().getString(R.string.itProfile_title).contentEquals(title)) {
-            Intent profile = new Intent(getApplicationContext(), Profile.class);
-            startActivity(profile);
         } else if (getResources().getString(R.string.itMessages_title).contentEquals(title)) {
             //TODO : Direct Messages activity
         } else if (getResources().getString(R.string.itSettings_title).contentEquals(title)) {
@@ -100,15 +114,15 @@ public class Profile extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.preferences_profile, menu);
+        getMenuInflater().inflate(R.menu.toolbar_profile, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getTitle() == null )
-            finish();
+        if(item.getTitle() == null)
+            return false;
 
         if(item.getTitle().equals(getResources().getString(R.string.title_miLogout))){
             Intent logout = new Intent(getApplicationContext(), OnBoardingActivity.class);
@@ -126,9 +140,15 @@ public class Profile extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private String getCurrentUser() {
-        SharedPreferences shPreferences = getSharedPreferences("current_user", MODE_PRIVATE);
-
-        return shPreferences.getString("tag", null);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 100 && resultCode==RESULT_OK){
+            if(data != null){
+                ivProfile.setImageURI(data.getData());
+                eu.uploadProfileImageOnStorage(data.getData());
+            }
+        }
     }
+
 }

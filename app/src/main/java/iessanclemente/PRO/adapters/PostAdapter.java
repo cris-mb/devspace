@@ -1,31 +1,30 @@
-package iessanclemente.PRO;
+package iessanclemente.PRO.adapters;
 
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
+import iessanclemente.PRO.DatabaseOperations;
+import iessanclemente.PRO.R;
 import iessanclemente.PRO.model.Post;
 import iessanclemente.PRO.model.User;
 
@@ -35,7 +34,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     private List<Post> postsList;
     private List<Post> postsListBackup;
-    private Context context;
+    private final Context context;
 
     public PostAdapter(Context context) {
         this.postsList = new ArrayList<>();
@@ -58,9 +57,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @Override
     public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_card, parent, false);
-        PostViewHolder pvh = new PostViewHolder(view);
 
-        return pvh;
+        return new PostViewHolder(view);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -130,8 +128,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         ImageView ivAccountIconPost;
         TextView tvAccountName;
         ImageView ivLike;
+        ImageView ivComments;
         ImageView ivAccountMultimediaPost;
         TextView tvAmountLikes;
+        ExpandableListView lvComments;
         TextView tvAccountDescription;
         Button btnCodeURL;
 
@@ -171,6 +171,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                         op.close();
                     }
                 }.start();
+            });
+            ivComments = itemView.findViewById(R.id.ivComments);
+            lvComments = itemView.findViewById(R.id.lvComments);
+            ivComments.setOnClickListener(view -> {
+                if(lvComments.isShown())
+                    lvComments.setVisibility(ExpandableListView.GONE);
+                else
+                    lvComments.setVisibility(ExpandableListView.VISIBLE);
             });
             ivAccountMultimediaPost = itemView.findViewById(R.id.ivAccountMultimediaPost);
             tvAmountLikes = itemView.findViewById(R.id.tvAmountLikes);
