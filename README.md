@@ -26,6 +26,7 @@ Le quiero dar un enfoque de desenvolvimiento de un entregable al proyecto, y as�
 
 Pasos para instalar aplicación:
 
+1. En caso de 
 
 > *TODO*: En este apartado describe con toda precisión y a poder ser con la mayor simplicidad/facilidad posible, cómo poner en marcha tu aplicación para probarla (en un ambiente local). Se valorará muy positivamente que este proceso sea lo más fácil posible, con una simple instrucción (p. e. un script de instalación).
 > Si tu proyecto es documental, realiza una especificación de cómo va a ser este proceso. En otras palabras, realiza este apartado independientemente que no haya implementación.
