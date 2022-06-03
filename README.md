@@ -24,19 +24,18 @@ Además fomenta el uso de código abierto y sirve como escaparate o forma de pro
 * **Publicaciones**. Estas son la principal funcionalidad de la aplicación. Mediante estas el usuario puede publicar imágenes, vídeos e incluso documentación externa a DevSpace de su código.
 * **Buscador**. Mediante el buscador podrás filtrar las publicaciones que desees encontrar.
 
-Le quiero dar un enfoque de desenvolvimiento de un entregable al proyecto, y así continuar con el trabajo ya hecho durante el ciclo en PMDM (Programación Multimedia e Dispositivos Móbiles).
+Le quiero dar un enfoque de desenvolvimiento de un entregable al proyecto, y así continuar con el prototipo en el que trabajé durante el ciclo en PMDM (Programación Multimedia e Dispositivos Móbiles).
+Las tecnologías usadas son *Java* (_Android_) para la creación de la aplicación en sí, y para la parte de la base de datos escogí *Firebase*. Esta tecnología no fue vista en el ciclo y aporta la infraestructura necesaria para presentar un prototipo de aplicación en condiciones. Usando los servicios de Firebase, pude conectar mi aplicación a una base de datos remota con la que autenticar a mis usuarios, guardar sus publicaciones, imágenes, vídeos, etc.
+
 
 
 
 
 ## Instalación / Puesta en marcha
 
-Pasos para instalar aplicación:
+Sigue estos pasos para instalar la aplicación en tu dispositivo móvil o para descargar el repositorio del proyecto en la ![Guía de instalación](/doc/installation).
 
-1. En caso de 
-
-> *TODO*: En este apartado describe con toda precisión y a poder ser con la mayor simplicidad/facilidad posible, cómo poner en marcha tu aplicación para probarla (en un ambiente local). Se valorará muy positivamente que este proceso sea lo más fácil posible, con una simple instrucción (p. e. un script de instalación).
-> Si tu proyecto es documental, realiza una especificación de cómo va a ser este proceso. En otras palabras, realiza este apartado independientemente que no haya implementación.
+> *TODO*: Actualizar el .apk publicado al terminar la aplicación
 
 
 
@@ -53,7 +52,7 @@ Pasos para instalar aplicación:
 
 Cristian Mayán Barreiros, estudiante en el _IES San Clemente_ cursando el Ciclo Superior de **Desarrollo de Aplicaciones Multiplataforma**.
 
-Tuve la idea de hacer esta aplicación porque durante mi período en San Clemente, me hubiese interesado tener una aplicación en el móvil con la que aprender sobre las diferentes tecnologías que se impartían en el ciclo. Además, así aprovecharía lo aprendido de **Android** y bases de datos **NoSQL** para mi proyecto final.
+Tuve la idea de hacer esta aplicación porque durante mi período en San Clemente, me hubiese interesado tener una aplicación en el móvil con la que aprender sobre las diferentes tecnologías que se impartían en el ciclo.
 > *TODO*: Realiza una breve descripción de quien eres (perfil profesional), tus puntos fuertes, o tecnologías que más dominas... y porqué te has decantado por este proyecto. **No más de 200 palabras**. Indica la forma fiable de contactar contigo en el presente y en el futuro.
 
 
@@ -82,18 +81,18 @@ Este proyecto está distribuído y licenciado bajo los términos de *GNU Free Do
 ## Guía de contribución
 
 Cualquier persona interesada en contribuír en el proyecto lo puede hacer enviando un correo a <a href="mailto: acc.devspace.suport@gmail.com?"><img src="https://img.shields.io/badge/contact-acc.devspace.suport%40gmail.com-brightgreen"/></a>
-
 Algunas ideas para futuras contribuciones:
 
-* Añadir **tags** de búsqueda para facilitar el filtrado de publicaciones
-* Mejorar **componentes visuales**
+* Añadir **tags** de búsqueda para facilitar el filtrado de publicaciones en el _SearchView_.
+* Mejorar **componentes visuales** (_layouts_ y _drawables_).
 * Aplicar o corregir las **arquitecturas**:
-  *  <a href="https://www.browserstack.com/guide/what-is-test-driven-development">**TDD** (Test Driven Development)</a>
-  *  <a href="https://www.geeksforgeeks.org/mvp-model-view-presenter-architecture-pattern-in-android-with-example/">**MVP** (Model View Presenter)</a>
+  *  <a href="https://www.browserstack.com/guide/what-is-test-driven-development">**TDD** (Test Driven Development)</a>.
+  *  <a href="https://www.geeksforgeeks.org/mvp-model-view-presenter-architecture-pattern-in-android-with-example/">**MVP** (Model View Presenter)</a>.
 
 
 
 
 ## Links
+
 
 > *TODO*: Enlaces externos y descripciones de estos enlaces que creas conveniente indicar aquí. Generalmente ya van a estar integrados con tu documentación, pero si requieres realizar un listado de ellos, este es el lugar.
