@@ -1,6 +1,6 @@
 # DevSpace
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg"/></a>
-<a href="mailto: acc.devspace.suport@gmail.com?"><img src="https://img.shields.io/badge/contact-acc.devspace.suport%40gmail.com-brightgreen"/></a>
+<a href="mailto: acc.devspace.suport@gmail.com"><img src="https://img.shields.io/badge/contact-acc.devspace.suport%40gmail.com-brightgreen"/></a>
 
 
 
@@ -9,8 +9,6 @@
 
 
 DevSpace es una red social con la que aprender sobre cualquier lenguaje de programación. Esta aplicación móvil trata de dinamizar y mejorar el aprendizaje de un nuevo lenguaje o tecnología de forma autodidacta, a través de publicaciones, comentarios y mensajes entre usuarios de esta app.
-> *TODO*: Este documento será la "*página de aterrizaje*" de tu proyecto. Será lo primero que vean los que se interesen por él. Cúida su redacción con todo tu mimo. Elimina posteriormente todas las lineas "*TODO*" cuando creas finalizada su redacción.
-> Puedes acompañar a la redacción de este fichero con imágenes o gifs, pero no abuses de ellos.
 
 
 
@@ -21,11 +19,13 @@ Mi proyecto se basa en una red social escrita en Java (Android), cuyo principal 
 
 Además fomenta el uso de código abierto y sirve como escaparate o forma de promoción para aquellos que publican sus conocimientos sobre el tema. Algunas de las funcionalidades que implementa son :
 * **Sistema de mensajería instantánea**. Para facilitar la comunicación entre usuarios que tengan alguna duda, quieran contribuír a un proyecto, ...
+
 * **Publicaciones**. Estas son la principal funcionalidad de la aplicación. Mediante estas el usuario puede publicar imágenes, vídeos e incluso documentación externa a DevSpace de su código.
+
 * **Buscador**. Mediante el buscador podrás filtrar las publicaciones que desees encontrar.
 
 Le quiero dar un enfoque de desenvolvimiento de un entregable al proyecto, y así continuar con el prototipo en el que trabajé durante el ciclo en PMDM (Programación Multimedia e Dispositivos Móbiles).
-Las tecnologías usadas son *Java* (_Android_) para la creación de la aplicación en sí, y para la parte de la base de datos escogí *Firebase*. Esta tecnología no fue vista en el ciclo y aporta la infraestructura necesaria para presentar un prototipo de aplicación en condiciones. Usando los servicios de Firebase, pude conectar mi aplicación a una base de datos remota con la que autenticar a mis usuarios, guardar sus publicaciones, imágenes, vídeos, etc.
+Las tecnologías usadas son **Java** (_Android_) para la creación de la aplicación en sí, y para la parte de la base de datos escogí **Firebase**. Esta tecnología no fue vista en el ciclo y aporta la infraestructura necesaria para presentar un prototipo de aplicación en condiciones. Usando los servicios de Firebase, pude conectar mi aplicación a una base de datos remota con la que autenticar a mis usuarios, guardar sus publicaciones, imágenes, vídeos, etc.
 
 
 
@@ -42,8 +42,15 @@ Sigue estos pasos para instalar la aplicación en tu dispositivo móvil o para d
 
 ## Uso
 
-> *TODO*: Es este apartado describe brevemente cómo se usará el software que proyectas. Si tiene una interfaz de terminal, describe aquí su sintaxis. Si tiene una interfaz gráfica de usuario, describe aquí **sólo el uso** (a modo de sumario) **de los aspectos más relevantes de su funcionamiento** (máxima brevedad, como si fuese un anuncio reclamo o comercial).
-> Si tu proyecto es documental, realiza una especificación de cómo planteas estas interfaces, con ejemplos incluso o esquemas de diseño. En otras palabras, realiza este apartado independientemente que no haya implementación.
+Las interfaces de DevSpace se crearon con el objetivo de que fuesen lo mas intuitivas posibles, y los usos de la aplicación son:
+
+1. Crear una nueva cuenta en DevSpace.
+2. Configurar las preferencias de su cuenta.
+3. Crear publicaciones con las que compartir código con la comunidad.
+4. Interactuar con las publicaciones de otros usuarios a través de likes y comentarios.
+5. Comunicarse con otros usuarios mediante el sistema de mensajería instantánea.
+
+Para más información sobre los diferentes usos de la aplicación, consulta el ![manual de uso](/doc/users_guide.pdf)
 
 
 
@@ -52,8 +59,7 @@ Sigue estos pasos para instalar la aplicación en tu dispositivo móvil o para d
 
 Cristian Mayán Barreiros, estudiante en el _IES San Clemente_ cursando el Ciclo Superior de **Desarrollo de Aplicaciones Multiplataforma**.
 
-Tuve la idea de hacer esta aplicación porque durante mi período en San Clemente, me hubiese interesado tener una aplicación en el móvil con la que aprender sobre las diferentes tecnologías que se impartían en el ciclo.
-> *TODO*: Realiza una breve descripción de quien eres (perfil profesional), tus puntos fuertes, o tecnologías que más dominas... y porqué te has decantado por este proyecto. **No más de 200 palabras**. Indica la forma fiable de contactar contigo en el presente y en el futuro.
+Tuve la idea de hacer esta aplicación porque durante mi período en San Clemente, me hubiese interesado una aplicación dinámica y amena con la que aprender sobre las diferentes tecnologías que se impartían en el ciclo. La tecnología principalmente usada en el proyecto fue **Java** (_Android_), ya que fue la tecnología mas desarrollada en el ciclo y que considero uno de mis fuertes. Dejo en este apartado un <a href="mailto: cristian.mayanb@gmail.com">email</a> con el que contactar conmigo fácilmente.
 
 
 
@@ -88,8 +94,8 @@ Algunas ideas para futuras contribuciones:
 * Aplicar o corregir las **arquitecturas**:
   * <a href="https://www.browserstack.com/guide/what-is-test-driven-development">**TDD** (Test Driven Development)</a>.
   * <a href="https://www.geeksforgeeks.org/mvp-model-view-presenter-architecture-pattern-in-android-with-example/">**MVP** (Model View Presenter)</a>.
-
-    ###Contribuidores
+  
+    ### Contribuidores
 
     _Aquí publicaré a los contribuidores de este proyecto_
 
