@@ -3,7 +3,7 @@
 ![![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 <p align="center">
-![](resources/images/logo-symbol.svg)
+[![](resources/images/logo-symbol.svg)]
 </p>
 DevSpace es una red social con la que aprender sobre cualquier lenguaje de programación. Esta aplicación móvil trata de dinamizar y mejorar el aprendizaje de un nuevo lenguaje o tecnología de forma autodidacta, a través de publicaciones, comentarios y mensajes entre usuarios de esta app.
 > *TODO*: Este documento será la "*página de aterrizaje*" de tu proyecto. Será lo primero que vean los que se interesen por él. Cúida su redacción con todo tu mimo. Elimina posteriormente todas las lineas "*TODO*" cuando creas finalizada su redacción.
