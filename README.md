@@ -1,6 +1,6 @@
 # DevSpace
-<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg"/>License: MIT</a>
-![![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg"/></a>
+<a href="mailto: acc.devspace.suport@gmail.com"><img src="https://img.shields.io/badge/contact-acc.devspace.suport%40gmail.com-brightgreen"/></a>
 
 <p align="center">
 [![](resources/images/logo-symbol.svg)]
