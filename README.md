@@ -1,10 +1,10 @@
 # DevSpace
-<p align="center">
+<center>
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg"/></a>
 <a href="mailto: acc.devspace.suport@gmail.com"><img src="https://img.shields.io/badge/contact-acc.devspace.suport%40gmail.com-brightgreen"/></a>
-</p>
+</center>
 
-<p align="center">[![](resources/images/logo-symbol.svg)]</p>
+<img src="resources/images/logo-symbol.svg"></img>
 DevSpace es una red social con la que aprender sobre cualquier lenguaje de programación. Esta aplicación móvil trata de dinamizar y mejorar el aprendizaje de un nuevo lenguaje o tecnología de forma autodidacta, a través de publicaciones, comentarios y mensajes entre usuarios de esta app.
 > *TODO*: Este documento será la "*página de aterrizaje*" de tu proyecto. Será lo primero que vean los que se interesen por él. Cúida su redacción con todo tu mimo. Elimina posteriormente todas las lineas "*TODO*" cuando creas finalizada su redacción.
 > Puedes acompañar a la redacción de este fichero con imágenes o gifs, pero no abuses de ellos.
