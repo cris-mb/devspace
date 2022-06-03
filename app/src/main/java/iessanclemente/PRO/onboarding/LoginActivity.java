@@ -8,6 +8,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -15,20 +16,31 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.GoogleApi;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.GoogleAuthProvider;
+
+import java.sql.Driver;
+
 import iessanclemente.PRO.PostRecyclerView;
 import iessanclemente.PRO.R;
 import iessanclemente.PRO.model.User;
 
 public class LoginActivity extends Activity{
 
+    private static final String TAG = LoginActivity.class.getSimpleName();
     private static final int READ_CODE = 2;
     private static final int GOOGLE_LOGIN = 3;
 
@@ -55,7 +67,6 @@ public class LoginActivity extends Activity{
 
         // 2) Setup communication with the database
         eu = new EnterUtilities(getApplicationContext());
-        checkLastSession();
 
         // 3) Instance visual components
         tietUserEmail = findViewById(R.id.tietUserEmail);
@@ -69,7 +80,9 @@ public class LoginActivity extends Activity{
         TextView tvGoRegister = findViewById(R.id.tvGoRegister);
         Button btnGoogleLogin = findViewById(R.id.btnGoogleLogin);
 
+        // 5) Google Authentication
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         gsc = GoogleSignIn.getClient(this,gso);
@@ -85,12 +98,13 @@ public class LoginActivity extends Activity{
         });
 
         btnLogin.setOnClickListener(view -> {
-            User us = eu.checkUserExistence(tietUserEmail.getText() + "");
-            if(us != null) {
-                checkUserCredentials(us.getUserTag(), us.getPassword());
-                eu.loginUser(tietUserEmail.getText()+"", tietPassword.getText()+"", chkRememberMe.isChecked());
-            }else
+            boolean successfulLogin = eu.loginUserWithCredentials(tietUserEmail.getText()+"",
+                                    tietPassword.getText()+"",
+                                        chkRememberMe.isChecked());
+            if(!successfulLogin){
                 Toast.makeText(LoginActivity.this, getResources().getString(R.string.err_UserDoesNotExists), Toast.LENGTH_SHORT).show();
+                checkUserExistence();
+            }
         });
 
         tvGoRegister.setOnClickListener(view ->  {
@@ -105,25 +119,27 @@ public class LoginActivity extends Activity{
         startActivityForResult(googleIntent, GOOGLE_LOGIN);
     }
 
-    private void checkLastSession() {
-        boolean maintainLastSession = eu.checkExistingSession();
+    @Override
+    protected void onStart() {
+        super.onStart();
+        boolean maintainLastSession = eu.checkUserAuthentication();
         if(maintainLastSession){
             intentPostRecyclerActivity();
         }
     }
 
     private void checkUserExistence(String email) {
-//        if (eu.checkUserExistence(email) != null) {
-//            tilUserTag.setError(null);
-//            tilUserTag.setBoxStrokeColor(Color.GREEN);
-//            tilUserTag.setStartIconDrawable(R.drawable.check);
-//            tilUserTag.setStartIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.blue)));
-//        } else{
-//            tilUserTag.setError(getResources().getString(R.string.err_UserDoesNotExists));
-//            tilUserTag.setBoxStrokeColor(Color.GRAY);
-//            tilUserTag.setStartIconDrawable(R.drawable.ic_user);
-//            tilUserTag.setStartIconTintList(ColorStateList.valueOf(Color.GRAY));
-//        }
+        if (eu.checkUserExistence(email) != null) {
+            tilUserTag.setError(null);
+            tilUserTag.setBoxStrokeColor(Color.GREEN);
+            tilUserTag.setStartIconDrawable(R.drawable.check);
+            tilUserTag.setStartIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.blue)));
+        } else{
+            tilUserTag.setError(getResources().getString(R.string.err_UserDoesNotExists));
+            tilUserTag.setBoxStrokeColor(Color.GRAY);
+            tilUserTag.setStartIconDrawable(R.drawable.ic_user);
+            tilUserTag.setStartIconTintList(ColorStateList.valueOf(Color.GRAY));
+        }
     }
 
     private void checkUserCredentials(String tagId, String pass) {
@@ -143,11 +159,11 @@ public class LoginActivity extends Activity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == GOOGLE_LOGIN){
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                task.getResult(ApiException.class);
-                successfulLogin();
-            } catch (ApiException e) {e.printStackTrace();}
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            if(result != null && result.getSignInAccount() != null && result.isSuccess()){
+                eu.firebaseGoogleAuth(result.getSignInAccount());
+            }else
+                Log.e(TAG, "GoogleSignInResult failed (may be null)");
         }
     }
 
@@ -155,9 +171,7 @@ public class LoginActivity extends Activity{
     private void askForReadPermission() {
         int permission = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
 
-        if(permission == PackageManager.PERMISSION_GRANTED){
-
-        }else{
+        if(permission != PackageManager.PERMISSION_GRANTED){
             this.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_CODE);
         }
     }

@@ -3,27 +3,17 @@ package iessanclemente.PRO.onboarding;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.annotation.Nullable;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.internal.InternalTokenProvider;
-
-import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import iessanclemente.PRO.DatabaseOperations;
-import iessanclemente.PRO.PostRecyclerView;
 import iessanclemente.PRO.R;
-import iessanclemente.PRO.model.User;
 
 public class RegisterActivity extends Activity{
 
@@ -89,10 +79,11 @@ public class RegisterActivity extends Activity{
                 setErrorLayoutOn(tilPassword,"");
                 setErrorLayoutOn(tilConfirmPassword, getResources().getString(R.string.err_PasswordDoNotMatch));
             }
-            if(!eu.addUser(userTag, email, password, profileImageRef)){
+            if(!eu.registerNewUserAuthentication(userTag, email, password, profileImageRef)){
+                setErrorLayoutOn(tilUserTag,"");
                 setErrorLayoutOn(tilUserTag, getResources().getString(R.string.err_UserAlreadyExists));
             }else{
-                intentPostRecyclerActivity();
+                eu.intentPostRecyclerActivity();
             }
 
             eu.stop();
@@ -100,13 +91,13 @@ public class RegisterActivity extends Activity{
 
         tvGoLogin = findViewById(R.id.tvGoLogin);
         tvGoLogin.setOnClickListener(view ->  {
-            intentLoginActivity();
+            eu.intentLoginActivity();
         });
     }
 
     public void openImageChooser(){
         Intent chooser = new Intent(Intent.ACTION_GET_CONTENT);
-        chooser.setType("image /*");
+        chooser.setType("image/*");
         startActivityForResult(chooser, FILE_CHOOSER);
     }
 
@@ -120,19 +111,6 @@ public class RegisterActivity extends Activity{
         til.setError(errorMessage);
         til.setBoxStrokeColor(getResources().getColor(R.color.warning));
         til.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.warning)));
-    }
-
-    private void intentLoginActivity() {
-        Intent intentLogin = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(intentLogin);
-        finish();
-    }
-
-    private void intentPostRecyclerActivity() {
-        Intent recycler = new Intent(getApplicationContext(), PostRecyclerView.class);
-        recycler.putExtra("currUserUid", eu.getCurrentUserUid());
-        startActivity(recycler);
-        finish();
     }
 
     @Override
@@ -150,8 +128,8 @@ public class RegisterActivity extends Activity{
     @Override
     protected void onStart() {
         super.onStart();
-        if(eu.checkExistingSession()){
-            intentLoginActivity();
+        if(eu.checkUserAuthentication()){
+            eu.intentPostRecyclerActivity();
         }
     }
 }

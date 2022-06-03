@@ -15,11 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.navigation.NavigationView;
 import iessanclemente.PRO.adapters.PostAdapter;
 import iessanclemente.PRO.chat.ChatActivity;
+import iessanclemente.PRO.onboarding.EnterUtilities;
 
 public class PostRecyclerView extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
     private PostAdapter adapter;
-    private DatabaseOperations op;
+    private EnterUtilities eu;
 
     // Some visual components
     private DrawerLayout dwLayout;
@@ -31,7 +32,7 @@ public class PostRecyclerView extends AppCompatActivity implements SearchView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recycler_view_activity);
-        op = new DatabaseOperations(PostRecyclerView.this);
+        eu = new EnterUtilities(PostRecyclerView.this);
         currUserUid = getIntent().getStringExtra("currUserUid");
 
         // PostRecyclerView components
@@ -53,6 +54,15 @@ public class PostRecyclerView extends AppCompatActivity implements SearchView.On
         recyclerView.setAdapter(adapter);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        boolean userAuthenticated = eu.checkUserAuthentication();
+        if(userAuthenticated){
+            eu.intentLoginActivity();
+        }
+    }
+
     private void navigationItemSelected(@NonNull MenuItem item) {
         CharSequence title = item.getTitle();
         if (getResources().getString(R.string.itPosts_title).contentEquals(title)) {
@@ -68,7 +78,7 @@ public class PostRecyclerView extends AppCompatActivity implements SearchView.On
             // TODO : Preferences xml
         } else if (getResources().getString(R.string.itLogout_title).contentEquals(title)) {
             // Remove last session credentials
-            op.logout();
+            eu.logout();
             finish();
         }
     }

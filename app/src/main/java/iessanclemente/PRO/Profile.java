@@ -74,7 +74,7 @@ public class Profile extends AppCompatActivity {
 
         User us = eu.checkUserExistence(currUserUid);
 
-        if(us != null && !us.getProfileImagePath().equals("")){
+        if(us.getProfileImagePath() != null && !us.getProfileImagePath().equals("")){
             ivProfile.setImageBitmap(BitmapFactory.decodeFile(us.getProfileImagePath()));
         }else{
             ivProfile.setImageDrawable(getDrawable(R.drawable.account_36));

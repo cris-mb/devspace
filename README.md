@@ -1,13 +1,20 @@
-# Proyecto fin de ciclo
-DevSpace es una aplicación móvil con la que aprender sobre cualquier lenguaje de programación. Es una red social con la que puedes aprender con las publicaciones de otros usuarios sobre
+# DevSpace
+<p align="center">
+[![LICENSE: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![](resources/images/logo-symbol.svg)]
+</p>
+DevSpace es una red social con la que aprender sobre cualquier lenguaje de programación. Esta aplicación móvil trata de dinamizar y mejorar el aprendizaje de un nuevo lenguaje o tecnología de forma autodidacta, a través de publicaciones, comentarios y mensajes entre usuarios de esta app.
 > *TODO*: Este documento será la "*página de aterrizaje*" de tu proyecto. Será lo primero que vean los que se interesen por él. Cúida su redacción con todo tu mimo. Elimina posteriormente todas las lineas "*TODO*" cuando creas finalizada su redacción.
 > Puedes acompañar a la redacción de este fichero con imágenes o gifs, pero no abuses de ellos.
 
 ## Descripción
 
-Mi proyecto se basa en una red social escrita en Java (Android), cuyo principal objetivo es divulgar y compartir código abierto.
+Mi proyecto se basa en una red social escrita en Java (Android), cuyo principal objetivo es proponer una nueva forma de estudio a cualquier persona interesada en aprender sobre lenguajes de programación.
 
-Tiene como finalidad servir de herramienta de estudio para gente interesada en aprender sobre lenguajes de programación y al mismo tiempo, servir de escaparate o forma de promoción para aquellos que publican sus conocimientos sobre el tema. Para facilitar la comunicación entre usuarios, DevSpace implementa un sistema de mensajería instantánea.
+Además fomenta el uso de código abierto y sirve como escaparate o forma de promoción para aquellos que publican sus conocimientos sobre el tema. Algunas de las funcionalidades que implementa son :
+* **Sistema de mensajería instantánea**. Para facilitar la comunicación entre usuarios que tengan alguna duda, quieran contribuír a un proyecto, ...
+* **Publicaciones**. Estas son la principal funcionalidad de la aplicación. Mediante estas el usuario puede publicar imágenes, vídeos e incluso documentación externa a DevSpace de su código.
+* **Buscador**. Mediante el buscador podrás filtrar las publicaciones que desees encontrar.
 
 Le quiero dar un enfoque de desenvolvimiento de un entregable al proyecto, y así continuar con el trabajo ya hecho durante el ciclo en PMDM (Programación Multimedia e Dispositivos Móbiles).
 
@@ -51,6 +58,8 @@ Este proyecto está distribuído y licenciado bajo los términos de *GNU Free Do
 
 
 ## Guía de contribución
+
+Cualquier persona interesada en contribuír en el proyecto lo puede hacer enviando un correo a 
 
 > *TODO*: Tratándose de un proyecto de software libre, es muy importante que expongas cómo se puede contribuir con tu proyecto. Algunos ejemplos de esto son realizar nuevas funcionalidades, corrección y/u optimización del código, realización de tests automatizados, nuevas interfaces de integración, desarrollo de plugins, etc. etc. Sé lo más conciso que puedas.
 
