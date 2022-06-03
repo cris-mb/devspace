@@ -60,7 +60,7 @@ Tuve la idea de hacer esta aplicación porque durante mi período en San Clement
 
 ## Licencia
 
-Este proyecto está distribuído y licenciado bajo los términos de *GNU Free Documentation License Version 1.3* . Términos y condiciones de uso especificados en <a href="/LICENSE.txt"><img src="https://img.shields.io/badge/License-MIT-blue.svg"/></a>
+Este proyecto está distribuído y licenciado bajo los términos de *GNU Free Documentation License Version 1.3* . Términos y condiciones de uso especificados en <a href="/LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg"/></a>
 
 
 
@@ -86,13 +86,19 @@ Algunas ideas para futuras contribuciones:
 * Añadir **tags** de búsqueda para facilitar el filtrado de publicaciones en el _SearchView_.
 * Mejorar **componentes visuales** (_layouts_ y _drawables_).
 * Aplicar o corregir las **arquitecturas**:
-  *  <a href="https://www.browserstack.com/guide/what-is-test-driven-development">**TDD** (Test Driven Development)</a>.
-  *  <a href="https://www.geeksforgeeks.org/mvp-model-view-presenter-architecture-pattern-in-android-with-example/">**MVP** (Model View Presenter)</a>.
+  * <a href="https://www.browserstack.com/guide/what-is-test-driven-development">**TDD** (Test Driven Development)</a>.
+  * <a href="https://www.geeksforgeeks.org/mvp-model-view-presenter-architecture-pattern-in-android-with-example/">**MVP** (Model View Presenter)</a>.
+
+    ###Contribuidores
+
+    _Aquí publicaré a los contribuidores de este proyecto_
 
 
 
 
-## Links
+## References
 
-
+* _Database_: <a href="https://firebase.google.com/?hl=es">Firebase</a>
+* _Graphic Design_: <a href="https://inkscape.org/es/">Inkscape</a>
+* Credits to _Coding Cafe_ for his <a href="https://www.youtube.com/playlist?list=PLxefhmF0pcPnTQ2oyMffo6QbWtztXu1W_">firebase android app</a> guide.
 > *TODO*: Enlaces externos y descripciones de estos enlaces que creas conveniente indicar aquí. Generalmente ya van a estar integrados con tu documentación, pero si requieres realizar un listado de ellos, este es el lugar.
