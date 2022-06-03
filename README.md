@@ -33,7 +33,7 @@ Las tecnologías usadas son *Java* (_Android_) para la creación de la aplicaci�
 
 ## Instalación / Puesta en marcha
 
-Sigue estos pasos para instalar la aplicación en tu dispositivo móvil o para descargar el repositorio del proyecto en la ![Guía de instalación](/doc/installation/devspace.apk).
+Sigue estos pasos para instalar la aplicación en tu dispositivo móvil o para descargar el repositorio del proyecto en la ![Guía de instalación](/doc/installation/).
 
 > *TODO*: Actualizar el .apk publicado al terminar la aplicación
 
@@ -60,7 +60,7 @@ Tuve la idea de hacer esta aplicación porque durante mi período en San Clement
 
 ## Licencia
 
-Este proyecto está distribuído y licenciado bajo los términos de *GNU Free Documentation License Version 1.3* . Términos y condiciones de uso especificados en <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg"/></a>
+Este proyecto está distribuído y licenciado bajo los términos de *GNU Free Documentation License Version 1.3* . Términos y condiciones de uso especificados en <a href="LICENSE.txt"><img src="https://img.shields.io/badge/License-MIT-blue.svg"/></a>
 
 
 
