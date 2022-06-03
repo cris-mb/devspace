@@ -1,6 +1,9 @@
 # DevSpace
 <p align="center">
-[![LICENSE: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+</p>
+
+<p align="center">
 ![](resources/images/logo-symbol.svg)
 </p>
 DevSpace es una red social con la que aprender sobre cualquier lenguaje de programación. Esta aplicación móvil trata de dinamizar y mejorar el aprendizaje de un nuevo lenguaje o tecnología de forma autodidacta, a través de publicaciones, comentarios y mensajes entre usuarios de esta app.
