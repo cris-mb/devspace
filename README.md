@@ -33,7 +33,7 @@ Las tecnologías usadas son *Java* (_Android_) para la creación de la aplicaci�
 
 ## Instalación / Puesta en marcha
 
-Sigue estos pasos para instalar la aplicación en tu dispositivo móvil o para descargar el repositorio del proyecto en la ![Guía de instalación](/doc/installation).
+Sigue estos pasos para instalar la aplicación en tu dispositivo móvil o para descargar el repositorio del proyecto en la ![Guía de instalación](/doc/installation/devspace.apk).
 
 > *TODO*: Actualizar el .apk publicado al terminar la aplicación
 
