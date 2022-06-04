@@ -1,11 +1,7 @@
 # DevSpace
-<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg"/></a>
-<a href="mailto: acc.devspace.suport@gmail.com"><img src="https://img.shields.io/badge/contact-acc.devspace.suport%40gmail.com-brightgreen"/></a>
-
-
-
-
 <img align="center" src="resources/images/logo-symbol.svg"></img>
+<a href="https://www.gnu.org/licenses/gpl-3.0.html"><img src="https://img.shields.io/badge/license-GPLv3-blue"/></a>
+<a href="mailto: acc.devspace.suport@gmail.com"><img src="https://img.shields.io/badge/contact-acc.devspace.suport%40gmail.com-brightgreen"/></a>
 
 
 DevSpace es una red social con la que aprender sobre cualquier lenguaje de programación. Esta aplicación móvil trata de dinamizar y mejorar el aprendizaje de un nuevo lenguaje o tecnología de forma autodidacta, a través de publicaciones, comentarios y mensajes entre usuarios de esta app.
@@ -24,7 +20,7 @@ Además fomenta el uso de código abierto y sirve como escaparate o forma de pro
 
 * **Buscador**. Mediante el buscador podrás filtrar las publicaciones que desees encontrar.
 
-Le quiero dar un enfoque de desenvolvimiento de un entregable al proyecto, y así continuar con el prototipo en el que trabajé durante el ciclo en PMDM (Programación Multimedia e Dispositivos Móbiles).
+Le quiero dar un enfoque de desarrollo de un entregable al proyecto, y así continuar con el prototipo en el que trabajé durante el ciclo en PMDM (Programación Multimedia e Dispositivos Móbiles).
 Las tecnologías usadas son **Java** (_Android_) para la creación de la aplicación en sí, y para la parte de la base de datos escogí **Firebase**. Esta tecnología no fue vista en el ciclo y aporta la infraestructura necesaria para presentar un prototipo de aplicación en condiciones. Usando los servicios de Firebase, pude conectar mi aplicación a una base de datos remota con la que autenticar a mis usuarios, guardar sus publicaciones, imágenes, vídeos, etc.
 
 
@@ -66,7 +62,7 @@ Tuve la idea de hacer esta aplicación porque durante mi período en San Clement
 
 ## Licencia
 
-Este proyecto está distribuído y licenciado bajo los términos de *GNU Free Documentation License Version 1.3* . Términos y condiciones de uso especificados en <a href="/LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg"/></a>
+Este proyecto está distribuído y licenciado bajo los términos de *GNU Free Documentation License Version 1.3* . Términos y condiciones de uso especificados en <a href="/LICENSE"><img src="https://img.shields.io/badge/license-GPLv3-blue"/></a>
 
 
 
@@ -82,11 +78,19 @@ Este proyecto está distribuído y licenciado bajo los términos de *GNU Free Do
 5. [Implantación](doc/templates/6_implantacion.md)
 
 
+1. [Anteproyecto](doc/templates)
+    * 1.1. [Idea](doc/templates/1_idea.md)
+    * 1.2. [Necesidades](doc/templates/2_necesidades.md)
+2. [Diseño](doc/templates/5_deseño.md)
+3. [Retos tecnológicos](doc/templates)
+4. [Futuras mejoras](doc/templates)
+
+
 
 
 ## Guía de contribución
 
-Cualquier persona interesada en contribuír en el proyecto lo puede hacer enviando un correo a <a href="mailto: acc.devspace.suport@gmail.com?"><img src="https://img.shields.io/badge/contact-acc.devspace.suport%40gmail.com-brightgreen"/></a>
+Cualquier persona interesada en contribuír en el proyecto lo puede hacer enviando un correo a <a href="mailto: acc.devspace.suport@gmail.com?"><img src="https://img.shields.io/badge/contact-acc.devspace.suport%40gmail.com-brightgreen"/></a>.
 Algunas ideas para futuras contribuciones:
 
 * Añadir **tags** de búsqueda para facilitar el filtrado de publicaciones en el _SearchView_.
@@ -107,4 +111,3 @@ Algunas ideas para futuras contribuciones:
 * _Database_: <a href="https://firebase.google.com/?hl=es">Firebase</a>
 * _Graphic Design_: <a href="https://inkscape.org/es/">Inkscape</a>
 * Credits to _Coding Cafe_ for his <a href="https://www.youtube.com/playlist?list=PLxefhmF0pcPnTQ2oyMffo6QbWtztXu1W_">firebase android app</a> guide.
-> *TODO*: Enlaces externos y descripciones de estos enlaces que creas conveniente indicar aquí. Generalmente ya van a estar integrados con tu documentación, pero si requieres realizar un listado de ellos, este es el lugar.
