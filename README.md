@@ -68,12 +68,12 @@ Este proyecto está distribuído y licenciado bajo los términos de *GNU Free Do
 
 
 ## Índice
-1. [Anteproyecto](doc/templates/anteproyecto.pdf)
-    * 1.1. [Idea](doc/templates/idea.md)
-    * 1.2. [Necesidades](doc/templates/necesidades.md)
-2. [Diseño](doc/templates/diseño.md)
-3. [Retos tecnológicos](doc/templates/retos_tecnologicos.md)
-4. [Futuras mejoras](doc/templates/futuras_mejoras.md)
+1. [Anteproyecto](doc/documentation/anteproyecto.pdf)
+    * 1.1. [Idea](doc/documentation/idea.md)
+    * 1.2. [Necesidades](doc/documentation/necesidades.md)
+2. [Diseño](doc/documentation/diseño.md)
+3. [Retos tecnológicos](doc/documentation/retos_tecnologicos.md)
+4. [Futuras mejoras](doc/documentation/futuras_mejoras.md)
 
 
 
@@ -81,17 +81,10 @@ Este proyecto está distribuído y licenciado bajo los términos de *GNU Free Do
 ## Guía de contribución
 
 Cualquier persona interesada en contribuír en el proyecto lo puede hacer enviando un correo a <a href="mailto: acc.devspace.suport@gmail.com?"><img src="https://img.shields.io/badge/contact-acc.devspace.suport%40gmail.com-brightgreen"/></a>.
-Algunas ideas para futuras contribuciones:
+Dejo en este apartado algunas de las posibles contribuciones
 
-* Añadir **tags** de búsqueda para facilitar el filtrado de publicaciones en el _SearchView_.
-* Mejorar **componentes visuales** (_layouts_ y _drawables_).
-* Aplicar o corregir las **arquitecturas**:
-  * <a href="https://www.browserstack.com/guide/what-is-test-driven-development">**TDD** (Test Driven Development)</a>.
-  * <a href="https://www.geeksforgeeks.org/mvp-model-view-presenter-architecture-pattern-in-android-with-example/">**MVP** (Model View Presenter)</a>.
-  
     ### Contribuidores
-
-    _Aquí publicaré a los contribuidores de este proyecto_
+    _Aquí mencionaré a los contribuidores de este proyecto_
 
 
 

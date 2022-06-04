@@ -1,7 +1,7 @@
 # Idea
 
 # 1. Tipo de proyecto
-Le quiero dar un enfoque de desarrollo de un entregable al proyecto, y así continuar con el prototipo en el que trabajé durante el ciclo en PMDM (Programación Multimedia e Dispositivos Móbiles).
+Le quiero dar un enfoque de desarrollo de un entregable al proyecto, y así continuar con el prototipo en el que trabajé durante el ciclo en PMDM (Programación Multimedia e Dispositivos Móbiles). Además me resultaría más cómodo a la hora de hacer una presentación el tener un prototipo que enseñar.
 
 # 2. Propósito principal
 Mi proyecto se basa en una red social escrita en Java (Android), cuyo principal objetivo es proponer una nueva forma de estudio a cualquier persona interesada en aprender sobre lenguajes de programación.
@@ -14,7 +14,7 @@ Esta aplicación está dirigida a aquellas personas que trabajen en el mundo de 
 # 4. Necesidades a cubrir
 Las necesidades a cubrir son más evidentes teniendo en cuenta el perfil anteriormente descrito:
 
-   ### 1. La necesidad de disponer de una una forma de aprendizaje más intuitiva, llamativa, dinámica y clara, en comparación con las convencionales APIs y javadocs, por ejemplo.   
+   ### 1. La necesidad de disponer de una una forma de aprendizaje más intuitiva, llamativa, dinámica y clara, en comparación con las convencionales APIs y javadocs, por ejemplo.
    Como estudiante de desarrollo de software, noté que la documentación por la que solía estudiar a veces era pesada, mal estructurada, poco clara y sobre todo, poco llamativa y atractiva para el lector. De ahí surgió la idea de combinar una red social con imágenes, vídeos y comentarios, con los que acompañar a la documentación del código. Así el proceso de aprender una nueva tecnología sería más ameno y atractivo.
 
    ### 2. La necesidad de disponer de un método de constante actualización sobre las nuevas tecnologías incipientes
@@ -47,5 +47,5 @@ Las funcionalidades que implementa para cumplir con estos objetivos son :
 # 7. Tecnologías usadas
 Las tecnologías usadas son Java (Android) para la creación de la aplicación en sí, y para la parte de la base de datos escogí Firebase. Esta tecnología no fue vista en el ciclo y aporta la infraestructura necesaria para presentar un prototipo de aplicación en condiciones. Usando los servicios de Firebase, pude conectar mi aplicación a una base de datos remota con la que autenticar a mis usuarios, guardar sus publicaciones, imágenes, vídeos, etc. Al ser una tecnología no vista en el ciclo y tener que pasar de una base de datos relacional a una documental, el migrar la antigua base de datos en local con la que contaba la aplicación fue un paso grande y tedioso
 
-Para más información al respecto, consulta el [Anteproyecto](/doc/documentation/anteproyecto.pdf)
+Para más información al respecto, consulta el [Anteproyecto](/doc/templates/anteproyecto.pdf)
 
