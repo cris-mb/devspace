@@ -9,15 +9,15 @@
 
    2. Entrar en **Descargas**, pulsar en el .zip para descomprimirlo y por último pulsar en el .apk resultante. 
 
-      ![](doc/img/installation_2.png)
+      ![](doc/img/installation_2.svg)
 
    3. Aceptar el aviso de Android e instalar de todas formas.
       
-      ![](doc/img/installation_3.png)
+      ![](doc/img/installation_3.svg)
 
    4. Si realizamos todos los pasos anteriores correctamente, tendremos la aplicación lista para utilizar.
 
-      ![](doc/img/installation_4.png)
+      ![](doc/img/installation_4.svg)
 
    6. En caso de querer descargar el proyecto para contribuír a este :
 
