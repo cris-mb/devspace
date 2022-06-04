@@ -1,5 +1,5 @@
 # Guía de instalación de la aplicación
-1. Instalación de la aplicación en un dispositivo Android: (*APK EN PRUEBAS*, en breves publicaré la aplicación final):
+### 1. Instalación de la aplicación en un dispositivo Android: (*APK EN PRUEBAS*, en breves publicaré la aplicación final):
 
 > Debido a que en gitlab por alguna razón se descargan como archivos .zip los .apk que publiqué, decidí comprimirlos dentro de un .zip y así solucionar este problema que impedía instalarlos correctamente. Los pasos a seguir son los siguientes
 
@@ -19,13 +19,13 @@
 
 
 
-2. En caso de querer descargar el proyecto para contribuír a este :
+### 2. En caso de querer descargar el proyecto para contribuír a este :
 
-      2.1 Descargar el repositorio en un directorio desde la terminal del equipo con el siguiente comando:
-      
-         `git clone https://gitlab.iessanclemente.net/damo/a20cristianmb`
-
-      2.2 Abrir el proyecto con [Android Studio](https://developer.android.com/studio) en **File** > **Open** y seleccionando la carpeta raíz del proyecto:
+   2.1 Descargar el repositorio en un directorio desde la terminal del equipo con el siguiente comando:
    
-      ![](doc/img/android_studio_1.png)![](doc/img/android_studio_2.png)
+      `git clone https://gitlab.iessanclemente.net/damo/a20cristianmb`
+
+   2.2 Abrir el proyecto con [Android Studio](https://developer.android.com/studio) en **File** > **Open** y seleccionando la carpeta raíz del proyecto:
+
+   ![](doc/img/android_studio_1.png)![](doc/img/android_studio_2.png)
 

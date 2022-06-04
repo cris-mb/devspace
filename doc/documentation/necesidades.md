@@ -9,7 +9,7 @@ Como estudiante de desarrollo de software, noté que la documentación por la qu
 ### 2. La necesidad de disponer de un nuevo método de constante actualización sobre las nuevas tecnologías incipientes
 Otros de los aspectos que cubre esta aplicación es la creación de una nueva vía para informarse sobre las nuevas tecnologías que aparecen en el sector o sobre los cambios importantes de las ya existentes. Esta necesidad puede ser que la cubra alguna red social ya existente, como por ejemplo Twitter lo hace con su gran comunidad sobre hacking ético y ciberseguridad, con la que mantenerse al tanto de lo que sucede en el sector. El problema es que no hay una red social por excelencia a la que recurrir para mantenerse al día en el sector de desarrollo, por eso DevSpace puede ser una buena aproximación a ese planteamiento.
 
-4.Responde a estas preguntas concretas(**AUN NO RESPONDIDAS**):
+4.Responde a estas preguntas concretas:
 
     4.1.Como se pode responder a esta necesidade?
         Con aplicaciones que cubran las necesidades anteriormente mencionadas. No tiene porque ser una red social únicamente, también sería interesante plantear nuevas plataformas de estudio seguiendo la línea de [Udemy](https://www.udemy.com/) por ejemplo.
@@ -54,7 +54,8 @@ Otros de los aspectos que cubre esta aplicación es la creación de una nueva v�
         1.1.a) Será posible dispoñer dos recursos humanos e medios de produción necesarios (materias primas, maquinaria, instalacións…)?
             Si cuento con el material y conocimientos necesarios para llevar a cabo este proyecto
 
-        1.1.b) Existe algún impedimento técnico que dificulte o proceso produtivo?
+        1.1.b) Existe algún impedimento técnico que dificulte o proceso produtivo? 
+            La posibilidad de tener que pagar las cuotas de uso de los servicios de Firebase es uno de los riesgos a tener en cuenta. Las primeras etapas de la aplicación no son preocupantes, el problema se generaría a medida que la cantidad de usuarios de esta aumenta, obligándo a pagar cierta cantidad de dinero estipulada en los [ejemplos de precios de Cloud Firestore](https://firebase.google.com/docs/firestore/billing-example?hl=es#small-50k-installs).  
         
     1.2.Viabilidade económica
     
@@ -78,24 +79,34 @@ Otros de los aspectos que cubre esta aplicación es la creación de una nueva v�
 1.Promoción.
 
     1.1.Técnicas elixidas (redes sociais, plataformas multimedia, páxina web, posicionamento web SEO, patrocinios, participación en eventos, prácticas de responsabilidade social corporativa, outras).
+        Inicialmente a través de plataformas multimedia y participación en eventos y convenciones. Más adelante patrocinios.
     
     1.2.Xustifica a elección.
+        Una buena forma de promoción inicial sería mediante la promoción de la aplicación en diferentes plataformas multimedia y la participación en eventos y convenciones donde la presentación de esta aplicación pueda tener relevancia y repercusión. Más adelante, cuando los beneficios sean los suficientes, lo ideal sería invertir en un patrocinio.
 
 2.Modelo de negocio.
 
     2.1.Modelo elixido (Modelo de pago / Freemium (é de balde pero as funcionalidades extras son de pago) / In house (desenvolvementos a medida para contornos empresariais / De subscrición / Por publicidade / Outros)
-    
+        El modelo elegido es el de **In House**, concretamente por publicidad.
+
     2.2. Xustifica a elección.
+        Este modelo es el más adecuado para un red social. Mirando a las redes sociales más influyentes y utilizadas todas siguen este modelo de negocio. A través de anuncios y promoción de diferentes marcas y empresas, consiguen que esta aplicación sea gratuita y genere beneficios.
 
 ## Webgrafía
 
 Xustificación de necesidades, viabilidade:
+    ![](https://cdn.statcdn.com/Infographic/images/normal/13646.jpeg)
+
+    _En este [gráfico](https://es.statista.com/grafico/13646/numero-de-usuarios-activos-mensuales-en-redes-sociales-y-servicios-de-mensajeria/) podemos ver la cantidad de usuarios de distintas redes sociales en 2021_
 
 **Guía para a elaboración de proyectos. Gobierno Vasco.**
 
 <https://www.pluralismoyconvivencia.es/upload/19/71/guia_elaboracion_proyectos_c.pdf>  (páxina 26 e seguintes)
 
 Competencia:
+    ![](https://www.sobyte.net/post/2021-11/gogs-gitea/#gallery)
+            
+    _Algunos posibles [competidores](https://geekflare.com/es/best-source-code-hosting-solutions/) que pueden llegar a presentar un producto similar_
 
 **Modelo de plan de negocios. Empresa de servicios informáticos. IGAPE**
 

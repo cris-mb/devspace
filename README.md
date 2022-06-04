@@ -1,5 +1,5 @@
 # DevSpace
-<img align="center" src="resources/images/logo-symbol.svg"></img>
+<img align="center" src="doc/img/logo-symbol.svg"></img>
 <a href="https://www.gnu.org/licenses/gpl-3.0.html"><img src="https://img.shields.io/badge/license-GPLv3-blue"/></a>
 <a href="mailto: acc.devspace.suport@gmail.com"><img src="https://img.shields.io/badge/contact-acc.devspace.suport%40gmail.com-brightgreen"/></a>
 
