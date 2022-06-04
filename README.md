@@ -85,8 +85,8 @@ Este proyecto está distribuído y licenciado bajo los términos de *GNU Free Do
 Cualquier persona interesada en contribuír en el proyecto lo puede hacer enviando un correo a <a href="mailto: acc.devspace.suport@gmail.com?"><img src="https://img.shields.io/badge/contact-acc.devspace.suport%40gmail.com-brightgreen"/></a>.
 Dejo en el siguiente apartado algunas de las posibles contribuciones [Futuras Mejoras](/doc/documentation/futuras_mejoras.md).
 
-    ### Contribuidores
-    _Aquí mencionaré a los contribuidores de este proyecto_
+### Contribuidores
+   _Aquí mencionaré a los contribuidores de este proyecto_
 
 
 
