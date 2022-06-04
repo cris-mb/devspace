@@ -4,9 +4,13 @@
 > Debido a que en gitlab por alguna razón se descargan como archivos .zip los .apk que publiqué, decidí comprimirlos dentro de un .zip y así solucionar este problema que impedía instalarlos correctamente. Los pasos a seguir son los siguientes
 
    1.1 Entrar en este archivo de documentación del repositorio desde tu dispositivo móbil y descargar [devspace.zip](./devspace.zip).
+
    1.2 Entrar en **Descargas**, pulsar en el .zip para descomprimirlo y por último pulsar en el .apk resultante.
-   1.3 Aceptar el aviso de Android e instalar de todas formas. 
+
+   1.3 Aceptar el aviso de Android e instalar de todas formas.
+
    1.4 Si realizamos todos los pasos anteriores correctamente, tendremos la aplicación lista para utilizar.
+
    
 ![](doc/img/installation_1.svg)![](doc/img/installation_2.svg)![](doc/img/installation_3.svg)![](doc/img/installation_4.svg)
 
