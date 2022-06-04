@@ -12,7 +12,9 @@
    1.4 Si realizamos todos los pasos anteriores correctamente, tendremos la aplicación lista para utilizar.
 
    
-![](doc/img/installation_1.png)![](doc/img/installation_2.png)![](doc/img/installation_3.png)![](doc/img/installation_4.png)
+![](doc/img/installation_1.png)![](doc/img/installation_2.png)
+
+![](doc/img/installation_3.png)![](doc/img/installation_4.png)
 
 
 
@@ -24,6 +26,6 @@
          `git clone https://gitlab.iessanclemente.net/damo/a20cristianmb`
 
       2.2 Abrir el proyecto con [Android Studio](https://developer.android.com/studio) en **File** > **Open** y seleccionando la carpeta raíz del proyecto:
-
-         ![](doc/img/android_studio_1.png)![](doc/img/android_studio_2.png)
+   
+      ![](doc/img/android_studio_1.png)![](doc/img/android_studio_2.png)
 
