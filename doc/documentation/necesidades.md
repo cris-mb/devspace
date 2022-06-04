@@ -24,10 +24,16 @@ Otros de los aspectos que cubre esta aplicación es la creación de una nueva v�
         Por una parte un ordenador con el que programar la aplicación, la creación de un nuevo proyecto de Firebase al que conectar a nuestra aplicación y sobre todo una gran inversión de tiempo por parte del programador para que todo esto se lleve a cabo.
 
     4.5. Que actividades se van realizar? 
-        1. Planteamiento de las diferentes funcionalidades y requisitos de la aplicación
-        2. 
+        1. Planteamiento de las diferentes funcionalidades y requisitos de la aplicación.
+        2. Estudio del funcionamiento de Firebase.
+        3. Desarrollo del diseño gráfico de la aplicación (logos, colores, tipografía, layouts, iconos, ...).
+        4. Desarrollo de la parte funcional de la aplicación.
+        5. Desarrollo de la base de datos y comunicación con la aplicación
+        6. Creación de la documentación necesaria en el repositorio
+        7. Creación de los diagramas, casos de uso y esquemas que acompañarán a la aplicación. 
     
     4.6. Que metodoloxía se vai empregar para levar a cabo o traballo?
+        Ninguna en concreto.
     
     4.7. Que persoas serían precisas para realizar o proxecto con éxito? 
         Con la ayuda de un grupo de personas para llevar a cabo la aplicación se podría conseguir un resultado final mucho más profesional y desenvuelto, sobre todo para la parte de diseño gráfico y definición de la estructura de la base de datos. Lastimosamente me encargaré yo de todos estes aspectos
