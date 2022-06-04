@@ -12,9 +12,9 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
    id="svg2"
-   width="300"
-   height="300"
-   viewBox="0 0 300 300"
+   width="500"
+   height="500"
+   viewBox="0 0 500 500"
    sodipodi:docname="android_studio_1.svg"
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
   <metadata
@@ -56,9 +56,9 @@
      inkscape:window-height="1016"
      id="namedview4"
      showgrid="false"
-     inkscape:zoom="1.5772727"
-     inkscape:cx="371.78773"
-     inkscape:cy="178.07011"
+     inkscape:zoom="0.78863635"
+     inkscape:cx="344.32908"
+     inkscape:cy="235.27759"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -72,5 +72,5 @@
      x="16.139153"
      y="93.248436"
      clip-path="url(#clipPath25)"
-     transform="matrix(0.56835531,0,0,0.56835531,-1093.2402,-70.124954)" />
+     transform="matrix(0.9529435,0,0,0.9529435,-1835.3128,-119.61731)" />
 </svg>
