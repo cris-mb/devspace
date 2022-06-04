@@ -95,7 +95,7 @@ Otros de los aspectos que cubre esta aplicación es la creación de una nueva v�
 ## Webgrafía
 
 Xustificación de necesidades, viabilidade:
-    ![](https://cdn.statcdn.com/Infographic/images/normal/13646.jpeg)
+    <img src="https://cdn.statcdn.com/Infographic/images/normal/13646.jpeg" width="300" height="300"/>
 
     _En este [gráfico](https://es.statista.com/grafico/13646/numero-de-usuarios-activos-mensuales-en-redes-sociales-y-servicios-de-mensajeria/) podemos ver la cantidad de usuarios de distintas redes sociales en 2021_
 
@@ -104,7 +104,7 @@ Xustificación de necesidades, viabilidade:
 <https://www.pluralismoyconvivencia.es/upload/19/71/guia_elaboracion_proyectos_c.pdf>  (páxina 26 e seguintes)
 
 Competencia:
-    ![](https://www.sobyte.net/post/2021-11/gogs-gitea/#gallery)
+    <img src="https://cdn.jsdelivr.net/gh/b0xt/sobyte-images/2021/11/02/ed3c47103f9642f28009b98f06b9f496.png" width="300" height="300"/>
             
     _Algunos posibles [competidores](https://geekflare.com/es/best-source-code-hosting-solutions/) que pueden llegar a presentar un producto similar_
 
