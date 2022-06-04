@@ -68,12 +68,12 @@ Este proyecto está distribuído y licenciado bajo los términos de *GNU Free Do
 
 
 ## Índice
-1. [Anteproyecto](doc/templates)
-    * 1.1. [Idea](doc/templates/1_idea.md)
-    * 1.2. [Necesidades](doc/templates/2_necesidades.md)
-2. [Diseño](doc/templates/5_deseño.md)
-3. [Retos tecnológicos](doc/templates)
-4. [Futuras mejoras](doc/templates)
+1. [Anteproyecto](doc/templates/anteproyecto.pdf)
+    * 1.1. [Idea](doc/templates/idea.md)
+    * 1.2. [Necesidades](doc/templates/necesidades.md)
+2. [Diseño](doc/templates/diseño.md)
+3. [Retos tecnológicos](doc/templates/retos_tecnologicos.md)
+4. [Futuras mejoras](doc/templates/futuras_mejoras.md)
 
 
 
