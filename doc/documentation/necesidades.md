@@ -1,11 +1,15 @@
-# ESTUDO DE NECESIDADES E MODELO DE NEGOCIO
+# ESTUDIO DE NECESIDADES Y MODELO DE NEGOCIO
 
-## Xustificación das necesidades detectadas que cubre o sistema a desenvolver
+## Justificación de las necesidades encontradas que cubre el sistema a desenvolver
+Las necesidades a cubrir por la aplicación son las siguientes
 
-1.Describe o problema ou a necesidade.
-2.Por que é necesaria a posta en marcha dun proxecto que aborde dita necesidade?
-3.Cal é o obxectivo xeral que persegue o proxecto?
-4.Responde a estas preguntas concretas:
+### 1. La necesidad de disponer de una una forma de aprendizaje más intuitiva, llamativa, dinámica y clara, en comparación con las convencionales APIs y javadocs, por ejemplo.
+Como estudiante de desarrollo de software, noté que la documentación por la que solía estudiar a veces era pesada, mal estructurada, poco clara y sobre todo, poco llamativa y atractiva para el lector. De ahí surgió la idea de combinar una red social con imágenes, vídeos y comentarios, con los que acompañar a la documentación del código. Así el proceso de aprender una nueva tecnología sería más ameno y atractivo.
+
+### 2. La necesidad de disponer de un nuevo método de constante actualización sobre las nuevas tecnologías incipientes
+Otros de los aspectos que cubre esta aplicación es la creación de una nueva vía para informarse sobre las nuevas tecnologías que aparecen en el sector o sobre los cambios importantes de las ya existentes. Esta necesidad puede ser que la cubra alguna red social ya existente, como por ejemplo Twitter lo hace con su gran comunidad sobre hacking ético y ciberseguridad, con la que mantenerse al tanto de lo que sucede en el sector. El problema es que no hay una red social por excelencia a la que recurrir para mantenerse al día en el sector de desarrollo, por eso DevSpace puede ser una buena aproximación a ese planteamiento.
+
+4.Responde a estas preguntas concretas(**AUN NO RESPONDIDAS**):
 
     4.1.Como se pode responder a esta necesidade? 
     

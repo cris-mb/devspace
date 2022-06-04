@@ -29,7 +29,7 @@ Las tecnologías usadas son **Java** (_Android_) para la creación de la aplicac
 
 ## Instalación / Puesta en marcha
 
-Sigue estos pasos para instalar la aplicación en tu dispositivo móvil o para descargar el repositorio del proyecto en la ![Guía de instalación](/doc/installation/).
+Sigue estos pasos para instalar la aplicación en tu dispositivo móvil o para descargar el repositorio del proyecto en la ![Guía de instalación](/doc/installation/README.md).
 
 > *TODO*: Actualizar el .apk publicado al terminar la aplicación
 
@@ -55,7 +55,9 @@ Para más información sobre los diferentes usos de la aplicación, consulta el 
 
 Cristian Mayán Barreiros, estudiante en el _IES San Clemente_ cursando el Ciclo Superior de **Desarrollo de Aplicaciones Multiplataforma**.
 
-Tuve la idea de hacer esta aplicación porque durante mi período en San Clemente, me hubiese interesado una aplicación dinámica y amena con la que aprender sobre las diferentes tecnologías que se impartían en el ciclo. La tecnología principalmente usada en el proyecto fue **Java** (_Android_), ya que fue la tecnología mas desarrollada en el ciclo y que considero uno de mis fuertes. Dejo en este apartado un <a href="mailto: cristian.mayanb@gmail.com">email</a> con el que contactar conmigo fácilmente.
+Tuve la idea de hacer esta aplicación porque durante mi período en San Clemente, me hubiese interesado una aplicación dinámica y amena con la que aprender sobre las diferentes tecnologías que se impartían en el ciclo. La tecnología principalmente usada en el proyecto fue **Java** (_Android_), ya que fue la tecnología mas desarrollada en el ciclo y que considero uno de mis fuertes. 
+
+Dejo en este apartado un <a href="mailto: cristian.mayanb@gmail.com">email</a> con el que contactar conmigo fácilmente.
 
 
 
@@ -81,7 +83,7 @@ Este proyecto está distribuído y licenciado bajo los términos de *GNU Free Do
 ## Guía de contribución
 
 Cualquier persona interesada en contribuír en el proyecto lo puede hacer enviando un correo a <a href="mailto: acc.devspace.suport@gmail.com?"><img src="https://img.shields.io/badge/contact-acc.devspace.suport%40gmail.com-brightgreen"/></a>.
-Dejo en este apartado algunas de las posibles contribuciones
+Dejo en el siguiente apartado algunas de las posibles contribuciones [Futuras Mejoras](/doc/documentation/futuras_mejoras.md).
 
     ### Contribuidores
     _Aquí mencionaré a los contribuidores de este proyecto_
