@@ -97,16 +97,16 @@ Otros de los aspectos que cubre esta aplicación es la creación de una nueva v�
 Xustificación de necesidades, viabilidade:
 
 
-<img src="https://cdn.statcdn.com/Infographic/images/normal/13646.jpeg" width="450" height="700"/>
+<img src="https://cdn.statcdn.com/Infographic/images/normal/13646.jpeg" width="500" height="700"/>
 
-    _En este [gráfico](https://es.statista.com/grafico/13646/numero-de-usuarios-activos-mensuales-en-redes-sociales-y-servicios-de-mensajeria/) podemos ver la cantidad de usuarios de distintas redes sociales en 2021_
+>_En este [gráfico](https://es.statista.com/grafico/13646/numero-de-usuarios-activos-mensuales-en-redes-sociales-y-servicios-de-mensajeria/) podemos ver la cantidad de usuarios de distintas redes sociales en 2021_
 
 Competencia:
 
 
 <img src="https://cdn.jsdelivr.net/gh/b0xt/sobyte-images/2021/11/02/ed3c47103f9642f28009b98f06b9f496.png"/>
             
-    _Algunos posibles [competidores](https://geekflare.com/es/best-source-code-hosting-solutions/) que pueden llegar a presentar un producto similar_
+>_Algunos posibles [competidores](https://geekflare.com/es/best-source-code-hosting-solutions/) que pueden llegar a presentar un producto similar_
 
 
 **Guía para a elaboración de proyectos. Gobierno Vasco.**
