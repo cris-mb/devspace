@@ -23,6 +23,8 @@ Además fomenta el uso de código abierto y sirve como escaparate o forma de pro
 Le quiero dar un enfoque de desarrollo de un entregable al proyecto, y así continuar con el prototipo en el que trabajé durante el ciclo en PMDM (Programación Multimedia e Dispositivos Móbiles).
 Las tecnologías usadas son **Java** (_Android_) para la creación de la aplicación en sí, y para la parte de la base de datos escogí **Firebase**. Esta tecnología no fue vista en el ciclo y aporta la infraestructura necesaria para presentar un prototipo de aplicación en condiciones. Usando los servicios de Firebase, pude conectar mi aplicación a una base de datos remota con la que autenticar a mis usuarios, guardar sus publicaciones, imágenes, vídeos, etc.
 
+Toda esta información esta recogida en detalle en el [anteproyecto.pdf](doc/documentation/anteproyecto.pdf)
+
 
 
 

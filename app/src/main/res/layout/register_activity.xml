@@ -158,13 +158,14 @@
                     android:layout_height="wrap_content"
                     android:text="@string/name_btnRegister"
                     android:fontFamily="@font/ubuntu"
+                    android:textColor="@color/white"
                     android:background="@drawable/btn_login"/>
 
                 <TextView
                     android:id="@+id/tvGoLogin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/white"
                     android:text="@string/text_GoLogin"/>
 
             </LinearLayout>

@@ -46,6 +46,3 @@ Las funcionalidades que implementa para cumplir con estos objetivos son :
 
 # 7. Tecnologías usadas
 Las tecnologías usadas son Java (Android) para la creación de la aplicación en sí, y para la parte de la base de datos escogí Firebase. Esta tecnología no fue vista en el ciclo y aporta la infraestructura necesaria para presentar un prototipo de aplicación en condiciones. Usando los servicios de Firebase, pude conectar mi aplicación a una base de datos remota con la que autenticar a mis usuarios, guardar sus publicaciones, imágenes, vídeos, etc. Al ser una tecnología no vista en el ciclo y tener que pasar de una base de datos relacional a una documental, el migrar la antigua base de datos en local con la que contaba la aplicación fue un paso grande y tedioso
-
-Para más información al respecto, consulta el [Anteproyecto](/doc/templates/anteproyecto.pdf)
-
