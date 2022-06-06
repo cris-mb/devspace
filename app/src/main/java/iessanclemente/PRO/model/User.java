@@ -23,13 +23,11 @@ public class User {
         this.password = password;
     }
 
-    public User(String tagId, String username, String profileImagePath, String email, String password, String about) {
+    public User(String tagId, String email, String password, String profileImagePath) {
         this.tagId = tagId;
-        this.username = username;
-        this.profileImagePath = profileImagePath;
         this.email = email;
         this.password = password;
-        this.about = about;
+        this.profileImagePath = profileImagePath;
     }
 
     public String getUserTag() {

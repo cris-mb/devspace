@@ -58,8 +58,10 @@ public class PostRecyclerView extends AppCompatActivity implements SearchView.On
     protected void onStart() {
         super.onStart();
         boolean userAuthenticated = eu.checkUserAuthentication();
-        if(userAuthenticated){
+        if(!userAuthenticated){
             eu.intentLoginActivity();
+        }else{
+            eu.checkUserExistenceInDatabase();
         }
     }
 

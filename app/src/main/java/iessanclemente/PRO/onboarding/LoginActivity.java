@@ -1,13 +1,17 @@
 package iessanclemente.PRO.onboarding;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -27,9 +31,11 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApi;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.internal.TextWatcherAdapter;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.sql.Driver;
@@ -45,13 +51,14 @@ public class LoginActivity extends Activity{
     private static final int GOOGLE_LOGIN = 3;
 
     private EnterUtilities eu;
+    private FirebaseAuth fAuth;
     private GoogleSignInOptions gso;
     private GoogleSignInClient gsc;
 
 
     // Declare the visual components of the layout
     private TextInputEditText tietUserEmail;
-    private TextInputLayout tilUserTag;
+    private TextInputLayout tilUserEmail;
     private TextInputEditText tietPassword;
     private TextInputLayout tilPassword;
     private CheckBox chkRememberMe;
@@ -67,10 +74,11 @@ public class LoginActivity extends Activity{
 
         // 2) Setup communication with the database
         eu = new EnterUtilities(getApplicationContext());
+        fAuth = FirebaseAuth.getInstance();
 
         // 3) Instance visual components
         tietUserEmail = findViewById(R.id.tietUserEmail);
-        tilUserTag = findViewById(R.id.tilUserTag);
+        tilUserEmail = findViewById(R.id.tilUserEmail);
 
         tietPassword = findViewById(R.id.tietPassword);
         tilPassword = findViewById(R.id.tilPassword);
@@ -80,7 +88,7 @@ public class LoginActivity extends Activity{
         TextView tvGoRegister = findViewById(R.id.tvGoRegister);
         Button btnGoogleLogin = findViewById(R.id.btnGoogleLogin);
 
-        // 5) Google Authentication
+        // 4) Google Authentication
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -90,26 +98,18 @@ public class LoginActivity extends Activity{
             googleSignIn();
         });
 
-        // 4) Instance its listeners
-        tietUserEmail.setOnFocusChangeListener((view, b) -> {
-            String email = tietUserEmail.getText() + "";
-            if(!email.equals(""))
-                checkUserExistence(email);
-        });
+        // 5) Instance its listeners
+
+        addEditTextsListener();
 
         btnLogin.setOnClickListener(view -> {
-            boolean successfulLogin = eu.loginUserWithCredentials(tietUserEmail.getText()+"",
+            loginUserWithCredentials(tietUserEmail.getText()+"",
                                     tietPassword.getText()+"",
                                         chkRememberMe.isChecked());
-            if(!successfulLogin){
-                Toast.makeText(LoginActivity.this, getResources().getString(R.string.err_UserDoesNotExists), Toast.LENGTH_SHORT).show();
-                checkUserExistence();
-            }
         });
 
         tvGoRegister.setOnClickListener(view ->  {
-            Intent register = new Intent(getApplicationContext(), RegisterActivity.class);
-            startActivity(register);
+            eu.intentRegisterActivity();
             finish();
         });
     }
@@ -119,41 +119,76 @@ public class LoginActivity extends Activity{
         startActivityForResult(googleIntent, GOOGLE_LOGIN);
     }
 
+    public void loginUserWithCredentials(String email, String pass, boolean maintainSession){
+
+        fAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                Log.d(TAG, "loginUserWithCredentials : "+task.getResult());
+                eu.intentPostRecyclerActivity();
+            }else {
+                Log.e(TAG, "loginUserWithCredentials : "+task.getException());
+                setError(task.getException().getMessage());
+            }
+        });
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
         boolean maintainLastSession = eu.checkUserAuthentication();
         if(maintainLastSession){
-            intentPostRecyclerActivity();
+            eu.intentPostRecyclerActivity();
         }
     }
 
-    private void checkUserExistence(String email) {
-        if (eu.checkUserExistence(email) != null) {
-            tilUserTag.setError(null);
-            tilUserTag.setBoxStrokeColor(Color.GREEN);
-            tilUserTag.setStartIconDrawable(R.drawable.check);
-            tilUserTag.setStartIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.blue)));
-        } else{
-            tilUserTag.setError(getResources().getString(R.string.err_UserDoesNotExists));
-            tilUserTag.setBoxStrokeColor(Color.GRAY);
-            tilUserTag.setStartIconDrawable(R.drawable.ic_user);
-            tilUserTag.setStartIconTintList(ColorStateList.valueOf(Color.GRAY));
-        }
+    private void setError(String errorMessage) {
+        setErrorOn(tilUserEmail);
+        setErrorOn(tilPassword);
+
+        AlertDialog errorDialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.error)
+                .setMessage(errorMessage)
+                .setNeutralButton("OK", (dialog, which) -> {
+                    // do nothing
+                })
+                .show();
     }
 
-    private void checkUserCredentials(String tagId, String pass) {
-        if(eu.checkPassword(pass)){
-            tilPassword.setError(null);
-            tilPassword.setStartIconDrawable(R.drawable.check);
-            tilPassword.setStartIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.dkblue)));
-            successfulLogin();
-        }else{
-            tilPassword.setError(getResources().getString(R.string.err_wrong_password));
-            tilPassword.setStartIconDrawable(R.drawable.ic_lock);
-            tilPassword.setStartIconTintList(ColorStateList.valueOf(Color.GRAY));            
-        }
+    private void setErrorOn(TextInputLayout til){
+        til.setError(null);
+        til.setBoxStrokeColor(Color.RED);
+        til.setStartIconTintList(ColorStateList.valueOf(Color.RED));
     }
+
+    private void clearErrors(){
+        tilUserEmail.setBoxStrokeColor(Color.GRAY);
+        tilUserEmail.setStartIconTintList(ColorStateList.valueOf(Color.GRAY));
+
+        tilPassword.setBoxStrokeColor(Color.GRAY);
+        tilPassword.setStartIconTintList(ColorStateList.valueOf(Color.GRAY));
+    }
+
+    private void addEditTextsListener() {
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                clearErrors();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+        tietUserEmail.addTextChangedListener(textWatcher);
+        tietPassword.addTextChangedListener(textWatcher);
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -184,17 +219,5 @@ public class LoginActivity extends Activity{
             if (grantResults[0] != PackageManager.PERMISSION_GRANTED)
                 this.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_CODE);
         }
-    }
-
-    private void successfulLogin() {
-        // TODO : unify methods
-        intentPostRecyclerActivity();
-    }
-
-    private void intentPostRecyclerActivity() {
-        Intent recycler = new Intent(getApplicationContext(), PostRecyclerView.class);
-        recycler.putExtra("currUserUid", eu.getCurrentUserUid());
-        startActivity(recycler);
-        finish();
     }
 }

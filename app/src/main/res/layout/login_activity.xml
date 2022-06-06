@@ -109,7 +109,7 @@
                     android:text="@string/name_btnLogin"
                     android:textColor="@color/white"
                     android:drawableEnd="@drawable/ic_login_logout"
-                    android:background="@drawable/btn_login"/>
+                    android:background="@drawable/btn_login" />
 
                 <TextView
                     android:id="@+id/tvGoRegister"

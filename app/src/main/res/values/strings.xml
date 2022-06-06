@@ -11,7 +11,6 @@
     <string name="label_AboutMe">About You</string>
     <string name="name_btnFileChooser">Choose</string>
     <string name="label_ProfileImage">Profile Image</string>
-    <string name="err_IncompleteRegistration">All fields are required</string>
     <string name="text_GoLogin">Already have an account ?</string>
     <string name="title_AddPost">Add a new Post</string>
     <string name="label_PostImage">Image</string>
@@ -38,13 +37,17 @@
     <string name="err_UserAlreadyExists">This user already exists</string>
     <string name="name_btnLogin">Login</string>
     <string name="err_PasswordDoNotMatch">The passwords provided did not match</string>
-    <string name="label_Username">User</string>
+    <string name="label_user_tag">Tag</string>
+    <string name="label_Username">Username</string>
     <string name="text_btnGoogleLogin">Sign in with google</string>
+    <string name="err_IncompleteRegistration">All fields are required</string>
+    <string name="err_no_profile_image_provided">Select a profile image</string>
 
     <!-- Post card strings -->
     <string name="tag_LearnMore">Learn More</string>
     <string name="hint_etMessage">Type a message ...</string>
     <string name="default_tvReceiverName">Anonymous</string>
     <string name="successfulUpload">"was successfully uploaded"</string>
+    <string name="error">Error</string>
 
 </resources>

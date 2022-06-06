@@ -41,9 +41,6 @@ public class EnterUtilities {
     private DatabaseOperations op;
     private final FirebaseAuth fAuth;
 
-    private final String currUserUid;
-    private final User currUser;
-
     public EnterUtilities(Context ctx){
         this.context = ctx;
         stRef = FirebaseStorage.getInstance().getReference();
@@ -51,8 +48,6 @@ public class EnterUtilities {
         postsRef = FirebaseDatabase.getInstance().getReference().child("posts");
 
         fAuth = FirebaseAuth.getInstance();
-        currUserUid = fAuth.getCurrentUser() != null?fAuth.getCurrentUser().getUid():null;
-        currUser = currUserUid != null?checkUserExistence(currUserUid):null;
         // TODO : Retrieve user data
     }
 
@@ -68,6 +63,41 @@ public class EnterUtilities {
     public boolean checkUserAuthentication() {
         FirebaseUser check = FirebaseAuth.getInstance().getCurrentUser();
         return check != null;
+    }
+
+    public void checkUserExistenceInDatabase() {
+        String currUserUid = fAuth.getCurrentUser().getUid();
+        usersRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild(currUserUid)){
+                    saveUserInDatabase(currUserUid);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void saveUserInDatabase(String userUid){
+        FirebaseUser fUser = fAuth.getCurrentUser();
+        HashMap<String, Object> userMap = new HashMap<>();
+        userMap.put("about", "");
+        userMap.put("email", fUser.getEmail());
+        userMap.put("password", "");
+        userMap.put("profileImage", "");
+        userMap.put("tag", "");
+        userMap.put("username", "");
+
+        usersRef.child(userUid).updateChildren(userMap).addOnCompleteListener(task -> {
+            if(task.isSuccessful())
+                Log.d(TAG, "saveUserInDatabase: "+task.getResult());
+            else
+                Log.d(TAG, "saveUserInDatabase: "+task.getException().getMessage());
+        });
     }
 
     public User checkUserExistence(@NonNull String email) {
@@ -97,134 +127,49 @@ public class EnterUtilities {
         return us[0];
     }
 
-    public boolean checkPassword(String pass) {
-        return pass.equals(currUser.getPassword());
-    }
+//    public void uploadProfileImageOnStorage(Uri data){
+//        String fileName = data.getLastPathSegment()+generateTimeStamp()+".jpg";
+//        StorageReference filePath = stRef.child("post_images").child(fileName);
+//        filePath.putFile(data).addOnCompleteListener(task -> {
+////  downloadUrl = task.getResult().getUploadSessionUri().getPath(); Mirar tuto de nuevo
+//            if(task.isSuccessful()) {
+//                currUser.setProfileImagePath(filePath.getPath());
+//                Log.d(TAG,"Profile Image Storage Reference : "+filePath.getPath());
+//                uploadUserOnDatabase();
+//                Toast.makeText(context, "Your profile image " + context.getResources().getString(R.string.successfulUpload), Toast.LENGTH_SHORT).show();
+//            }else
+//                Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+//        });
+//    }
 
-    public String searchForProfileImageRef() {
-        User us = checkUserExistence(currUserUid);
-        usersRef.child(currUserUid).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    us.setProfileImagePath(snapshot.child("profileImage").getValue()+"");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        return us.getProfileImagePath();
-    }
-
-    public void loginUser(String email, String pass){
-        boolean loginResult = false;
-        fAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(task -> {
-            if(task.isSuccessful()) {
-                Toast.makeText(context, "Successful login", Toast.LENGTH_SHORT).show();
-            }else
-                Toast.makeText(context, "Error while logging in", Toast.LENGTH_SHORT).show();
-        });
-    }
-
-    public boolean addUser(String newUserTag, String email, String password, String profileImageRef){
-
-        fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-            if(task.isSuccessful())
-                Toast.makeText(context, "Account saved in auth", Toast.LENGTH_SHORT).show();
-            else
-                Toast.makeText(context, task.getException()+"", Toast.LENGTH_SHORT).show();
-        });
-        saveUserInfoToDatabase(newUserTag, email, password, profileImageRef);
-        return true;
-    }
-
-    public void saveNewUserToDatabase(String email) {
-        HashMap<String, Object> newUserMap = new HashMap<>();
-        newUserMap.put("about","");
-        newUserMap.put("email", "");
-        newUserMap.put("password", "");
-        newUserMap.put("profileImage", "");
-        newUserMap.put("tag", "");
-        newUserMap.put("username", "");
-
-        String userAuthUid = getAuthUidFromEmail(email);
-
-        usersRef.child(userAuthUid).updateChildren(newUserMap).addOnCompleteListener(task -> {
-            if(task.isSuccessful())
-                Toast.makeText(context, "Account saved in database", Toast.LENGTH_SHORT).show();
-            else
-                Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-        });
-    }
-
-    private String getAuthUidFromEmail(String email) {
-        return "xd";
-    }
-
-    public void saveUserInfoToDatabase(String newUserTag, String email, String password, String profileImageRef) {
-        HashMap<String, Object> newUserMap = new HashMap<>();
-        newUserMap.put("about","");
-        newUserMap.put("email", email);
-        newUserMap.put("password", password);
-        newUserMap.put("profileImage", profileImageRef);
-        newUserMap.put("tag", newUserTag);
-        newUserMap.put("username", "");
-
-        usersRef.updateChildren(newUserMap).addOnCompleteListener(task -> {
-            if(task.isSuccessful()) {
-                intentPostRecyclerActivity();
-                Toast.makeText(context, "Account stored in database", Toast.LENGTH_SHORT).show();
-            }else
-                Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-        });
-    }
-
-    public void uploadProfileImageOnStorage(Uri data){
-        String fileName = data.getLastPathSegment()+generateTimeStamp()+".jpg";
-        StorageReference filePath = stRef.child("post_images").child(fileName);
-        filePath.putFile(data).addOnCompleteListener(task -> {
-//  downloadUrl = task.getResult().getUploadSessionUri().getPath(); Mirar tuto de nuevo
-            if(task.isSuccessful()) {
-                currUser.setProfileImagePath(filePath.getPath());
-                Log.d(TAG,"Profile Image Storage Reference : "+filePath.getPath());
-                uploadUserOnDatabase();
-                Toast.makeText(context, "Your profile image " + context.getResources().getString(R.string.successfulUpload), Toast.LENGTH_SHORT).show();
-            }else
-                Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-        });
-    }
-
-    private void uploadUserOnDatabase() {
-        usersRef.child(currUserUid).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    HashMap<String, Object> userMap = new HashMap<>();
-                    userMap.put("about", currUser.getAbout());
-                    userMap.put("email", currUser.getEmail());
-                    userMap.put("password", currUser.getPassword());
-                    userMap.put("profileImage", currUser.getProfileImagePath());
-                    userMap.put("tag", currUser.getUserTag());
-                    userMap.put("username", currUser.getUsername());
-
-                    usersRef.child(generateTimeStamp()).updateChildren(userMap).addOnCompleteListener(task -> {
-                        if(task.isSuccessful())
-                            Toast.makeText(context, "Profile image successfully uploaded", Toast.LENGTH_SHORT).show();
-                        else
-                            Toast.makeText(context, "Error, profile image wasn't uploaded", Toast.LENGTH_SHORT).show();
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
+//    private void uploadUserOnDatabase() {
+//        usersRef.child(currUserUid).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if(snapshot.exists()){
+//                    HashMap<String, Object> userMap = new HashMap<>();
+//                    userMap.put("about", currUser.getAbout());
+//                    userMap.put("email", currUser.getEmail());
+//                    userMap.put("password", currUser.getPassword());
+//                    userMap.put("profileImage", currUser.getProfileImagePath());
+//                    userMap.put("tag", currUser.getUserTag());
+//                    userMap.put("username", currUser.getUsername());
+//
+//                    usersRef.child(generateTimeStamp()).updateChildren(userMap).addOnCompleteListener(task -> {
+//                        if(task.isSuccessful())
+//                            Toast.makeText(context, "Profile image successfully uploaded", Toast.LENGTH_SHORT).show();
+//                        else
+//                            Toast.makeText(context, "Error, profile image wasn't uploaded", Toast.LENGTH_SHORT).show();
+//                    });
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
 
     public String generateTimeStamp(){
         return new SimpleDateFormat("ddMMyy_mmss").format(new java.util.Date());
@@ -248,10 +193,6 @@ public class EnterUtilities {
         context.startActivity(login);
     }
 
-    public String getCurrentUserUid() {
-        return currUserUid;
-    }
-
     public void firebaseGoogleAuth(GoogleSignInAccount acc) {
         AuthCredential credential = GoogleAuthProvider.getCredential(acc.getIdToken(), null);
         fAuth.signInWithCredential(credential)
@@ -266,6 +207,7 @@ public class EnterUtilities {
     }
 
     public void logout(){
+        intentLoginActivity();
         fAuth.signOut();
     }
 

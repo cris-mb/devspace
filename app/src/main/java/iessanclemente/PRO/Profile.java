@@ -3,15 +3,12 @@ package iessanclemente.PRO;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,21 +17,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
 import iessanclemente.PRO.model.User;
 import iessanclemente.PRO.onboarding.EnterUtilities;
-import iessanclemente.PRO.onboarding.OnBoardingActivity;
 
 public class Profile extends AppCompatActivity {
 
@@ -125,8 +113,8 @@ public class Profile extends AppCompatActivity {
             return false;
 
         if(item.getTitle().equals(getResources().getString(R.string.title_miLogout))){
-            Intent logout = new Intent(getApplicationContext(), OnBoardingActivity.class);
-            startActivity(logout);
+            eu.logout();
+            finish();
         }else if(item.getTitle().equals(getResources().getString(R.string.title_miAddPost))){
             Intent addPost = new Intent(getApplicationContext(), AddPost.class);
             startActivity(addPost);
@@ -146,7 +134,7 @@ public class Profile extends AppCompatActivity {
         if(requestCode == 100 && resultCode==RESULT_OK){
             if(data != null){
                 ivProfile.setImageURI(data.getData());
-                eu.uploadProfileImageOnStorage(data.getData());
+//                eu.uploadProfileImageOnStorage(data.getData());
             }
         }
     }
