@@ -52,7 +52,6 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         postsRef = FirebaseDatabase.getInstance().getReference().child("posts");
 
         auth = FirebaseAuth.getInstance();
-        currUserUid = auth.getCurrentUser().getUid();
     }
 
     @Override

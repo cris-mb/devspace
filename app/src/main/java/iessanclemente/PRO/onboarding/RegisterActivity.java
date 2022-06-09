@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.Task;
@@ -21,8 +23,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
@@ -77,27 +82,23 @@ public class RegisterActivity extends Activity{
             String email = tietEmail.getText()+"";
             String password = tietPassword.getText()+"";
             String confirmPassword = tietConfirmPassword.getText()+"";
-            String profileImageRef = "gs://devspace-b93f2.appspot.com/profile_images/anonymous.png";
 
-            if(checkCorrectFieldsState(email, password, confirmPassword, profileImageRef)) {
-                User us = new User(email, password, profileImageRef);
-                registerNewUserAuthentication(us);
+            if(checkCorrectFieldsState(email, password, confirmPassword)) {
+                registerNewUserAuthentication(email, password);
             }
         });
 
         tvGoLogin = findViewById(R.id.tvGoLogin);
+        tvGoLogin.setPaintFlags(tvGoLogin.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         tvGoLogin.setOnClickListener(view ->  {
             eu.intentLoginActivity();
         });
     }
 
-    private boolean checkCorrectFieldsState(String email, String password, String confirmPassword, String profileImageRef) {
+    private boolean checkCorrectFieldsState(String email, String password, String confirmPassword) {
 
         if(email.equals("") || password.equals("") || confirmPassword.equals("")){
             setError(getResources().getString(R.string.err_IncompleteRegistration));
-            return false;
-        }else if(profileImageRef.isEmpty()){
-            setError(getResources().getString(R.string.err_no_profile_image_provided));
             return false;
         }else if(!confirmPassword.equals(password)) {
             setError(getResources().getString(R.string.err_PasswordDoNotMatch));
@@ -107,40 +108,31 @@ public class RegisterActivity extends Activity{
         return true;
     }
 
-    public void registerNewUserAuthentication(User us){
-        fAuth.createUserWithEmailAndPassword(us.getEmail(), us.getPassword()).addOnCompleteListener(task -> {
+    private void registerNewUserAuthentication(String email, String pass){
+        fAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
-                Log.d(TAG, "registerNewUserAuthentication: " + task.getResult());
-                saveUserInfoToDatabase(us);
+                Log.d(TAG, "registerNewUserAuthentication was successful? = " + task.isSuccessful());
+                saveUserInfoToDatabase(email);
                 eu.intentPostRecyclerActivity();
+            }else {
+                Log.e(TAG, "registerNewUserAuthentication: " + task.getException());
+                setError(task.getException().getMessage());
             }
-            Log.d(TAG, "registerNewUserAuthentication: " + task.getResult());
-            setError(task.getException().getMessage());
         });
     }
 
-    public void saveUserInfoToDatabase(User us) {
-        HashMap<String, Object> newUserMap = new HashMap<>();
-        newUserMap.put("about",us.getAbout());
-        newUserMap.put("email", us.getEmail());
-        newUserMap.put("password", us.getPassword());
-        newUserMap.put("profileImage", us.getProfileImagePath());
-        newUserMap.put("tag", us.getUserTag());
-        newUserMap.put("username", us.getUsername());
+    public void saveUserInfoToDatabase(String email) {
+        HashMap<String, Object> userData = new HashMap<>();
+        userData.put("about", "Hey there! I'm a new user of DevSpace");
+        userData.put("email", email);
+        userData.put("profileImage", "gs://devspace-b93f2.appspot.com/profile_images/anonymous.png");
+        userData.put("tag", "@devUser"+eu.generateRandomUser());
+        userData.put("username", "Anonymous");
 
-        usersRef.updateChildren(newUserMap).addOnCompleteListener(task -> {
-            if(task.isSuccessful()) {
-                Toast.makeText(context, "Account stored in database", Toast.LENGTH_SHORT).show();
-            }else
-                Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-        });
+        String currUserUid = fAuth.getCurrentUser().getUid();
+
+        eu.registerNewUser(currUserUid, userData);
     }
-
-//    public void openImageChooser(){
-//        Intent chooser = new Intent(Intent.ACTION_GET_CONTENT);
-//        chooser.setType("image/*");
-//        startActivityForResult(chooser, FILE_CHOOSER);
-//    }
 
     private void setError(String errorMessage) {
         setErrorOn(tilEmail);
@@ -160,17 +152,6 @@ public class RegisterActivity extends Activity{
         til.setError(null);
         til.setBoxStrokeColor(Color.RED);
         til.setStartIconTintList(ColorStateList.valueOf(Color.RED));
-    }
-
-    private void clearErrors(){
-        tilEmail.setBoxStrokeColor(Color.GRAY);
-        tilEmail.setStartIconTintList(ColorStateList.valueOf(Color.GRAY));
-
-        tilPassword.setBoxStrokeColor(Color.GRAY);
-        tilPassword.setStartIconTintList(ColorStateList.valueOf(Color.GRAY));
-
-        tilConfirmPassword.setBoxStrokeColor(Color.GRAY);
-        tilConfirmPassword.setStartIconTintList(ColorStateList.valueOf(Color.GRAY));
     }
 
     private void addEditTextsListener() {
@@ -195,14 +176,15 @@ public class RegisterActivity extends Activity{
         tietConfirmPassword.addTextChangedListener(textWatcher);
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if(requestCode == FILE_CHOOSER){
-//            if(resultCode == RESULT_OK){
-//                eu.uploadProfileImageOnStorage(data.getData());
-//                selectedCustomImage = true;
-//            }
-//        }
-//    }
+    private void clearErrors(){
+        tilEmail.setBoxStrokeColor(Color.GRAY);
+        tilEmail.setStartIconTintList(ColorStateList.valueOf(Color.GRAY));
+
+        tilPassword.setBoxStrokeColor(Color.GRAY);
+        tilPassword.setStartIconTintList(ColorStateList.valueOf(Color.GRAY));
+
+        tilConfirmPassword.setBoxStrokeColor(Color.GRAY);
+        tilConfirmPassword.setStartIconTintList(ColorStateList.valueOf(Color.GRAY));
+    }
+
 }

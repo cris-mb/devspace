@@ -18,6 +18,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -27,9 +31,11 @@ import iessanclemente.PRO.DatabaseOperations;
 import iessanclemente.PRO.R;
 import iessanclemente.PRO.model.Post;
 import iessanclemente.PRO.model.User;
+import iessanclemente.PRO.onboarding.EnterUtilities;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder>{
 
+    private EnterUtilities eu;
     private DatabaseOperations op;
 
     private List<Post> postsList;
@@ -39,6 +45,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     public PostAdapter(Context context) {
         this.postsList = new ArrayList<>();
         this.context = context;
+
+        eu = new EnterUtilities(context.getApplicationContext());
         loadPostsFromDatabase();
     }
 
@@ -66,16 +74,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
 
         holder.setPostId(postsList.get(position).getPostId());
-        User author = getUser(postsList.get(position).getAuthor());
-
-        if(author == null) {
-            holder.tvAccountName.setText("Anonymous");
-            Drawable d = context.getDrawable(R.drawable.account_36);
-            holder.ivAccountIconPost.setImageDrawable(d);
-        }else{
-            holder.tvAccountName.setText(author.getUsername());
-            holder.ivAccountIconPost.setImageURI(Uri.fromFile(new File(author.getProfileImagePath())));
-        }
+        User author = getCurrentUser(postsList.get(position).getAuthor());
 
         holder.ivAccountMultimediaPost.setImageURI(Uri.parse(postsList.get(position).getMultimediaPath()));
         holder.tvAccountDescription.setText(postsList.get(position).getDescription());
@@ -87,15 +86,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     }
 
-    private User getUser(String tagId) {
-        op = new DatabaseOperations(context.getApplicationContext());
-        op.sqlLiteDB = op.getWritableDatabase();
-
-        User us = op.getUser(tagId);
-
-        op.close();
-
-        return us;
+    private User getCurrentUser(String tagId) {
+        return new User();
     }
 
     public void filter(final String pattern){

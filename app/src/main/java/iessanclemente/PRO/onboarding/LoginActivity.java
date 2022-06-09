@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -39,6 +40,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.sql.Driver;
+import java.util.HashMap;
 
 import iessanclemente.PRO.PostRecyclerView;
 import iessanclemente.PRO.R;
@@ -73,7 +75,7 @@ public class LoginActivity extends Activity{
         }
 
         // 2) Setup communication with the database
-        eu = new EnterUtilities(getApplicationContext());
+        eu = new EnterUtilities(LoginActivity.this);
         fAuth = FirebaseAuth.getInstance();
 
         // 3) Instance visual components
@@ -103,11 +105,14 @@ public class LoginActivity extends Activity{
         addEditTextsListener();
 
         btnLogin.setOnClickListener(view -> {
-            loginUserWithCredentials(tietUserEmail.getText()+"",
-                                    tietPassword.getText()+"",
-                                        chkRememberMe.isChecked());
+            String email = tietUserEmail.getText()+"";
+            String password = tietPassword.getText()+"";
+
+            if(checkCorrectFieldsState(email, password))
+                loginUserWithCredentials(email, password, chkRememberMe.isChecked());
         });
 
+        tvGoRegister.setPaintFlags(tvGoRegister.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         tvGoRegister.setOnClickListener(view ->  {
             eu.intentRegisterActivity();
             finish();
@@ -130,6 +135,19 @@ public class LoginActivity extends Activity{
                 setError(task.getException().getMessage());
             }
         });
+    }
+
+    private boolean checkCorrectFieldsState(String email, String password) {
+
+        if(email.isEmpty()){
+            setError(getResources().getString(R.string.err_IncompleteRegistration));
+            return false;
+        }else if(password.isEmpty()){
+            setError(getResources().getString(R.string.err_IncompleteRegistration));
+            return false;
+        }
+
+        return true;
     }
 
     @Override
@@ -200,6 +218,19 @@ public class LoginActivity extends Activity{
             }else
                 Log.e(TAG, "GoogleSignInResult failed (may be null)");
         }
+    }
+
+    public void saveUserInfoToDatabase(String email) {
+        HashMap<String, Object> userData = new HashMap<>();
+        userData.put("about", "Hey there! I'm a new user of DevSpace");
+        userData.put("email", email);
+        userData.put("profileImage", "gs://devspace-b93f2.appspot.com/profile_images/anonymous.png");
+        userData.put("tag", "@devUser"+eu.generateRandomUser());
+        userData.put("username", "Anonymous");
+
+        String currUserUid = fAuth.getCurrentUser().getUid();
+
+        eu.registerNewUser(currUserUid, userData);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

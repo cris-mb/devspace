@@ -1,12 +1,19 @@
 package iessanclemente.PRO;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,26 +25,36 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Objects;
-import iessanclemente.PRO.model.User;
 import iessanclemente.PRO.onboarding.EnterUtilities;
 
 public class Profile extends AppCompatActivity {
 
     private static final String TAG = Profile.class.getSimpleName();
 
-    private DatabaseOperations op;
     private EnterUtilities eu;
-    private StorageReference reference;
+    private StorageReference stRef;
+    private FirebaseFirestore ffStore;
+    private FirebaseUser fUser;
 
     // Some visual components
     private DrawerLayout dwLayout;
     private NavigationView navView;
-    private ImageView ivProfile;
+    private ImageView ivProfileImage;
+    private TextView tvProfileTag;
+    private TextView tvProfileUsername;
+    private TextView tvProfileAboutMe;
 
-    private String currUserUid;
+    private ProgressDialog pDialog;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -46,12 +63,14 @@ public class Profile extends AppCompatActivity {
         setContentView(R.layout.profile_activity);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         eu = new EnterUtilities(getApplicationContext());
-        currUserUid = getIntent().getStringExtra("currUserUid");
+        stRef = FirebaseStorage.getInstance().getReference();
+        ffStore = FirebaseFirestore.getInstance();
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        ivProfile = findViewById(R.id.ivProfileIcon);
-        TextView tvProfileTag = findViewById(R.id.tvProfileTag);
-        TextView tvProfileUsername = findViewById(R.id.tvProfileUsername);
-        TextView tvProfileAboutMe = findViewById(R.id.tvProfileAboutMe);
+        ivProfileImage = findViewById(R.id.ivProfileIcon);
+        tvProfileTag = findViewById(R.id.tvProfileTag);
+        tvProfileUsername = findViewById(R.id.tvProfileUsername);
+        tvProfileAboutMe = findViewById(R.id.tvProfileAboutMe);
 
         dwLayout = findViewById(R.id.navigation_layout_profile);
         navView = findViewById(R.id.navigation_view);
@@ -60,23 +79,74 @@ public class Profile extends AppCompatActivity {
             return false;
         });
 
-        User us = eu.checkUserExistence(currUserUid);
+        displayCurrentUser();
 
-        if(us.getProfileImagePath() != null && !us.getProfileImagePath().equals("")){
-            ivProfile.setImageBitmap(BitmapFactory.decodeFile(us.getProfileImagePath()));
-        }else{
-            ivProfile.setImageDrawable(getDrawable(R.drawable.account_36));
-        }
-        ivProfile.setOnClickListener(view -> {
+        ivProfileImage.setOnClickListener(view -> {
             Intent pickImage = new Intent();
             pickImage.setAction(Intent.ACTION_GET_CONTENT);
             pickImage.setType("image/*");
             startActivityForResult(pickImage, 100);
         });
+    }
 
-        tvProfileTag.setText(us.getUserTag());
-        tvProfileUsername.setText(us.getUsername());
-        tvProfileAboutMe.setText(us.getAbout());
+    private void displayCurrentUser() {
+        pDialog = new ProgressDialog(Profile.this);
+        pDialog.setContentView(R.layout.loading_view);
+        pDialog.setCancelable(false);
+        pDialog.setCanceledOnTouchOutside(false);
+        pDialog.show();
+
+        setUserAccountOnHeader();
+
+        ffStore.collection("users")
+                    .document(fUser.getUid())
+                    .get().addOnCompleteListener(task -> {
+                        if(task.isSuccessful()){
+                            DocumentSnapshot ds = task.getResult();
+                            ds.get("profileImage");
+
+                            // ivProfile.setImageBitmap(BitmapFactory.decodeFile(currUser.getProfileImage()));
+                            displayProfileImage();
+                            tvProfileTag.setText(ds.get("tag").toString());
+                            tvProfileUsername.setText(ds.get("username").toString());
+                            tvProfileAboutMe.setText(ds.get("about").toString());
+                            pDialog.dismiss();
+                            Log.i(TAG, "fetchCurrentUser: success");
+                        }else
+                            Log.e(TAG, "fetchCurrentUser: failed -> "+task.getException().getMessage());
+                    });
+    }
+
+    private void setUserAccountOnHeader() {
+        View navHeaderView = navView.inflateHeaderView(R.layout.nav_header);
+        ImageView ivProfileImageHeader = navHeaderView.findViewById(R.id.ivProfileImageHeader);
+        TextView tvUserEmail = navHeaderView.findViewById(R.id.tvUserEmail);
+
+        ivProfileImageHeader.setImageDrawable(ivProfileImage.getDrawable());
+        tvUserEmail.setText(fUser.getEmail());
+    }
+
+    private void displayProfileImage() {
+        ffStore.collection("users")
+                .document(fUser.getUid())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()) {
+                        String stReference = task.getResult().get("profileImage")+"";
+                        stReference = stReference.substring(stReference.lastIndexOf("/")+1);
+
+                        stRef.child("profile_images/"+stReference).getDownloadUrl().addOnCompleteListener(download -> {
+                            if(download.isSuccessful()){
+                                Picasso.with(getApplicationContext()).load(download.getResult()).into(ivProfileImage);
+                                Log.d(TAG, "displayProfileImage: success("+download.getResult()+")");
+                            }else {
+                                Log.e(TAG, "displayProfileImage: failed -> " + download.getException());
+                            }
+                        });
+                    }else {
+                        Log.e(TAG, "displayProfileImage: failed -> " + task.getException());
+                    }
+                });
     }
 
     private void navigationItemSelected(@NonNull MenuItem item) {
@@ -90,13 +160,8 @@ public class Profile extends AppCompatActivity {
             // TODO : Preferences xml
         } else if (getResources().getString(R.string.itLogout_title).contentEquals(title)) {
             // Remove last session credentials
-            SharedPreferences shPref = getSharedPreferences("current_user",MODE_PRIVATE);
-            shPref.edit()
-                    .remove("tag")
-                    .putBoolean("staySigned", false)
-                    .apply();
-
-            finish();
+            eu.logout();
+            eu.intentLoginActivity();
         }
     }
 
@@ -133,8 +198,13 @@ public class Profile extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 100 && resultCode==RESULT_OK){
             if(data != null){
-                ivProfile.setImageURI(data.getData());
-//                eu.uploadProfileImageOnStorage(data.getData());
+                ivProfileImage.setImageURI(data.getData());
+
+                Bitmap bitmap = ((BitmapDrawable) ivProfileImage.getDrawable()).getBitmap();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+                eu.uploadProfileImage(baos.toByteArray());
             }
         }
     }

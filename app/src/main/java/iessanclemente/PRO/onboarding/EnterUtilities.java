@@ -2,34 +2,22 @@ package iessanclemente.PRO.onboarding;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.util.Log;
-import android.widget.Toast;
-import androidx.annotation.NonNull;
-
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
-import java.util.Objects;
-
-import iessanclemente.PRO.DatabaseOperations;
+import java.util.Random;
 import iessanclemente.PRO.PostRecyclerView;
-import iessanclemente.PRO.R;
-import iessanclemente.PRO.model.User;
 
 public class EnterUtilities {
 
@@ -38,8 +26,9 @@ public class EnterUtilities {
 
     private final StorageReference stRef;
     private final DatabaseReference usersRef, postsRef;
-    private DatabaseOperations op;
     private final FirebaseAuth fAuth;
+    private final FirebaseFirestore ffStore;
+    private final FirebaseUser fUser;
 
     public EnterUtilities(Context ctx){
         this.context = ctx;
@@ -48,16 +37,8 @@ public class EnterUtilities {
         postsRef = FirebaseDatabase.getInstance().getReference().child("posts");
 
         fAuth = FirebaseAuth.getInstance();
-        // TODO : Retrieve user data
-    }
-
-    public void start(){
-        op = new DatabaseOperations(context);
-        op.sqlLiteDB = op.getWritableDatabase();
-    }
-
-    public void stop(){
-        op.close();
+        ffStore = FirebaseFirestore.getInstance();
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     public boolean checkUserAuthentication() {
@@ -65,114 +46,85 @@ public class EnterUtilities {
         return check != null;
     }
 
-    public void checkUserExistenceInDatabase() {
-        String currUserUid = fAuth.getCurrentUser().getUid();
-        usersRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.hasChild(currUserUid)){
-                    saveUserInDatabase(currUserUid);
+    public void registerNewUser(String uid, HashMap<String, Object> userData){
+        ffStore.collection("users")
+            .document(uid)
+            .set(userData).addOnCompleteListener(task -> {
+                if(task.isSuccessful()) {
+                    Log.d(TAG, "registerNewUser: success");
+                }else{
+                    Log.d(TAG, "registerNewUser: failed -> "+task.getException());
                 }
-            }
+            });
+    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+    public void uploadProfileImage(byte[] data) {
+        StorageMetadata stMeta = new StorageMetadata.Builder()
+                .setContentType("image/jpeg")
+                .build();
 
+        String newProfileImagePath = "profile_image/"+generateTimeStamp()+".jpeg";
+
+        stRef.child(newProfileImagePath).putBytes(data, stMeta).addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                String imageRef = task.getResult().getMetadata().getReference().toString();
+                modifyCurrentUserProfileImage(imageRef);
+            }else {
+                Log.d(TAG, "uploadProfileImage: failed -> " + task.getException());
             }
         });
     }
 
-    private void saveUserInDatabase(String userUid){
-        FirebaseUser fUser = fAuth.getCurrentUser();
-        HashMap<String, Object> userMap = new HashMap<>();
-        userMap.put("about", "");
-        userMap.put("email", fUser.getEmail());
-        userMap.put("password", "");
-        userMap.put("profileImage", "");
-        userMap.put("tag", "");
-        userMap.put("username", "");
-
-        usersRef.child(userUid).updateChildren(userMap).addOnCompleteListener(task -> {
-            if(task.isSuccessful())
-                Log.d(TAG, "saveUserInDatabase: "+task.getResult());
-            else
-                Log.d(TAG, "saveUserInDatabase: "+task.getException().getMessage());
-        });
+    public void modifyCurrentUserProfileImage(String profileImagePath) {
+        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+        ffStore.collection("users")
+                .document(fUser.getUid())
+                .update("profileImage", profileImagePath)
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()) {
+                        Log.d(TAG, "modifyCurrentUserProfileImage: success");
+                    }else {
+                        Log.d(TAG, "modifyCurrentUserProfileImage: failed -> " + task.getException());
+                    }
+                });
     }
 
-    public User checkUserExistence(@NonNull String email) {
-        final User[] us = {new User()};
-        usersRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()
-                        && snapshot.hasChild("email")
-                        && Objects.equals(snapshot.child("email").getValue(), email)){
-                    us[0].setAbout(snapshot.child("about").getValue()+"");
-                    us[0].setEmail(email);
-                    us[0].setPassword(snapshot.child("password").getValue()+"");
-                    us[0].setProfileImagePath(snapshot.child("profileImage").getValue()+"");
-                    us[0].setUserTag(snapshot.child("tag").getValue()+"");
-                    us[0].setUsername(snapshot.child("username").getValue()+"");
-                }else
-                    us[0] = null;
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        return us[0];
+    public void firebaseGoogleAuth(GoogleSignInAccount acc) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(acc.getIdToken(), null);
+        fAuth.signInWithCredential(credential)
+            .addOnCompleteListener(task -> {
+               if(task.isSuccessful()){
+                   checkUserInFirestore(task.getResult().getUser().getUid(), task.getResult().getUser().getEmail());
+                   Log.d(TAG, "signInWithCredential: result -> "+task.getResult().getUser().getUid());
+               }else {
+                   intentRegisterActivity();
+                   Log.e(TAG, "signInWithCredential: failed -> " + task.getException());
+               }
+            });
     }
 
-//    public void uploadProfileImageOnStorage(Uri data){
-//        String fileName = data.getLastPathSegment()+generateTimeStamp()+".jpg";
-//        StorageReference filePath = stRef.child("post_images").child(fileName);
-//        filePath.putFile(data).addOnCompleteListener(task -> {
-////  downloadUrl = task.getResult().getUploadSessionUri().getPath(); Mirar tuto de nuevo
-//            if(task.isSuccessful()) {
-//                currUser.setProfileImagePath(filePath.getPath());
-//                Log.d(TAG,"Profile Image Storage Reference : "+filePath.getPath());
-//                uploadUserOnDatabase();
-//                Toast.makeText(context, "Your profile image " + context.getResources().getString(R.string.successfulUpload), Toast.LENGTH_SHORT).show();
-//            }else
-//                Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-//        });
-//    }
+    public void checkUserInFirestore(String uid, String email) {
 
-//    private void uploadUserOnDatabase() {
-//        usersRef.child(currUserUid).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if(snapshot.exists()){
-//                    HashMap<String, Object> userMap = new HashMap<>();
-//                    userMap.put("about", currUser.getAbout());
-//                    userMap.put("email", currUser.getEmail());
-//                    userMap.put("password", currUser.getPassword());
-//                    userMap.put("profileImage", currUser.getProfileImagePath());
-//                    userMap.put("tag", currUser.getUserTag());
-//                    userMap.put("username", currUser.getUsername());
-//
-//                    usersRef.child(generateTimeStamp()).updateChildren(userMap).addOnCompleteListener(task -> {
-//                        if(task.isSuccessful())
-//                            Toast.makeText(context, "Profile image successfully uploaded", Toast.LENGTH_SHORT).show();
-//                        else
-//                            Toast.makeText(context, "Error, profile image wasn't uploaded", Toast.LENGTH_SHORT).show();
-//                    });
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//    }
+        ffStore.collection("users")
+                .document(uid)
+                .get().addOnCompleteListener(task -> {
+                   if(task.isSuccessful() && !task.getResult().exists()){
+                       HashMap<String, Object> userData = new HashMap<>();
+                       userData.put("about", "Hey there! I'm a new user of DevSpace");
+                       userData.put("email", email);
+                       userData.put("profileImage", "gs://devspace-b93f2.appspot.com/profile_images/anonymous.png");
+                       userData.put("tag", "@devUser"+generateRandomUser());
+                       userData.put("username", "Anonymous");
 
-    public String generateTimeStamp(){
-        return new SimpleDateFormat("ddMMyy_mmss").format(new java.util.Date());
+                       registerNewUser(uid, userData);
+                   }
+                   Log.e(TAG, task.getResult()+"");
+                });
+    }
+
+    public void logout(){
+        intentLoginActivity();
+        fAuth.signOut();
     }
 
     public void intentPostRecyclerActivity(){
@@ -193,22 +145,18 @@ public class EnterUtilities {
         context.startActivity(login);
     }
 
-    public void firebaseGoogleAuth(GoogleSignInAccount acc) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(acc.getIdToken(), null);
-        fAuth.signInWithCredential(credential)
-            .addOnCompleteListener(task -> {
-               if(task.isSuccessful()){
-                   intentPostRecyclerActivity();
-                   Log.d(TAG, "signInWithCredential: success");
-               }else
-                   intentRegisterActivity();
-                   Log.d(TAG, "signInWithCredential: failed -> "+task.getException());
-            });
+    public String generateRandomUser() {
+        String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghi"
+                +"jklmnopqrstuvwxyz!_-@#$%&";
+        Random rnd = new Random();
+        StringBuilder sb = new StringBuilder(12);
+        for (int i = 0; i < 12; i++)
+            sb.append(chars.charAt(rnd.nextInt(chars.length())));
+        return sb.toString();
     }
 
-    public void logout(){
-        intentLoginActivity();
-        fAuth.signOut();
+    public String generateTimeStamp(){
+        return new SimpleDateFormat("ddMMyy_mmss").format(new java.util.Date());
     }
 
 }

@@ -37,11 +37,10 @@
     <string name="err_UserAlreadyExists">This user already exists</string>
     <string name="name_btnLogin">Login</string>
     <string name="err_PasswordDoNotMatch">The passwords provided did not match</string>
-    <string name="label_user_tag">Tag</string>
+    <string name="label_user_tag" translatable="false">Tag</string>
     <string name="label_Username">Username</string>
     <string name="text_btnGoogleLogin">Sign in with google</string>
     <string name="err_IncompleteRegistration">All fields are required</string>
-    <string name="err_no_profile_image_provided">Select a profile image</string>
 
     <!-- Post card strings -->
     <string name="tag_LearnMore">Learn More</string>

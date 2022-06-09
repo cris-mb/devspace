@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/navigation_layout_recycler"
+    android:id="@+id/navigationLayoutRecycler"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
-        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/linearLay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:orientation="vertical"
         android:background="@color/white"
-        tools:context=".PostRecyclerView"
         android:focusable="false">
 
         <SearchView
@@ -32,5 +30,4 @@
     </LinearLayout>
 
     <include layout="@layout/navigation_menu" />
-
 </androidx.drawerlayout.widget.DrawerLayout>

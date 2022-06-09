@@ -1,11 +1,14 @@
 package iessanclemente.PRO;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SearchView;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -13,12 +16,16 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import iessanclemente.PRO.adapters.PostAdapter;
 import iessanclemente.PRO.chat.ChatActivity;
 import iessanclemente.PRO.onboarding.EnterUtilities;
 
 public class PostRecyclerView extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
+    private static String TAG = PostRecyclerView.class.getSimpleName();
     private PostAdapter adapter;
     private EnterUtilities eu;
 
@@ -26,21 +33,20 @@ public class PostRecyclerView extends AppCompatActivity implements SearchView.On
     private DrawerLayout dwLayout;
     private NavigationView navView;
 
-    private String currUserUid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recycler_view_activity);
         eu = new EnterUtilities(PostRecyclerView.this);
-        currUserUid = getIntent().getStringExtra("currUserUid");
 
         // PostRecyclerView components
         SearchView searchView = findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(this);
 
-        dwLayout = findViewById(R.id.navigation_layout_recycler);
+        dwLayout = findViewById(R.id.navigationLayoutRecycler);
         navView = findViewById(R.id.navigation_view);
+        setUserAccountOnHeader();
         navView.setNavigationItemSelectedListener(item -> {
             navigationItemSelected(item);
             return false;
@@ -50,8 +56,8 @@ public class PostRecyclerView extends AppCompatActivity implements SearchView.On
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new PostAdapter(this);
-        recyclerView.setAdapter(adapter);
+//        adapter = new PostAdapter(this);
+//        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -61,20 +67,30 @@ public class PostRecyclerView extends AppCompatActivity implements SearchView.On
         if(!userAuthenticated){
             eu.intentLoginActivity();
         }else{
-            eu.checkUserExistenceInDatabase();
+            FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+            eu.checkUserInFirestore(fUser.getUid(), fUser.getEmail());
         }
+    }
+
+    private void setUserAccountOnHeader() {
+        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+        View navHeaderView = navView.inflateHeaderView(R.layout.nav_header);
+        TextView tvAccount = navHeaderView.findViewById(R.id.tvUserEmail);
+        tvAccount.setText(fUser.getEmail());
+        // TODO : search for the user profile image
     }
 
     private void navigationItemSelected(@NonNull MenuItem item) {
         CharSequence title = item.getTitle();
         if (getResources().getString(R.string.itPosts_title).contentEquals(title)) {
-            Intent home = new Intent(getApplicationContext(), PostRecyclerView.class);
-            startActivity(home);
+            dwLayout.closeDrawer(GravityCompat.END);
         } else if (getResources().getString(R.string.itProfile_title).contentEquals(title)) {
             Intent profile = new Intent(getApplicationContext(), Profile.class);
+            profile.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(profile);
         } else if (getResources().getString(R.string.itMessages_title).contentEquals(title)) {
             Intent chat = new Intent(getApplicationContext(), ChatActivity.class);
+            chat.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(chat);
         } else if (getResources().getString(R.string.itSettings_title).contentEquals(title)) {
             // TODO : Preferences xml
@@ -96,7 +112,6 @@ public class PostRecyclerView extends AppCompatActivity implements SearchView.On
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getTitle().equals(getResources().getString(R.string.itProfile_title))){
             Intent profile = new Intent(getApplicationContext(), Profile.class);
-            profile.putExtra("currUserUid", currUserUid);
             startActivity(profile);
         }else if(item.getTitle().equals(getResources().getString(R.string.itSettings_title))){
             if(dwLayout.isDrawerOpen(navView))

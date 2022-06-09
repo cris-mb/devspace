@@ -36,13 +36,6 @@
                     android:textColor="@color/dkblue"/>
             </LinearLayout>
 
-<!--            <de.hdodenhof.circleimageview.CircleImageView-->
-<!--                android:id="@+id/ivAccountIconRegister"-->
-<!--                android:layout_width="125dp"-->
-<!--                android:layout_height="125dp"-->
-<!--                android:src="@drawable/account_125"-->
-<!--                android:layout_margin="@dimen/general_margin"/>-->
-
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
                 android:id="@+id/tilEmail"
@@ -133,7 +126,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/name_btnRegister"
-                    android:fontFamily="@font/ubuntu"
                     android:textColor="@color/white"
                     android:background="@drawable/btn_login"/>
 
@@ -141,8 +133,9 @@
                     android:id="@+id/tvGoLogin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:text="@string/text_GoLogin"/>
+                    android:textColor="@color/blue"
+                    android:text="@string/text_GoLogin"
+                    android:layout_marginTop="@dimen/general_margin"/>
 
             </LinearLayout>
 

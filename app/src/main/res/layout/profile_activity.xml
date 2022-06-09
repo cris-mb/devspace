@@ -55,6 +55,15 @@
                 android:layout_marginTop="@dimen/general_margin"
                 android:background="@color/blue"/>
 
+            <GridLayout
+                android:id="@+id/postsGridPane"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="4"
+                android:soundEffectsEnabled="true"
+                android:focusable="true"
+                android:clickable="true" />
+
         </LinearLayout>
 
     </ScrollView>

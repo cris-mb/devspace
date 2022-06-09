@@ -20,6 +20,7 @@
     <dimen name="banner_height">150dp</dimen>
     <dimen name="banner_marginBottom">50dp</dimen>
     <dimen name="marginTop_tvGoBack">5dp</dimen>
+    <dimen name="btnLogin_marginBottom">10dp</dimen>
 
     <!-- Post Card dimens -->
     <dimen name="padding_postDescription">10dp</dimen>
@@ -39,5 +40,6 @@
     <!-- Chat dimens-->
     <dimen name="size_iv_chat">40dp</dimen>
     <dimen name="tvReceiverName_textSize">28sp</dimen>
+
 
 </resources>
