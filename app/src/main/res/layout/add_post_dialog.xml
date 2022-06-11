@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="350dp"
+    android:layout_height="525dp"
+    android:layout_gravity="center"
+    android:background="@color/dkblue"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:context=".Profile">
+
+        <TextView
+            android:id="@+id/addPostTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/play_b"
+            android:gravity="center"
+            android:text="@string/title_AddPost"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toTopOf="@+id/ivAddPostMultimedia"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.025" />
+
+        <ImageView
+            android:id="@+id/ivAddPostMultimedia"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="20dp"
+            android:clickable="false"
+            android:focusable="true"
+            android:longClickable="true"
+            android:src="@drawable/image_search"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addPostTitle" />
+
+        <EditText
+            android:id="@+id/etAddPostDescription"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="52dp"
+            android:hint="@string/add_post_description_hint"
+            android:maxLines="3"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivAddPostMultimedia"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/etAddPostURL"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="36dp"
+            android:hint="@string/add_post_url_hint"
+            android:inputType="textShortMessage"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etAddPostDescription" />
+
+        <Button
+            android:id="@+id/btnAddPost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="120dp"
+            android:layout_marginTop="48dp"
+            android:background="@drawable/btn_login"
+            android:drawableEnd="@drawable/upload_post"
+            android:fontFamily="@font/play_b"
+            android:text="@string/add_post_btnAddPost_text"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etAddPostURL" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

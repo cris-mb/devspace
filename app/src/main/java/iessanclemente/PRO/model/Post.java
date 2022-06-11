@@ -4,86 +4,61 @@ import java.sql.Date;
 
 public class Post {
 
-    private int postId;
-    private String tagId_FK;
-    private String multimediaPath;
-    private String description;
-    private long likes;
-    private Date date;
-    private String codeURL;
+    private int mUid;
+    private String mAuthor;
+    private String mMultimediaURL;
+    private String mDescription;
+    private long mLikes;
+    private Date mDate;
+    private String mCodeURL;
 
-    public Post(int postId, String tagId_FK, String multimediaPath, String description, long likes, Date date, String codeURL) {
-        this.postId = postId;
-        this.tagId_FK = tagId_FK;
-        this.multimediaPath = multimediaPath;
-        this.description = description;
-        this.likes = likes;
-        this.date = date;
-        this.codeURL = codeURL;
+    public Post(){
     }
 
-    public Post(String currentUserTagId, String multimediaPath, String description, int likes, Date date, String codeURL) {
-        this.tagId_FK = currentUserTagId;
-        this.multimediaPath = multimediaPath;
-        this.description = description;
-        this.likes = likes;
-        this.date = date;
-        this.codeURL = codeURL;
+    public Post(int uid, String tagId_FK, String multimediaURL, String description, long likes, Date date, String codeURL) {
+        this.mUid = uid;
+        this.mAuthor = tagId_FK;
+        this.mMultimediaURL = multimediaURL;
+        this.mDescription = description;
+        this.mLikes = likes;
+        this.mDate = date;
+        this.mCodeURL = codeURL;
     }
 
-    public int getPostId() {
-        return postId;
+    public Post(String currentUserTagId, String multimediaURL, String description, int likes, Date date, String codeURL) {
+        this.mAuthor = currentUserTagId;
+        this.mMultimediaURL = multimediaURL;
+        this.mDescription = description;
+        this.mLikes = likes;
+        this.mDate = date;
+        this.mCodeURL = codeURL;
     }
 
-    public void setPostId(int postId) {
-        this.postId = postId;
+    public int getUid() {
+        return mUid;
     }
 
     public String getAuthor() {
-        return tagId_FK;
+        return mAuthor;
     }
 
-    public void setAuthor(String tagId_FK) {
-        this.tagId_FK = tagId_FK;
-    }
-
-    public String getMultimediaPath() {
-        return multimediaPath;
-    }
-
-    public void setMultimediaPath(String multimediaPath) {
-        this.multimediaPath = multimediaPath;
+    public String getMultimediaURL() {
+        return mMultimediaURL;
     }
 
     public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+        return mDescription;
     }
 
     public long getLikes() {
-        return likes;
-    }
-
-    public void setLikes(long likes) {
-        this.likes = likes;
+        return mLikes;
     }
 
     public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
+        return mDate;
     }
 
     public String getCodeURL() {
-        return codeURL;
-    }
-
-    public void setCodeURL(String codeURL) {
-        this.codeURL = codeURL;
+        return mCodeURL;
     }
 }

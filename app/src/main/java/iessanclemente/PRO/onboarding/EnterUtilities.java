@@ -63,12 +63,12 @@ public class EnterUtilities {
                 .setContentType("image/jpeg")
                 .build();
 
-        String newProfileImagePath = "profile_image/"+generateTimeStamp()+".jpeg";
+        String newProfileImagePath = "profile_images/"+generateTimeStamp()+".jpeg";
 
         stRef.child(newProfileImagePath).putBytes(data, stMeta).addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
-                String imageRef = task.getResult().getMetadata().getReference().toString();
-                modifyCurrentUserProfileImage(imageRef);
+                String imageUrl = task.getResult().getStorage().getDownloadUrl()+"";
+                modifyCurrentUserProfileImage(imageUrl);
             }else {
                 Log.d(TAG, "uploadProfileImage: failed -> " + task.getException());
             }
@@ -94,6 +94,7 @@ public class EnterUtilities {
         fAuth.signInWithCredential(credential)
             .addOnCompleteListener(task -> {
                if(task.isSuccessful()){
+                   intentLoginActivity();
                    checkUserInFirestore(task.getResult().getUser().getUid(), task.getResult().getUser().getEmail());
                    Log.d(TAG, "signInWithCredential: result -> "+task.getResult().getUser().getUid());
                }else {
@@ -113,12 +114,24 @@ public class EnterUtilities {
                        userData.put("about", "Hey there! I'm a new user of DevSpace");
                        userData.put("email", email);
                        userData.put("profileImage", "gs://devspace-b93f2.appspot.com/profile_images/anonymous.png");
-                       userData.put("tag", "@devUser"+generateRandomUser());
+                       userData.put("tag", "devUser"+generateRandomUser());
                        userData.put("username", "Anonymous");
 
                        registerNewUser(uid, userData);
                    }
-                   Log.e(TAG, task.getResult()+"");
+                });
+    }
+
+    public void updateUsersProfile(String tag, String username, String about) {
+        ffStore.collection("users")
+                .document(fUser.getUid())
+                .update("tag", tag, "username", username, "about", about)
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        Log.d(TAG, "updateUsersProfile: success");
+                    }else {
+                        Log.e(TAG, "updateUsersProfile: failed -> " + task.getException());
+                    }
                 });
     }
 

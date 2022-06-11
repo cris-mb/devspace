@@ -5,24 +5,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.net.Uri;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import iessanclemente.PRO.model.Post;
 import iessanclemente.PRO.model.User;
@@ -184,7 +176,7 @@ public class DatabaseOperations extends SQLiteOpenHelper{
     public long addPost(Post p){
         ContentValues valores = new ContentValues();
         valores.put("tagId_FK", p.getAuthor());
-        valores.put("multimediaPath", p.getMultimediaPath());
+        valores.put("multimediaPath", p.getMultimediaURL());
         valores.put("description", p.getDescription());
         valores.put("likes", p.getLikes());
         valores.put("date", new SimpleDateFormat("yyyy-MM-dd").format(p.getDate()));

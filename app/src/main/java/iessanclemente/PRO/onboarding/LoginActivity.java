@@ -220,19 +220,6 @@ public class LoginActivity extends Activity{
         }
     }
 
-    public void saveUserInfoToDatabase(String email) {
-        HashMap<String, Object> userData = new HashMap<>();
-        userData.put("about", "Hey there! I'm a new user of DevSpace");
-        userData.put("email", email);
-        userData.put("profileImage", "gs://devspace-b93f2.appspot.com/profile_images/anonymous.png");
-        userData.put("tag", "@devUser"+eu.generateRandomUser());
-        userData.put("username", "Anonymous");
-
-        String currUserUid = fAuth.getCurrentUser().getUid();
-
-        eu.registerNewUser(currUserUid, userData);
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void askForReadPermission() {
         int permission = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);

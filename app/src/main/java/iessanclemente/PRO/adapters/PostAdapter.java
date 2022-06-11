@@ -3,11 +3,11 @@ package iessanclemente.PRO.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,47 +18,41 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import iessanclemente.PRO.DatabaseOperations;
 import iessanclemente.PRO.R;
 import iessanclemente.PRO.model.Post;
-import iessanclemente.PRO.model.User;
 import iessanclemente.PRO.onboarding.EnterUtilities;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder>{
 
     private EnterUtilities eu;
-    private DatabaseOperations op;
+    private FirebaseFirestore ffStore;
+    private FirebaseUser fUser;
 
     private List<Post> postsList;
     private List<Post> postsListBackup;
+
     private final Context context;
+    private static final String TAG = PostAdapter.class.getSimpleName();
 
-    public PostAdapter(Context context) {
-        this.postsList = new ArrayList<>();
+    public PostAdapter(Context context, List<Post> posts) {
         this.context = context;
-
-        eu = new EnterUtilities(context.getApplicationContext());
-        loadPostsFromDatabase();
-    }
-
-    private void loadPostsFromDatabase() {
-        op = new DatabaseOperations(context.getApplicationContext());
-        op.sqlLiteDB = op.getWritableDatabase();
-
-        postsList = op.postsList();
+        this.postsList = posts;
         postsListBackup = new ArrayList<>();
         postsListBackup.addAll(postsList);
 
-        op.close();
+        eu = new EnterUtilities(context);
+        ffStore = FirebaseFirestore.getInstance();
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     @NonNull
@@ -73,10 +67,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
 
-        holder.setPostId(postsList.get(position).getPostId());
-        User author = getCurrentUser(postsList.get(position).getAuthor());
+        holder.setPostId(postsList.get(position).getUid());
+        setPostAuthor(holder);
 
-        holder.ivAccountMultimediaPost.setImageURI(Uri.parse(postsList.get(position).getMultimediaPath()));
+        holder.ivAccountMultimediaPost.setImageURI(Uri.parse(postsList.get(position).getMultimediaURL()));
         holder.tvAccountDescription.setText(postsList.get(position).getDescription());
         holder.tvAmountLikes.setText(postsList.get(position).getLikes()+" "+context.getResources().getString(R.string.text_tvAmountLikes));
         holder.btnCodeURL.setOnClickListener(view -> {
@@ -86,8 +80,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     }
 
-    private User getCurrentUser(String tagId) {
-        return new User();
+    private void setPostAuthor(PostViewHolder holder) {
+
+        ffStore.collection("users")
+                .document(fUser.getUid())
+                .get().addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        DocumentSnapshot ds = task.getResult();
+                        holder.tvAccountName.setText(ds.get("tag").toString());
+                        Picasso.with(context).load(ds.get("profileImage")+"").into(holder.ivAccountIconPost);
+                        Log.d(TAG, "getCurrentUser: success");
+                    }else {
+                        Log.e(TAG, "getCurrentUser: failed -> " + task.getException());
+                    }
+                });
+        String aha = "";
     }
 
     public void filter(final String pattern){
@@ -116,7 +123,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     }
 
 
-    public class PostViewHolder extends RecyclerView.ViewHolder {
+    public static class PostViewHolder extends RecyclerView.ViewHolder {
         ImageView ivAccountIconPost;
         TextView tvAccountName;
         ImageView ivLike;
@@ -140,8 +147,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 new Thread() {
                     @Override
                     public void run() {
-                        op = new DatabaseOperations(context.getApplicationContext());
-                        op.sqlLiteDB = op.getWritableDatabase();
                         int addSubtractLike;
 
                         if(!postLiked){
@@ -154,13 +159,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                             postLiked = false;
                         }
 
-                        op.updateLikes(postId, addSubtractLike);
+//                        op.updateLikes(postId, addSubtractLike);
 
                         Message msg = new Message();
                         msg.arg1 = 1;
                         bridge.sendMessage(msg);
 
-                        op.close();
                     }
                 }.start();
             });
@@ -183,17 +187,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         }
 
         public void updateAmountLikes(){
-            op = new DatabaseOperations(context.getApplicationContext());
-            op.sqlLiteDB = op.getWritableDatabase();
 
-            Cursor cur = op.sqlLiteDB.rawQuery("SELECT likes FROM post WHERE postId=?", new String[]{String.valueOf(postId)});
-            int likes = 0;
-            if(cur.moveToFirst()){
-                likes = cur.getInt(0);
-            }
-            tvAmountLikes.setText(likes+" "+context.getResources().getString(R.string.text_tvAmountLikes));
-
-            op.close();
+//            Cursor cur = op.sqlLiteDB.rawQuery("SELECT likes FROM post WHERE postId=?", new String[]{String.valueOf(postId)});
+//            int likes = 0;
+//            if(cur.moveToFirst()){
+//                likes = cur.getInt(0);
+//            }
+//            tvAmountLikes.setText(likes+" "+context.getResources().getString(R.string.text_tvAmountLikes));
         }
     }
 

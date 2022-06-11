@@ -6,6 +6,4 @@
         android:centerY="10%p"
         android:centerX="10%p"
         android:angle="90"/>
-    <corners
-        android:radius="0dp"/>
 </shape>

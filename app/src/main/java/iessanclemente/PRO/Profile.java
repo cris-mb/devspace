@@ -1,29 +1,28 @@
 package iessanclemente.PRO;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
+import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,14 +31,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
-
 import java.io.ByteArrayOutputStream;
 import java.util.Objects;
+import iessanclemente.PRO.chat.ContactsListActivity;
 import iessanclemente.PRO.onboarding.EnterUtilities;
 
 public class Profile extends AppCompatActivity {
 
     private static final String TAG = Profile.class.getSimpleName();
+    private static final int CHOOSE_PROFILE_IMAGE = 100;
 
     private EnterUtilities eu;
     private StorageReference stRef;
@@ -50,11 +50,12 @@ public class Profile extends AppCompatActivity {
     private DrawerLayout dwLayout;
     private NavigationView navView;
     private ImageView ivProfileImage;
-    private TextView tvProfileTag;
-    private TextView tvProfileUsername;
-    private TextView tvProfileAboutMe;
+    private EditText etProfileTag;
+    private EditText etProfileUsername;
+    private EditText etProfileAboutMe;
 
-    private ProgressDialog pDialog;
+    private Dialog pDialog;
+    private boolean profileWasModified = false;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -68,9 +69,13 @@ public class Profile extends AppCompatActivity {
         fUser = FirebaseAuth.getInstance().getCurrentUser();
 
         ivProfileImage = findViewById(R.id.ivProfileIcon);
-        tvProfileTag = findViewById(R.id.tvProfileTag);
-        tvProfileUsername = findViewById(R.id.tvProfileUsername);
-        tvProfileAboutMe = findViewById(R.id.tvProfileAboutMe);
+        etProfileTag = findViewById(R.id.etProfileTag);
+        etProfileUsername = findViewById(R.id.etProfileUsername);
+        etProfileAboutMe = findViewById(R.id.etProfileAboutMe);
+
+        etProfileTag.setOnLongClickListener(listener);
+        etProfileUsername.setOnLongClickListener(listener);
+        etProfileAboutMe.setOnLongClickListener(listener);
 
         dwLayout = findViewById(R.id.navigation_layout_profile);
         navView = findViewById(R.id.navigation_view);
@@ -81,16 +86,18 @@ public class Profile extends AppCompatActivity {
 
         displayCurrentUser();
 
-        ivProfileImage.setOnClickListener(view -> {
+        ivProfileImage.setOnLongClickListener(view -> {
             Intent pickImage = new Intent();
             pickImage.setAction(Intent.ACTION_GET_CONTENT);
             pickImage.setType("image/*");
-            startActivityForResult(pickImage, 100);
+            startActivityForResult(pickImage, CHOOSE_PROFILE_IMAGE);
+
+            return false;
         });
     }
 
     private void displayCurrentUser() {
-        pDialog = new ProgressDialog(Profile.this);
+        pDialog = new Dialog(Profile.this);
         pDialog.setContentView(R.layout.loading_view);
         pDialog.setCancelable(false);
         pDialog.setCanceledOnTouchOutside(false);
@@ -103,13 +110,11 @@ public class Profile extends AppCompatActivity {
                     .get().addOnCompleteListener(task -> {
                         if(task.isSuccessful()){
                             DocumentSnapshot ds = task.getResult();
-                            ds.get("profileImage");
 
-                            // ivProfile.setImageBitmap(BitmapFactory.decodeFile(currUser.getProfileImage()));
                             displayProfileImage();
-                            tvProfileTag.setText(ds.get("tag").toString());
-                            tvProfileUsername.setText(ds.get("username").toString());
-                            tvProfileAboutMe.setText(ds.get("about").toString());
+                            etProfileTag.setText(ds.get("tag").toString());
+                            etProfileUsername.setText(ds.get("username").toString());
+                            etProfileAboutMe.setText(ds.get("about").toString());
                             pDialog.dismiss();
                             Log.i(TAG, "fetchCurrentUser: success");
                         }else
@@ -119,11 +124,21 @@ public class Profile extends AppCompatActivity {
 
     private void setUserAccountOnHeader() {
         View navHeaderView = navView.inflateHeaderView(R.layout.nav_header);
-        ImageView ivProfileImageHeader = navHeaderView.findViewById(R.id.ivProfileImageHeader);
-        TextView tvUserEmail = navHeaderView.findViewById(R.id.tvUserEmail);
 
-        ivProfileImageHeader.setImageDrawable(ivProfileImage.getDrawable());
-        tvUserEmail.setText(fUser.getEmail());
+        TextView tvAccount = navHeaderView.findViewById(R.id.tvUserEmail);
+        ImageView ivProfileImageHeader = navHeaderView.findViewById(R.id.ivProfileImageHeader);
+
+        ffStore.collection("users")
+                .document(fUser.getUid())
+                .get().addOnCompleteListener(task -> {
+                    if(task.isSuccessful()) {
+                        String imageURL = task.getResult().get("profileImage")+"";
+                        String userTag = task.getResult().get("tag")+"";
+                        Picasso.with(getApplicationContext()).load(imageURL).into(ivProfileImageHeader);
+                        tvAccount.setText("@"+userTag);
+                    }
+
+                });
     }
 
     private void displayProfileImage() {
@@ -133,16 +148,8 @@ public class Profile extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()) {
                         String stReference = task.getResult().get("profileImage")+"";
-                        stReference = stReference.substring(stReference.lastIndexOf("/")+1);
-
-                        stRef.child("profile_images/"+stReference).getDownloadUrl().addOnCompleteListener(download -> {
-                            if(download.isSuccessful()){
-                                Picasso.with(getApplicationContext()).load(download.getResult()).into(ivProfileImage);
-                                Log.d(TAG, "displayProfileImage: success("+download.getResult()+")");
-                            }else {
-                                Log.e(TAG, "displayProfileImage: failed -> " + download.getException());
-                            }
-                        });
+                        Picasso.with(getApplicationContext()).load(stReference).into(ivProfileImage);
+                        Log.d(TAG, "displayProfileImage: success");
                     }else {
                         Log.e(TAG, "displayProfileImage: failed -> " + task.getException());
                     }
@@ -153,9 +160,12 @@ public class Profile extends AppCompatActivity {
         CharSequence title = item.getTitle();
         if (getResources().getString(R.string.itPosts_title).contentEquals(title)) {
             Intent home = new Intent(getApplicationContext(), PostRecyclerView.class);
+            home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(home);
         } else if (getResources().getString(R.string.itMessages_title).contentEquals(title)) {
-            //TODO : Direct Messages activity
+            Intent chat = new Intent(getApplicationContext(), ContactsListActivity.class);
+            chat.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(chat);
         } else if (getResources().getString(R.string.itSettings_title).contentEquals(title)) {
             // TODO : Preferences xml
         } else if (getResources().getString(R.string.itLogout_title).contentEquals(title)) {
@@ -181,7 +191,7 @@ public class Profile extends AppCompatActivity {
             eu.logout();
             finish();
         }else if(item.getTitle().equals(getResources().getString(R.string.title_miAddPost))){
-            Intent addPost = new Intent(getApplicationContext(), AddPost.class);
+            Intent addPost = new Intent(getApplicationContext(), AddPostActivity.class);
             startActivity(addPost);
         }else if(item.getTitle().equals(getResources().getString(R.string.itSettings_title))){
             if(dwLayout.isDrawerOpen(navView))
@@ -196,7 +206,7 @@ public class Profile extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 100 && resultCode==RESULT_OK){
+        if(requestCode == CHOOSE_PROFILE_IMAGE && resultCode==RESULT_OK){
             if(data != null){
                 ivProfileImage.setImageURI(data.getData());
 
@@ -209,4 +219,48 @@ public class Profile extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if(!profileWasModified){
+            AlertDialog dialog = new AlertDialog.Builder(getApplicationContext())
+                    .setTitle(R.string.confirm_profile_changes_title)
+                    .setMessage(R.string.confirm_profile_changes_message)
+                    .setPositiveButton("OK", (dialog1, which) -> {
+                        eu.updateUsersProfile(etProfileTag.getText()+"",
+                                etProfileUsername.getText()+"",
+                                etProfileAboutMe.getText()+"");
+                    })
+                    .setNeutralButton("NO", (dialog1, which) -> {
+                        //do nothing
+                    })
+                    .create();
+            dialog.show();
+        }
+        super.onBackPressed();
+    }
+
+    private TextWatcher watcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            profileWasModified = true;
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    };
+
+    private View.OnLongClickListener listener = v -> {
+        ((EditText) v).setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+        ((EditText) v).setFocusable(true);
+        ((EditText) v).setFocusableInTouchMode(true);
+        ((EditText) v).addTextChangedListener(watcher);
+
+        return false;
+    };
 }

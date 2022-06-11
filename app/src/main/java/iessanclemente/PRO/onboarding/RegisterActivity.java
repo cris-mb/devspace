@@ -125,8 +125,8 @@ public class RegisterActivity extends Activity{
         HashMap<String, Object> userData = new HashMap<>();
         userData.put("about", "Hey there! I'm a new user of DevSpace");
         userData.put("email", email);
-        userData.put("profileImage", "gs://devspace-b93f2.appspot.com/profile_images/anonymous.png");
-        userData.put("tag", "@devUser"+eu.generateRandomUser());
+        userData.put("profileImage", "https://firebasestorage.googleapis.com/v0/b/devspace-b93f2.appspot.com/o/profile_images%2Fanonymous.png?alt=media&token=9d838688-6f99-4e6a-88f5-91ee892bbe89");
+        userData.put("tag", "devUser"+eu.generateRandomUser());
         userData.put("username", "Anonymous");
 
         String currUserUid = fAuth.getCurrentUser().getUid();

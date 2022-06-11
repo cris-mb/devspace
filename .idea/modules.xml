@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Proyecto_PMDM.iml" filepath="$PROJECT_DIR$/.idea/modules/Proyecto_PMDM.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Proyecto_PMDM.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Proyecto_PMDM.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Proyecto_PMDM.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Proyecto_PMDM.app.androidTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Proyecto_PMDM.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Proyecto_PMDM.app.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Proyecto_PMDM.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Proyecto_PMDM.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/devspace.iml" filepath="$PROJECT_DIR$/.idea/modules/devspace.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/devspace.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/devspace.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/devspace.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/devspace.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/devspace.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/devspace.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/devspace.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/devspace.app.unitTest.iml" />
     </modules>
   </component>
 </project>

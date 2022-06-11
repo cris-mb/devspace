@@ -4,7 +4,7 @@
     android:id="@+id/navigation_layout_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dkblue"
+    android:background="@drawable/background_gradient_dkblue"
     android:orientation="vertical">
 
     <ScrollView
@@ -23,31 +23,46 @@
                 android:layout_width="@dimen/profile_icon_width"
                 android:layout_height="@dimen/profile_icon_height"
                 app:civ_border_overlay="true"
-                app:civ_border_color="@color/blue"
-                app:civ_border_width="@dimen/margin_5dp"
-                android:src="@drawable/account_36"/>
+                app:civ_border_color="@color/dkblue"
+                app:civ_border_width="3dp"
+                android:src="@drawable/account_125"/>
 
-            <TextView
-                android:id="@+id/tvProfileTag"
+            <EditText
+                android:id="@+id/etProfileTag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/general_margin"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/play_r"
+                android:drawableStart="@drawable/ic_user"
+                android:inputType="none"
+                android:maxLength="30"
+                android:longClickable="true"/>
 
-            <TextView
-                android:id="@+id/tvProfileUsername"
+            <EditText
+                android:id="@+id/etProfileUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:inputType="textPersonName"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/play_b"
+                android:focusableInTouchMode="false"
+                android:maxLength="25"
+                android:longClickable="true" />
 
-            <TextView
-                android:id="@+id/tvProfileAboutMe"
+            <EditText
+                android:id="@+id/etProfileAboutMe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/general_margin"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:background="@android:color/transparent"
+                android:focusable="false"
+                android:longClickable="true" />
 
             <LinearLayout
                 android:layout_width="match_parent"

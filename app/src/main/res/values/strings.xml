@@ -49,4 +49,11 @@
     <string name="successfulUpload">"was successfully uploaded"</string>
     <string name="error">Error</string>
 
+    <!-- Add Post strings -->
+    <string name="add_post_btnAddPost_text">Post</string>
+    <string name="add_post_description_hint"><i>Describe your code ...</i></string>
+    <string name="add_post_url_hint"><i>Insert a link to your code here</i></string>
+    <string name="confirm_profile_changes_title">Update profile</string>
+    <string name="confirm_profile_changes_message">Do you want to update your profile with the modifications done ?</string>
+
 </resources>

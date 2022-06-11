@@ -23,7 +23,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:$USER_HOME$/Android/Sdk/icons/material/materialicons/circle/baseline_circle_24.xml" />
+                                      <entry key="url" value="file:$USER_HOME$/Android/Sdk/icons/material/materialicons/file_upload/baseline_file_upload_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -33,8 +33,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="c50c0c" />
-                            <entry key="outputName" value="status_offline" />
+                            <entry key="color" value="ffffff" />
+                            <entry key="outputName" value="upload_post" />
                           </map>
                         </option>
                       </PersistentState>
