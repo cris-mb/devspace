@@ -1,89 +1,83 @@
 package iessanclemente.PRO.model;
 
-import java.sql.Date;
+import com.google.firebase.Timestamp;
+import com.google.firebase.database.PropertyName;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Post {
 
-    private int postId;
-    private String tagId_FK;
-    private String multimediaPath;
-    private String description;
-    private long likes;
-    private Date date;
-    private String codeURL;
+    @PropertyName("uid")
+    public String uid;
+    @PropertyName("author")
+    public String author;
+    @PropertyName("multimedia")
+    public String multimedia;
+    @PropertyName("description")
+    public String description;
+    @PropertyName("date")
+    public Timestamp date;
+    @PropertyName("url")
+    public String url;
 
-    public Post(int postId, String tagId_FK, String multimediaPath, String description, long likes, Date date, String codeURL) {
-        this.postId = postId;
-        this.tagId_FK = tagId_FK;
-        this.multimediaPath = multimediaPath;
+    public Post(){
+    }
+
+    public Post(String uid, String author, String multimedia, String description, Timestamp date, String url) {
+        this.uid = uid;
+        this.author = author;
+        this.multimedia = multimedia;
         this.description = description;
-        this.likes = likes;
         this.date = date;
-        this.codeURL = codeURL;
+        this.url = url;
     }
 
-    public Post(String currentUserTagId, String multimediaPath, String description, int likes, Date date, String codeURL) {
-        this.tagId_FK = currentUserTagId;
-        this.multimediaPath = multimediaPath;
-        this.description = description;
-        this.likes = likes;
-        this.date = date;
-        this.codeURL = codeURL;
-    }
-
-    public int getPostId() {
-        return postId;
-    }
-
-    public void setPostId(int postId) {
-        this.postId = postId;
+    public String getUid() {
+        return uid;
     }
 
     public String getAuthor() {
-        return tagId_FK;
+        return author;
     }
 
-    public void setAuthor(String tagId_FK) {
-        this.tagId_FK = tagId_FK;
-    }
-
-    public String getMultimediaPath() {
-        return multimediaPath;
-    }
-
-    public void setMultimediaPath(String multimediaPath) {
-        this.multimediaPath = multimediaPath;
+    public String getMultimedia() {
+        return multimedia;
     }
 
     public String getDescription() {
         return description;
     }
 
+    public Timestamp getDate() {
+        return date;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setMultimedia(String multimedia) {
+        this.multimedia = multimedia;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public long getLikes() {
-        return likes;
-    }
-
-    public void setLikes(long likes) {
-        this.likes = likes;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 
-    public String getCodeURL() {
-        return codeURL;
-    }
-
-    public void setCodeURL(String codeURL) {
-        this.codeURL = codeURL;
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

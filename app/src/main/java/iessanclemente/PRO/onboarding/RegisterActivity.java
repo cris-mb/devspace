@@ -1,37 +1,48 @@
 package iessanclemente.PRO.onboarding;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.annotation.Nullable;
-import androidx.drawerlayout.widget.DrawerLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.internal.InternalTokenProvider;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import iessanclemente.PRO.DatabaseOperations;
-import iessanclemente.PRO.PostRecyclerView;
 import iessanclemente.PRO.R;
 import iessanclemente.PRO.model.User;
 
 public class RegisterActivity extends Activity{
 
-    private static final int FILE_CHOOSER = 1;
+    private static final String TAG = RegisterActivity.class.getSimpleName();
+
     private EnterUtilities eu;
+    private FirebaseAuth fAuth;
 
     // Declare the visual components
-    private CircleImageView ivAccountIconRegister;
-    private TextInputEditText tietUserTag;
-    private TextInputLayout tilUserTag;
     private TextInputEditText tietEmail;
     private TextInputLayout tilEmail;
     private TextInputEditText tietPassword;
@@ -41,17 +52,13 @@ public class RegisterActivity extends Activity{
     private TextView tvGoLogin;
     private Button btnRegister;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_activity);
         eu = new EnterUtilities(getApplicationContext());
-
-        ivAccountIconRegister = findViewById(R.id.ivAccountIconRegister);
-
-        tietUserTag = findViewById(R.id.tietUserTag);
-        tilUserTag = findViewById(R.id.tilUserTag);
-        tietUserTag.setOnClickListener(view -> {clearErrors();});
+        fAuth = FirebaseAuth.getInstance();
 
         tietEmail = findViewById(R.id.tietEmail);
         tilEmail = findViewById(R.id.tilEmail);
@@ -64,95 +71,117 @@ public class RegisterActivity extends Activity{
         tilConfirmPassword = findViewById(R.id.tilConfirmPassword);
         tietConfirmPassword.setOnClickListener(view -> {clearErrors();});
 
-        ivAccountIconRegister.setOnClickListener(view -> {
-            openImageChooser();
-        });
+        // Adding listener to visual components
+        addEditTextsListener();
 
         btnRegister = findViewById(R.id.btnRegister);
         btnRegister.setOnClickListener(view -> {
-            eu.start();
-
-            String userTag = tietUserTag.getText()+"";
             String email = tietEmail.getText()+"";
             String password = tietPassword.getText()+"";
             String confirmPassword = tietConfirmPassword.getText()+"";
 
-            clearErrors();
-            if(!confirmPassword.equals(password)) {
-                setErrorLayoutOn(tilPassword,"");
-                setErrorLayoutOn(tilConfirmPassword, getResources().getString(R.string.err_PasswordDoNotMatch));
-            }else if(!eu.addUser(userTag, email, password)){
-                setErrorLayoutOn(tilUserTag, getResources().getString(R.string.err_UserAlreadyExists));
-            }else{
-                Intent recycler = new Intent(getApplicationContext(), PostRecyclerView.class);
-                startActivity(recycler);
-                finish();
+            if(checkCorrectFieldsState(email, password, confirmPassword)) {
+                registerNewUserAuthentication(email, password);
             }
-
-            eu.stop();
         });
 
         tvGoLogin = findViewById(R.id.tvGoLogin);
+        tvGoLogin.setPaintFlags(tvGoLogin.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         tvGoLogin.setOnClickListener(view ->  {
-            Intent intentLogin = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intentLogin);
-            finish();
+            eu.intentLoginActivity();
         });
     }
 
-    private void setErrorLayoutOn(TextInputLayout til, String errorMessage) {
-        til.setError(errorMessage);
-        til.setBoxStrokeColor(getResources().getColor(R.color.warning));
-        til.setErrorTextColor(ColorStateList.valueOf(getResources().getColor(R.color.warning)));
-    }
+    private boolean checkCorrectFieldsState(String email, String password, String confirmPassword) {
 
-    private void clearErrors() {
-        tilUserTag.setError(null);
-        tilPassword.setError(null);
-        tilConfirmPassword.setError(null);
-    }
-//
-//    private void checkUser(String input) {
-//        if (eu.getUser(input) != null) {
-//            tilUserTag.setError(null);
-//            tilUserTag.setBoxStrokeColor(Color.GREEN);
-//            tilUserTag.setStartIconDrawable(R.drawable.check);
-//            tilUserTag.setStartIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.blue)));
-//        } else{
-//            tilUserTag.setError(getResources().getString(R.string.err_UserDoesNotExists));
-//            tilUserTag.setBoxStrokeColor(Color.GRAY);
-//            tilUserTag.setStartIconDrawable(R.drawable.ic_user);
-//            tilUserTag.setStartIconTintList(ColorStateList.valueOf(Color.GRAY));
-//        }
-//    }
-//
-//    private void checkUserCredentials(String tagId, String pass) {
-//        User us = eu.getUser(tagId);
-//        if(pass.equals(us.getPassword())){
-//            tilPassword.setError(null);
-//            tilPassword.setStartIconDrawable(R.drawable.check);
-//            tilPassword.setStartIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.dkblue)));
-//            successfulLogin();
-//        }else{
-//            tilPassword.setError(getResources().getString(R.string.err_wrong_password));
-//            tilPassword.setStartIconDrawable(R.drawable.ic_lock);
-//            tilPassword.setStartIconTintList(ColorStateList.valueOf(Color.GRAY));
-//        }
-//    }
-
-    public void openImageChooser(){
-        Intent chooser = new Intent(Intent.ACTION_GET_CONTENT);
-        chooser.setType("image /*");
-        startActivityForResult(chooser, FILE_CHOOSER);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == FILE_CHOOSER){
-            if(resultCode == RESULT_OK){
-//                ivAccountIconRegister.setImageBitmap();
-            }
+        if(email.equals("") || password.equals("") || confirmPassword.equals("")){
+            setError(getResources().getString(R.string.err_IncompleteRegistration));
+            return false;
+        }else if(!confirmPassword.equals(password)) {
+            setError(getResources().getString(R.string.err_PasswordDoNotMatch));
+            return false;
         }
+
+        return true;
     }
+
+    private void registerNewUserAuthentication(String email, String pass){
+        fAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                Log.d(TAG, "registerNewUserAuthentication was successful? = " + task.isSuccessful());
+                saveUserInfoToDatabase(email);
+                eu.intentPostRecyclerActivity();
+            }else {
+                Log.e(TAG, "registerNewUserAuthentication: " + task.getException());
+                setError(task.getException().getMessage());
+            }
+        });
+    }
+
+    public void saveUserInfoToDatabase(String email) {
+        HashMap<String, Object> userData = new HashMap<>();
+        userData.put("about", "Hey there! I'm a new user of DevSpace");
+        userData.put("email", email);
+        userData.put("profileImage", "https://firebasestorage.googleapis.com/v0/b/devspace-b93f2.appspot.com/o/profile_images%2Fanonymous.png?alt=media&token=9d838688-6f99-4e6a-88f5-91ee892bbe89");
+        userData.put("tag", "devUser"+eu.generateRandomHash(12));
+        userData.put("username", "Anonymous");
+
+        String currUserUid = fAuth.getCurrentUser().getUid();
+
+        eu.registerNewUser(currUserUid, userData);
+    }
+
+    private void setError(String errorMessage) {
+        setErrorOn(tilEmail);
+        setErrorOn(tilPassword);
+        setErrorOn(tilConfirmPassword);
+
+        AlertDialog errorDialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.error)
+                .setMessage(errorMessage)
+                .setNeutralButton("OK", (dialog, which) -> {
+                    // do nothing
+                })
+                .show();
+    }
+
+    private void setErrorOn(TextInputLayout til){
+        til.setError(null);
+        til.setBoxStrokeColor(Color.RED);
+        til.setStartIconTintList(ColorStateList.valueOf(Color.RED));
+    }
+
+    private void addEditTextsListener() {
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                clearErrors();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+        tietEmail.addTextChangedListener(textWatcher);
+        tietPassword.addTextChangedListener(textWatcher);
+        tietConfirmPassword.addTextChangedListener(textWatcher);
+    }
+
+    private void clearErrors(){
+        tilEmail.setBoxStrokeColor(Color.GRAY);
+        tilEmail.setStartIconTintList(ColorStateList.valueOf(Color.GRAY));
+
+        tilPassword.setBoxStrokeColor(Color.GRAY);
+        tilPassword.setStartIconTintList(ColorStateList.valueOf(Color.GRAY));
+
+        tilConfirmPassword.setBoxStrokeColor(Color.GRAY);
+        tilConfirmPassword.setStartIconTintList(ColorStateList.valueOf(Color.GRAY));
+    }
+
 }

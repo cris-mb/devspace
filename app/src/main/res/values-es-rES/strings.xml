@@ -2,8 +2,8 @@
 <resources>
     <string name="label_Name">Nombre</string>
     <string name="label_Password">Contraseña</string>
-    <string name="name_btnLogin">Inicio de sesión</string>
-    <string name="name_btnRegister">Registro</string>
+    <string name="name_btnLogin">Iniciar sesión</string>
+    <string name="name_btnRegister">Registrar</string>
     <string name="label_Email">Correo</string>
     <string name="preferences_title">Preferencias</string>
     <string name="title_miProfile">Perfil</string>
@@ -26,7 +26,7 @@
     <string name="tag_btnPostSave">Guardar</string>
     <string name="filter_hint">Busca una publicación</string>
     <string name="err_wrong_password">Las contraseña introducida es incorrecta</string>
-    <string name="text_tvAmountLikes">Me gusta</string>
+    <string name="text_tvAmountLikes">0 Me gusta</string>
     <string name="text_rememberMe">¿Deseas mantener la sesión iniciada?</string>
     <string name="itMessages_title">Mensajes</string>
     <string name="itSettings_title">Opciones</string>
@@ -37,4 +37,18 @@
     <string name="text_GoRegister">Crear una cuenta</string>
     <string name="err_PasswordDoNotMatch">Las contraseñas no coinciden</string>
     <string name="text_btnGoogleLogin">Iniciar sesión con google</string>
+    <string name="hint_etMessage"><i>Escribe un mensaje ...</i></string>
+    <string name="successfulUpload">se subió correctamente</string>
+    <string name="error">Ocurrió un problema</string>
+    <string name="confirm_profile_changes_title">Modificar perfil</string>
+    <string name="confirm_profile_changes_message">Quieres modificar el perfil con los cambios hechos?</string>
+    <string name="add_post_btnAddPost_text">Publicar</string>
+    <string name="add_post_description_hint"><i>Describe tu código ...</i></string>
+    <string name="add_post_url_hint"><i>Link a tu código ...</i></string>
+    <string name="post_description_too_short">Añade una descripción competente (por lo menos 15 caracteres)</string>
+    <string name="malformed_URL">No se pudo encontrar el link</string>
+    <string name="choose_post_image">Manten pulsado el icono para cambiar tu foto de perfil</string>
+    <string name="title_typeFirstMessage">Empieza a chatear</string>
+    <string name="message_typeFirstMessage">Escribe tu primer mensaje en esta conversación !!</string>
+    <string name="tap_twice_to_exit">Pulsa dos veces para salir</string>
 </resources>
