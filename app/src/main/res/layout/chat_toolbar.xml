@@ -1,23 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_bar"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:background="@color/dkblue">
+    android:layout_height="wrap_content"
+    android:background="@color/dkblue"
+    android:theme="@style/Theme.Design.NoActionBar">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/ivReceiverIcon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/account_36" />
-
-    <TextView
-        android:id="@+id/tvReceiverName"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/default_tvReceiverName"
-        android:textSize="@dimen/tvReceiverName_textSize"
-        android:layout_marginStart="25dp"/>
+        android:background="@color/dkblue"
+        android:gravity="center_vertical">
 
-</LinearLayout>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivReceiverIcon"
+            android:layout_width="@dimen/size_receiver_icon"
+            android:layout_height="@dimen/size_receiver_icon"
+            android:layout_margin="@dimen/margin_5dp"
+            app:civ_border_overlay="true"
+            app:civ_border_color="@color/blue"
+            app:civ_border_width="2dp"
+            android:src="@drawable/account_36"/>
+
+        <TextView
+            android:id="@+id/tvReceiverName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_5dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:text="@string/default_tvReceiverName"/>
+
+    </LinearLayout>
+
+</androidx.appcompat.widget.Toolbar>

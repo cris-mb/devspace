@@ -1,7 +1,6 @@
 package iessanclemente.PRO.onboarding;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -17,34 +16,21 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.GoogleApi;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.internal.TextWatcherAdapter;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GoogleAuthProvider;
 
-import java.sql.Driver;
-import java.util.HashMap;
-
-import iessanclemente.PRO.PostRecyclerView;
 import iessanclemente.PRO.R;
-import iessanclemente.PRO.model.User;
 
 public class LoginActivity extends Activity{
 
@@ -85,7 +71,6 @@ public class LoginActivity extends Activity{
         tietPassword = findViewById(R.id.tietPassword);
         tilPassword = findViewById(R.id.tilPassword);
 
-        chkRememberMe = findViewById(R.id.chkRememberMe);
         Button btnLogin = findViewById(R.id.btnLogin);
         TextView tvGoRegister = findViewById(R.id.tvGoRegister);
         Button btnGoogleLogin = findViewById(R.id.btnGoogleLogin);
@@ -109,7 +94,7 @@ public class LoginActivity extends Activity{
             String password = tietPassword.getText()+"";
 
             if(checkCorrectFieldsState(email, password))
-                loginUserWithCredentials(email, password, chkRememberMe.isChecked());
+                loginUserWithCredentials(email, password);
         });
 
         tvGoRegister.setPaintFlags(tvGoRegister.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -124,12 +109,12 @@ public class LoginActivity extends Activity{
         startActivityForResult(googleIntent, GOOGLE_LOGIN);
     }
 
-    public void loginUserWithCredentials(String email, String pass, boolean maintainSession){
-
+    public void loginUserWithCredentials(String email, String pass){
         fAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
                 Log.d(TAG, "loginUserWithCredentials : "+task.getResult());
                 eu.intentPostRecyclerActivity();
+                finish();
             }else {
                 Log.e(TAG, "loginUserWithCredentials : "+task.getException());
                 setError(task.getException().getMessage());
@@ -139,10 +124,7 @@ public class LoginActivity extends Activity{
 
     private boolean checkCorrectFieldsState(String email, String password) {
 
-        if(email.isEmpty()){
-            setError(getResources().getString(R.string.err_IncompleteRegistration));
-            return false;
-        }else if(password.isEmpty()){
+        if(email.isEmpty() || password.isEmpty()){
             setError(getResources().getString(R.string.err_IncompleteRegistration));
             return false;
         }

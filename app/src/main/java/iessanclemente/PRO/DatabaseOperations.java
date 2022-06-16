@@ -82,8 +82,6 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         if (datosConsulta.moveToFirst()) {
             Post post;
             while (!datosConsulta.isAfterLast()) {
-                post = new Post(datosConsulta.getInt(0), datosConsulta.getString(1), datosConsulta.getString(2), datosConsulta.getString(3), datosConsulta.getLong(4), Date.valueOf(datosConsulta.getString(5)), datosConsulta.getString(6));
-                list.add(post);
                 datosConsulta.moveToNext();
             }
         }
@@ -169,19 +167,6 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         valores.put("tagId_Followed", tagId_Followed);
         valores.put("tagId_Follower", tagId_Follower);
         long id = sqlLiteDB.insert("follows",null,valores);
-
-        return id;
-    }
-
-    public long addPost(Post p){
-        ContentValues valores = new ContentValues();
-        valores.put("tagId_FK", p.getAuthor());
-        valores.put("multimediaPath", p.getMultimediaURL());
-        valores.put("description", p.getDescription());
-        valores.put("likes", p.getLikes());
-        valores.put("date", new SimpleDateFormat("yyyy-MM-dd").format(p.getDate()));
-        valores.put("codeURL", p.getCodeURL());
-        long id = sqlLiteDB.insert("post",null,valores);
 
         return id;
     }

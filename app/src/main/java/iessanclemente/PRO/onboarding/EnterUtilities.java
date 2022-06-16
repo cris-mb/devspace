@@ -17,7 +17,7 @@ import com.google.firebase.storage.StorageReference;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Random;
-import iessanclemente.PRO.PostRecyclerView;
+import iessanclemente.PRO.recycler.PostRecyclerView;
 
 public class EnterUtilities {
 
@@ -67,8 +67,16 @@ public class EnterUtilities {
 
         stRef.child(newProfileImagePath).putBytes(data, stMeta).addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
-                String imageUrl = task.getResult().getStorage().getDownloadUrl()+"";
-                modifyCurrentUserProfileImage(imageUrl);
+                task.getResult().getStorage()
+                        .getDownloadUrl()
+                        .addOnCompleteListener(task1 -> {
+                            if(task1.isSuccessful()){
+                                modifyCurrentUserProfileImage(task1.getResult()+"");
+                                Log.d(TAG, "uploadProfileImage: success("+task1.getResult()+")");
+                            }else
+                                Log.d(TAG, "uploadProfileImage: failed -> " + task.getException());
+
+                        });
             }else {
                 Log.d(TAG, "uploadProfileImage: failed -> " + task.getException());
             }
@@ -114,7 +122,7 @@ public class EnterUtilities {
                        userData.put("about", "Hey there! I'm a new user of DevSpace");
                        userData.put("email", email);
                        userData.put("profileImage", "gs://devspace-b93f2.appspot.com/profile_images/anonymous.png");
-                       userData.put("tag", "devUser"+generateRandomUser());
+                       userData.put("tag", "devUser"+generateRandomHash(12));
                        userData.put("username", "Anonymous");
 
                        registerNewUser(uid, userData);
@@ -136,8 +144,8 @@ public class EnterUtilities {
     }
 
     public void logout(){
-        intentLoginActivity();
         fAuth.signOut();
+        intentLoginActivity();
     }
 
     public void intentPostRecyclerActivity(){
@@ -158,12 +166,12 @@ public class EnterUtilities {
         context.startActivity(login);
     }
 
-    public String generateRandomUser() {
+    public String generateRandomHash(int size) {
         String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghi"
                 +"jklmnopqrstuvwxyz!_-@#$%&";
         Random rnd = new Random();
-        StringBuilder sb = new StringBuilder(12);
-        for (int i = 0; i < 12; i++)
+        StringBuilder sb = new StringBuilder(size);
+        for (int i = 0; i < size; i++)
             sb.append(chars.charAt(rnd.nextInt(chars.length())));
         return sb.toString();
     }

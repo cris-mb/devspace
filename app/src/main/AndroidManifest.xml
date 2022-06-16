@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="iessanclemente.PRO">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -28,27 +27,32 @@
         </activity>
 
         <activity
-            android:name=".PostRecyclerView"
+            android:name=".recycler.PostRecyclerView"
             android:exported="true" >
         </activity>
 
         <activity
             android:name=".Profile"
             android:exported="true"
-            android:parentActivityName=".PostRecyclerView">
+            android:parentActivityName=".recycler.PostRecyclerView">
         </activity>
 
         <activity
             android:name=".AddPostActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Dialog"
-            android:parentActivityName=".PostRecyclerView">
+            android:parentActivityName=".recycler.PostRecyclerView">
         </activity>
 
         <activity
-            android:name=".chat.ChatActivity"
+            android:name=".chat.listmessages.ChatRecyclerView"
             android:exported="true"
-            android:parentActivityName=".PostRecyclerView">
+            android:parentActivityName=".recycler.PostRecyclerView">
+        </activity>
+
+        <activity
+            android:name=".chat.privatechat.PrivateChatActivity"
+            android:exported="true">
         </activity>
     </application>
 

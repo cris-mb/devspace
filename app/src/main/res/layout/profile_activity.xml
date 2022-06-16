@@ -56,13 +56,14 @@
 
             <EditText
                 android:id="@+id/etProfileAboutMe"
-                android:layout_width="wrap_content"
+                android:layout_width="350dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/general_margin"
-                android:textColor="@color/white"
                 android:background="@android:color/transparent"
+                android:textAlignment="center"
                 android:focusable="false"
-                android:longClickable="true" />
+                android:longClickable="true"
+                android:textColor="@color/white" />
 
             <LinearLayout
                 android:layout_width="match_parent"

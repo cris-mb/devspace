@@ -12,18 +12,29 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
+import com.google.firebase.storage.StorageReference;
+
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+
 import iessanclemente.PRO.onboarding.EnterUtilities;
 
 public class AddPostActivity extends Activity {
@@ -62,19 +73,38 @@ public class AddPostActivity extends Activity {
         btnAddPost.setOnClickListener(v ->{
             if(allFieldsCovered()){
                 uploadPostImage();
-            }else{
-                Toast.makeText(AddPostActivity.this, getResources().getString(R.string.err_IncompleteRegistration), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private boolean allFieldsCovered() {
-        if(ivMultimedia.getDrawable().equals(getResources().getDrawable(R.drawable.image_search))
-        || selectedImageData == null)
+        if ((etDescription.getText()+"").equals("") || (etURL.getText()+"").equals("")){
+            Toast advice = Toast.makeText(AddPostActivity.this, getResources().getString(R.string.err_IncompleteRegistration), Toast.LENGTH_SHORT);
+                advice.setGravity(Gravity.TOP| Gravity.CENTER_HORIZONTAL, 0, 180);
+                advice.show();
+
             return false;
-        else if((etDescription.getText()+"").equals("")) {
+        }else if(selectedImageData == null){
+            Toast advice = Toast.makeText(AddPostActivity.this, getResources().getString(R.string.choose_post_image), Toast.LENGTH_LONG);
+                advice.setGravity(Gravity.TOP| Gravity.CENTER_HORIZONTAL, 0, 180);
+                advice.show();
+
             return false;
-        }else return !(etURL.getText() + "").equals("");
+        }else if(etDescription.getText().length() < 15) {
+            Toast advice = Toast.makeText(AddPostActivity.this, getResources().getString(R.string.post_description_too_short), Toast.LENGTH_LONG);
+                advice.setGravity(Gravity.TOP| Gravity.CENTER_HORIZONTAL, 0, 180);
+                advice.show();
+
+            return false;
+        }else if(!URLUtil.isValidUrl(etURL.getText()+"")){
+            Toast advice = Toast.makeText(AddPostActivity.this, getResources().getString(R.string.malformed_URL), Toast.LENGTH_SHORT);
+                advice.setGravity(Gravity.TOP| Gravity.CENTER_HORIZONTAL, 0, 180);
+                advice.show();
+
+            return false;
+        }
+
+        return true;
     }
 
     private void uploadPostImage() {
@@ -90,31 +120,53 @@ public class AddPostActivity extends Activity {
 
         String newProfileImagePath = "post_images/"+eu.generateTimeStamp()+".jpeg";
 
-        FirebaseStorage.getInstance().getReference().child(newProfileImagePath).putBytes(selectedImageData, stMeta).addOnCompleteListener(task -> {
-            if(task.isSuccessful()) {
-                String multimediaReference = task.getResult().getStorage().getDownloadUrl().toString();
-                uploadPost(multimediaReference);
-            }else {
-                Log.d(TAG, "uploadProfileImage: failed -> " + task.getException());
-            }
-        });
+        FirebaseStorage.getInstance().getReference()
+                .child(newProfileImagePath)
+                .putBytes(selectedImageData, stMeta)
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()) {
+                        task.getResult().getStorage()
+                                .getDownloadUrl()
+                                .addOnCompleteListener(task1 -> {
+                                    if(task1.isSuccessful()){
+                                        String multimediaReference = task1.getResult()+"";
+                                        uploadPost(multimediaReference);
+                                        Log.d(TAG, "uploadPostImage: success(" + multimediaReference + ")");
+                                    }
+                                });
+                    }else {
+                        Log.d(TAG, "uploadPostImage: failed -> " + task.getException());
+                    }
+                });
     }
 
     private void uploadPost(String multimediaReference) {
+        String postUid = eu.generateRandomHash(28);
+        String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         HashMap<String, Object> postData = new HashMap<>();
+        postData.put("uid", postUid);
         postData.put("multimedia", multimediaReference);
         postData.put("description", etDescription.getText()+"");
         postData.put("url", etURL.getText()+"");
-        postData.put("likes", 0);
-        postData.put("author", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        postData.put("author", userUid);
         postData.put("date", Timestamp.now());
 
         ffStore.collection("posts")
-                .add(postData)
-                .addOnCompleteListener(task -> {
-                    if(task.isSuccessful())
-                        Log.d(TAG, "uploadPost: success");
-                    else
+                .document(postUid)
+                .set(postData).addOnCompleteListener(task -> {
+                    if(task.isSuccessful()) {
+                        Map<String, Object> postUserLikes = new HashMap<>();
+                            postUserLikes.put("users", new ArrayList<String>());
+                        ffStore.collection("likes")
+                                .document(postUid)
+                                .set(postUserLikes)
+                                .addOnCompleteListener(task1 -> {
+                                    if(task1.isSuccessful())
+                                        Log.d(TAG, "uploadPost: success");
+                                    else
+                                        Log.d(TAG, "uploadPost: failed -> "+task1.getException().getMessage());
+                                });
+                    }else
                         Log.d(TAG, "uploadPost: failed -> "+task.getException().getMessage());
                     pDialog.dismiss();
                     finish();
@@ -123,7 +175,7 @@ public class AddPostActivity extends Activity {
 
     public void openFileChooser(){
         Intent chooser = new Intent(Intent.ACTION_PICK);
-        chooser.setType("image/*");
+        chooser.setType("*/*");
         startActivityForResult(chooser, CHOOSE_MULTIMEDIA_IMAGE);
     }
 

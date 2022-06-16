@@ -5,29 +5,36 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/linearLay"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@drawable/background_gradient_dkblue"
-        android:focusable="false">
+        android:layout_height="match_parent">
 
-        <SearchView
-            android:id="@+id/searchView"
+        <LinearLayout
+            android:id="@+id/linearLay"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:queryHint="@string/filter_hint"
-            android:iconifiedByDefault="false"
-            android:background="@drawable/custom_search_view" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/background_gradient_dkblue"
+            android:focusable="false">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <SearchView
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:queryHint="@string/filter_hint"
+                android:iconifiedByDefault="false"
+                android:background="@drawable/custom_search_view" />
 
-    </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <include layout="@layout/navigation_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>

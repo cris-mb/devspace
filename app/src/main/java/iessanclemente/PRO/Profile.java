@@ -17,6 +17,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -33,8 +35,10 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
 import java.util.Objects;
-import iessanclemente.PRO.chat.ContactsListActivity;
+
+import iessanclemente.PRO.chat.listmessages.ChatRecyclerView;
 import iessanclemente.PRO.onboarding.EnterUtilities;
+import iessanclemente.PRO.recycler.PostRecyclerView;
 
 public class Profile extends AppCompatActivity {
 
@@ -56,6 +60,7 @@ public class Profile extends AppCompatActivity {
 
     private Dialog pDialog;
     private boolean profileWasModified = false;
+    private byte[] selectedImageBytes;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -111,10 +116,10 @@ public class Profile extends AppCompatActivity {
                         if(task.isSuccessful()){
                             DocumentSnapshot ds = task.getResult();
 
-                            displayProfileImage();
-                            etProfileTag.setText(ds.get("tag").toString());
-                            etProfileUsername.setText(ds.get("username").toString());
-                            etProfileAboutMe.setText(ds.get("about").toString());
+                            Picasso.with(getApplicationContext()).load(ds.get("profileImage")+"").placeholder(R.drawable.account_125).into(ivProfileImage);
+                            etProfileTag.setText(ds.get("tag")+"");
+                            etProfileUsername.setText(ds.get("username")+"");
+                            etProfileAboutMe.setText(ds.get("about")+"");
                             pDialog.dismiss();
                             Log.i(TAG, "fetchCurrentUser: success");
                         }else
@@ -134,62 +139,25 @@ public class Profile extends AppCompatActivity {
                     if(task.isSuccessful()) {
                         String imageURL = task.getResult().get("profileImage")+"";
                         String userTag = task.getResult().get("tag")+"";
-                        Picasso.with(getApplicationContext()).load(imageURL).into(ivProfileImageHeader);
-                        tvAccount.setText("@"+userTag);
+                        Picasso.with(getApplicationContext()).load(imageURL).placeholder(R.drawable.account_125).into(ivProfileImageHeader);
+                        tvAccount.setText(userTag);
                     }
 
                 });
-    }
-
-    private void displayProfileImage() {
-        ffStore.collection("users")
-                .document(fUser.getUid())
-                .get()
-                .addOnCompleteListener(task -> {
-                    if(task.isSuccessful()) {
-                        String stReference = task.getResult().get("profileImage")+"";
-                        Picasso.with(getApplicationContext()).load(stReference).into(ivProfileImage);
-                        Log.d(TAG, "displayProfileImage: success");
-                    }else {
-                        Log.e(TAG, "displayProfileImage: failed -> " + task.getException());
-                    }
-                });
-    }
-
-    private void navigationItemSelected(@NonNull MenuItem item) {
-        CharSequence title = item.getTitle();
-        if (getResources().getString(R.string.itPosts_title).contentEquals(title)) {
-            Intent home = new Intent(getApplicationContext(), PostRecyclerView.class);
-            home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(home);
-        } else if (getResources().getString(R.string.itMessages_title).contentEquals(title)) {
-            Intent chat = new Intent(getApplicationContext(), ContactsListActivity.class);
-            chat.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(chat);
-        } else if (getResources().getString(R.string.itSettings_title).contentEquals(title)) {
-            // TODO : Preferences xml
-        } else if (getResources().getString(R.string.itLogout_title).contentEquals(title)) {
-            // Remove last session credentials
-            eu.logout();
-            eu.intentLoginActivity();
-        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_profile, menu);
+        getMenuInflater().inflate(R.menu.toolbar, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getTitle() == null)
-            return false;
-
-        if(item.getTitle().equals(getResources().getString(R.string.title_miLogout))){
-            eu.logout();
-            finish();
+        if(item.getItemId() == android.R.id.home){
+            onBackPressed();
+            return true;
         }else if(item.getTitle().equals(getResources().getString(R.string.title_miAddPost))){
             Intent addPost = new Intent(getApplicationContext(), AddPostActivity.class);
             startActivity(addPost);
@@ -203,6 +171,23 @@ public class Profile extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void navigationItemSelected(@NonNull MenuItem item) {
+        CharSequence title = item.getTitle();
+        if (getResources().getString(R.string.itPosts_title).contentEquals(title)) {
+            Intent home = new Intent(getApplicationContext(), PostRecyclerView.class);
+            startActivity(home);
+        } else if (getResources().getString(R.string.itMessages_title).contentEquals(title)) {
+            Intent chat = new Intent(getApplicationContext(), ChatRecyclerView.class);
+            startActivity(chat);
+        } else if (getResources().getString(R.string.itSettings_title).contentEquals(title)) {
+            Toast.makeText(this, getResources().getString(R.string.itSettings_title), Toast.LENGTH_SHORT).show();
+        } else if (getResources().getString(R.string.itLogout_title).contentEquals(title)) {
+            // Remove last session credentials
+            eu.logout();
+            eu.intentLoginActivity();
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -214,32 +199,42 @@ public class Profile extends AppCompatActivity {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 
-                eu.uploadProfileImage(baos.toByteArray());
+                selectedImageBytes = baos.toByteArray();
+                profileWasModified = true;
             }
         }
     }
 
     @Override
     public void onBackPressed() {
-        if(!profileWasModified){
-            AlertDialog dialog = new AlertDialog.Builder(getApplicationContext())
+        if(profileWasModified){
+            super.onPause();
+            AlertDialog dialog = new AlertDialog.Builder(Profile.this)
                     .setTitle(R.string.confirm_profile_changes_title)
                     .setMessage(R.string.confirm_profile_changes_message)
                     .setPositiveButton("OK", (dialog1, which) -> {
                         eu.updateUsersProfile(etProfileTag.getText()+"",
                                 etProfileUsername.getText()+"",
                                 etProfileAboutMe.getText()+"");
+                        if(selectedImageBytes != null){
+                            eu.uploadProfileImage(selectedImageBytes);
+                        }
+                        super.onBackPressed();
                     })
-                    .setNeutralButton("NO", (dialog1, which) -> {
-                        //do nothing
+                    .setNegativeButton("NO", (dialog1, which) -> {
+                        super.onBackPressed();
                     })
                     .create();
             dialog.show();
+        }else if(dwLayout.isDrawerOpen(navView)){
+            dwLayout.closeDrawer(GravityCompat.END);
+            return;
         }
+
         super.onBackPressed();
     }
 
-    private TextWatcher watcher = new TextWatcher() {
+    private final TextWatcher watcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -255,10 +250,10 @@ public class Profile extends AppCompatActivity {
         }
     };
 
-    private View.OnLongClickListener listener = v -> {
+    private final View.OnLongClickListener listener = v -> {
         ((EditText) v).setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
-        ((EditText) v).setFocusable(true);
-        ((EditText) v).setFocusableInTouchMode(true);
+        v.setFocusable(true);
+        v.setFocusableInTouchMode(true);
         ((EditText) v).addTextChangedListener(watcher);
 
         return false;

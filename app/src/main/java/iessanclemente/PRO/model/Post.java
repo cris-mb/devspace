@@ -1,64 +1,83 @@
 package iessanclemente.PRO.model;
 
-import java.sql.Date;
+import com.google.firebase.Timestamp;
+import com.google.firebase.database.PropertyName;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Post {
 
-    private int mUid;
-    private String mAuthor;
-    private String mMultimediaURL;
-    private String mDescription;
-    private long mLikes;
-    private Date mDate;
-    private String mCodeURL;
+    @PropertyName("uid")
+    public String uid;
+    @PropertyName("author")
+    public String author;
+    @PropertyName("multimedia")
+    public String multimedia;
+    @PropertyName("description")
+    public String description;
+    @PropertyName("date")
+    public Timestamp date;
+    @PropertyName("url")
+    public String url;
 
     public Post(){
     }
 
-    public Post(int uid, String tagId_FK, String multimediaURL, String description, long likes, Date date, String codeURL) {
-        this.mUid = uid;
-        this.mAuthor = tagId_FK;
-        this.mMultimediaURL = multimediaURL;
-        this.mDescription = description;
-        this.mLikes = likes;
-        this.mDate = date;
-        this.mCodeURL = codeURL;
+    public Post(String uid, String author, String multimedia, String description, Timestamp date, String url) {
+        this.uid = uid;
+        this.author = author;
+        this.multimedia = multimedia;
+        this.description = description;
+        this.date = date;
+        this.url = url;
     }
 
-    public Post(String currentUserTagId, String multimediaURL, String description, int likes, Date date, String codeURL) {
-        this.mAuthor = currentUserTagId;
-        this.mMultimediaURL = multimediaURL;
-        this.mDescription = description;
-        this.mLikes = likes;
-        this.mDate = date;
-        this.mCodeURL = codeURL;
-    }
-
-    public int getUid() {
-        return mUid;
+    public String getUid() {
+        return uid;
     }
 
     public String getAuthor() {
-        return mAuthor;
+        return author;
     }
 
-    public String getMultimediaURL() {
-        return mMultimediaURL;
+    public String getMultimedia() {
+        return multimedia;
     }
 
     public String getDescription() {
-        return mDescription;
+        return description;
     }
 
-    public long getLikes() {
-        return mLikes;
+    public Timestamp getDate() {
+        return date;
     }
 
-    public Date getDate() {
-        return mDate;
+    public String getUrl() {
+        return url;
     }
 
-    public String getCodeURL() {
-        return mCodeURL;
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setMultimedia(String multimedia) {
+        this.multimedia = multimedia;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setDate(Timestamp date) {
+        this.date = date;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
