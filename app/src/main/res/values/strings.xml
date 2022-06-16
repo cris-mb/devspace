@@ -11,11 +11,8 @@
     <string name="label_AboutMe">About You</string>
     <string name="name_btnFileChooser">Choose</string>
     <string name="label_ProfileImage">Profile Image</string>
-    <string name="err_IncompleteRegistration">All fields are required</string>
     <string name="text_GoLogin">Already have an account ?</string>
-    <string name="title_AddPost">Add a new Post</string>
     <string name="label_PostImage">Image</string>
-    <string name="tag_LearnMore">Learn More</string>
     <string name="label_PostCodeURL">"URL to the code : "</string>
     <string name="label_PostDescription">Description</string>
     <string name="tag_btnPostCancel">Cancel</string>
@@ -39,6 +36,32 @@
     <string name="err_UserAlreadyExists">This user already exists</string>
     <string name="name_btnLogin">Login</string>
     <string name="err_PasswordDoNotMatch">The passwords provided did not match</string>
-    <string name="label_Username">User</string>
+    <string name="label_user_tag" translatable="false">Tag</string>
+    <string name="label_Username">Username</string>
     <string name="text_btnGoogleLogin">Sign in with google</string>
+    <string name="err_IncompleteRegistration">All fields are required</string>
+
+    <!-- Post card strings -->
+    <string name="tag_LearnMore">Learn More</string>
+    <string name="hint_etMessage"><i>Type a message ...</i></string>
+    <string name="default_tvReceiverName">Anonymous</string>
+    <string name="successfulUpload">"was successfully uploaded"</string>
+    <string name="error">There was some error</string>
+    <string name="confirm_profile_changes_title">Update profile</string>
+    <string name="confirm_profile_changes_message">Do you want to update your profile with the modifications done ?</string>
+
+    <!-- Add Post strings -->
+    <string name="title_AddPost">Add a new Post</string>
+    <string name="add_post_btnAddPost_text">Post</string>
+    <string name="add_post_description_hint"><i>Describe your code ...</i></string>
+    <string name="add_post_url_hint"><i>Insert a link to your code here</i></string>
+    <string name="post_description_too_short">Add a notable description to your new post (at least 15 characters)</string>
+    <string name="malformed_URL">Cannot find this link</string>
+    <string name="choose_post_image">Choose an image for your new post by holding the icon above</string>
+
+    <!-- PrivateChat strings -->
+    <string name="title_typeFirstMessage">Start chatting</string>
+    <string name="message_typeFirstMessage">Type your first message to start this conversation !!</string>
+    <string name="tap_twice_to_exit">Tap again to exit</string>
+
 </resources>

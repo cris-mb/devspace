@@ -20,19 +20,27 @@
     <dimen name="banner_height">150dp</dimen>
     <dimen name="banner_marginBottom">50dp</dimen>
     <dimen name="marginTop_tvGoBack">5dp</dimen>
+    <dimen name="btnLogin_marginBottom">10dp</dimen>
 
     <!-- Post Card dimens -->
     <dimen name="padding_postDescription">10dp</dimen>
     <dimen name="radius_btnLearnMore">20dp</dimen>
     <dimen name="margin_ivLike">5dp</dimen>
-    <dimen name="account_icon_width_height">36dp</dimen>
     <dimen name="radius_post_card">20dp</dimen>
-    <dimen name="margin_post_card">20dp</dimen>
+    <dimen name="margin_post_card">5dp</dimen>
+    <dimen name="margin_ivComment">55dp</dimen>
 
     <!-- Navigation Drawer Header dimens -->
     <dimen name="marginStart_tvAppName">20dp</dimen>
     <dimen name="width_height_ivLogo">80dp</dimen>
     <dimen name="margin_ivLogo">15dp</dimen>
     <dimen name="horizontal_margin_postcard">10dp</dimen>
+
+    <!-- Chat dimens-->
+    <dimen name="size_ib_send">50dp</dimen>
+    <dimen name="size_receiver_icon">50dp</dimen>
+    <dimen name="tvReceiverName_textSize">28sp</dimen>
+    <dimen name="padding_interaction_buttons">10dp</dimen>
+
 
 </resources>

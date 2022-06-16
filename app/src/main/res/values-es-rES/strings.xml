@@ -2,8 +2,8 @@
 <resources>
     <string name="label_Name">Nombre</string>
     <string name="label_Password">Contraseña</string>
-    <string name="name_btnLogin">Inicio de sesión</string>
-    <string name="name_btnRegister">Registro</string>
+    <string name="name_btnLogin">Iniciar sesión</string>
+    <string name="name_btnRegister">Registrar</string>
     <string name="label_Email">Correo</string>
     <string name="preferences_title">Preferencias</string>
     <string name="title_miProfile">Perfil</string>

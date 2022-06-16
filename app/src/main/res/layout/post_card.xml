@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cards_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:backgroundTint="@color/black"
-    android:layout_marginBottom="@dimen/margin_post_card"
-    android:layout_marginStart="@dimen/horizontal_margin_postcard"
-    android:layout_marginEnd="@dimen/horizontal_margin_postcard"
+    android:layout_margin="@dimen/margin_post_card"
     app:cardCornerRadius="@dimen/radius_post_card">
 
     <LinearLayout
@@ -16,32 +15,55 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:paddingStart="10dp"
             android:background="@color/dkblue"
             android:gravity="center_vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/ivAccountIconPost"
-                android:layout_width="@dimen/account_icon_width_height"
-                android:layout_height="@dimen/account_icon_width_height"
-                android:layout_margin="@dimen/margin_5dp"
-                android:src="@drawable/account_36"/>
+                android:id="@+id/ivPostAuthorIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/account_36"
+                app:civ_border_color="@color/blue"
+                app:civ_border_overlay="true"
+                app:civ_border_width="2dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tvAccountNamePost"
+                android:id="@+id/tvPostAuthorName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_5dp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintStart_toEndOf="@+id/ivPostAuthorIcon"
+                app:layout_constraintTop_toTopOf="parent"/>
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/tvPostAuthorTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="48dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/blue"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvPostAuthorName"
+                app:drawableLeftCompat="@drawable/ic_user" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
-            android:id="@+id/ivAccountMultimediaPost"
+            android:id="@+id/ivMultimediaPost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
             android:src="@drawable/power_off_24"/>
 
         <LinearLayout
@@ -51,34 +73,50 @@
             android:layout_gravity="bottom"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/margin_5dp"
+                android:padding="@dimen/padding_interaction_buttons"
                 android:gravity="center_vertical">
 
                 <ImageView
                     android:id="@+id/ivLike"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_margin="@dimen/margin_ivLike"
-                    android:src="@drawable/thumb_up_white_24" />
+                    android:src="@drawable/thumb_up_white_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/ivPostSendMessage"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_alignStart="@id/ivLike"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_send_message"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintStart_toEndOf="@+id/ivLike"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
-                    android:id="@+id/tvAmountLikes"
+                    android:id="@+id/tvPostLikes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/text_tvAmountLikes"
                     android:textColor="@color/white"
+                    android:textSize="15sp"
                     android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
-            </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:id="@+id/tvAccountDescriptionPost"
+                android:id="@+id/tvPostDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_postDescription"

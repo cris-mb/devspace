@@ -5,9 +5,17 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
 import iessanclemente.PRO.model.Post;
 import iessanclemente.PRO.model.User;
 
@@ -17,19 +25,33 @@ public class DatabaseOperations extends SQLiteOpenHelper{
     public final static String BD_NAME="DEVSPACE";
     public final static int VERSION_BD = 1;
 
+    private static final String TAG = DatabaseOperations.class.getSimpleName();
+    private final Context context;
+
+    private final StorageReference stRef;
+    private final DatabaseReference usersRef, postsRef;
+    private FirebaseAuth auth;
+
+    private String downloadUrl;
+    private String currUserUid;
+
+
     public DatabaseOperations(Context context) {
         super(context, BD_NAME, null, VERSION_BD);
+        this.context = context;
+        stRef = FirebaseStorage.getInstance().getReference();
+        usersRef = FirebaseDatabase.getInstance().getReference().child("users");
+        postsRef = FirebaseDatabase.getInstance().getReference().child("posts");
 
+        auth = FirebaseAuth.getInstance();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
 
     public void tablesCreation(){
@@ -60,8 +82,6 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         if (datosConsulta.moveToFirst()) {
             Post post;
             while (!datosConsulta.isAfterLast()) {
-                post = new Post(datosConsulta.getInt(0), datosConsulta.getString(1), datosConsulta.getString(2), datosConsulta.getString(3), datosConsulta.getLong(4), Date.valueOf(datosConsulta.getString(5)), datosConsulta.getString(6));
-                list.add(post);
                 datosConsulta.moveToNext();
             }
         }
@@ -70,21 +90,75 @@ public class DatabaseOperations extends SQLiteOpenHelper{
     }
 
     public User getUser(String tag){
-        Cursor datosConsulta = sqlLiteDB.rawQuery("select * from user where tagId=?", new String[]{tag});
+        User us = null;
 
-        if(datosConsulta.moveToFirst())
-            return new User(datosConsulta.getString(0), datosConsulta.getString(1), datosConsulta.getString(2), datosConsulta.getString(3), datosConsulta.getString(4), datosConsulta.getString(5));
-
-        return null;
+        return us;
     }
 
-    public User getUserByEmail(String tag){
-        Cursor datosConsulta = sqlLiteDB.rawQuery("select * from email where tagId=?", new String[]{tag});
+    public User getCurrentUser(){
+        User us = null;
 
-        if(datosConsulta.moveToFirst())
-            return new User(datosConsulta.getString(0), datosConsulta.getString(1), datosConsulta.getString(2), datosConsulta.getString(3), datosConsulta.getString(4), datosConsulta.getString(5));
+        return us;
+    }
 
-        return null;
+    private void uploadUser(String downloadUrl) {
+        // TODO : complete this method
+//        usersRef.child(currUserUid).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if(snapshot.exists()){
+//                    User us = getUser();
+//                    String tag = snapshot.child("tag").getValue()+"";
+//                    String profileImage = snapshot.child("profileImage").getValue()+"";
+//
+//                    HashMap userMap = new HashMap();
+//                    userMap.put("about", "");
+//                    userMap.put("email", "");
+//                    userMap.put("password", );
+//                    userMap.put("profileImage", profile);
+//                    userMap.put("tag", tag);
+//                    userMap.put("username", );
+//
+//                    usersRef.child(generateTimeStamp()).updateChildren(userMap).addOnCompleteListener(task -> {
+//                        if(task.isSuccessful())
+//                            Toast.makeText(context, "Profile image successfully uploaded", Toast.LENGTH_SHORT).show();
+//                        else
+//                            Toast.makeText(context, "Error, profile image wasn't uploaded", Toast.LENGTH_SHORT).show();
+//                    });
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+    }
+
+    private void uploadPostOnDatabase(String downloadUrl) {
+        // TODO : Retrieve all post data
+//        usersRef.child(currUserTag).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if(snapshot.exists()){
+//                    String tag_FK = snapshot.child("username").getValue()+"";
+//                    String multimedia = snapshot.child("multimedia").getValue()+"";
+//
+//                    HashMap postMap = new HashMap();
+//                    postMap.put("date", new java.util.Date());
+//                    postMap.put("description", "");
+//                    postMap.put("likes", "");
+//                    postMap.put("multimedia", multimedia);
+//                    postMap.put("tag_FK", tag_FK);
+//                    postMap.put("url", "");
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
     }
 
     // ADD Declarations
@@ -93,34 +167,6 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         valores.put("tagId_Followed", tagId_Followed);
         valores.put("tagId_Follower", tagId_Follower);
         long id = sqlLiteDB.insert("follows",null,valores);
-
-        return id;
-    }
-
-    public long addUser(User us){
-        ContentValues valores = new ContentValues();
-        valores.put("tagId", us.getUserTag());
-        valores.put("username", us.getUsername());
-        valores.put("profileImagePath", us.getProfileImagePath());
-        valores.put("email", us.getEmail());
-        valores.put("password", us.getPassword());
-        valores.put("about", us.getAbout());
-
-        long id = sqlLiteDB.insert("user",null,valores);
-
-
-        return id;
-    }
-
-    public long addPost(Post p){
-        ContentValues valores = new ContentValues();
-        valores.put("tagId_FK", p.getAuthor());
-        valores.put("multimediaPath", p.getMultimediaPath());
-        valores.put("description", p.getDescription());
-        valores.put("likes", p.getLikes());
-        valores.put("date", new SimpleDateFormat("yyyy-MM-dd").format(p.getDate()));
-        valores.put("codeURL", p.getCodeURL());
-        long id = sqlLiteDB.insert("post",null,valores);
 
         return id;
     }
@@ -151,6 +197,10 @@ public class DatabaseOperations extends SQLiteOpenHelper{
         int rexistrosModificados = sqlLiteDB.update("post", datos, where, params);
 
         return rexistrosModificados;
+    }
+
+    public void logout(){
+        auth.signOut();
     }
 
 }
