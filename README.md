@@ -33,8 +33,6 @@ Toda esta información esta recogida en detalle en el [anteproyecto.pdf](doc/doc
 
 Sigue estos pasos para instalar la aplicación en tu dispositivo móvil o para descargar el repositorio del proyecto en la ![Guía de instalación](/doc/installation/README.md).
 
-> *TODO*: Actualizar el .apk publicado al terminar la aplicación
-
 
 
 

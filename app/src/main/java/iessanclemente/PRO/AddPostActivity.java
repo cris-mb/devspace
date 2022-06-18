@@ -2,34 +2,24 @@ package iessanclemente.PRO;
 
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
-
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
-import com.google.firebase.storage.StorageReference;
-
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -174,7 +164,7 @@ public class AddPostActivity extends Activity {
     }
 
     public void openFileChooser(){
-        Intent chooser = new Intent(Intent.ACTION_PICK);
+        Intent chooser = new Intent(Intent.ACTION_GET_CONTENT);
         chooser.setType("image/*");
         startActivityForResult(chooser, CHOOSE_MULTIMEDIA_IMAGE);
     }
