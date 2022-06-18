@@ -1,5 +1,5 @@
 # Guía de instalación de la aplicación
-### 1. Instalación de la aplicación en un dispositivo Android: (*APK EN PRUEBAS*, en breves publicaré la aplicación final):
+### 1. Instalación de la aplicación en un dispositivo Android:
 
 > Debido a que en gitlab por alguna razón se descargan como archivos .zip los .apk que publiqué, decidí comprimirlos dentro de un .zip y así solucionar este problema que impedía instalarlos correctamente. Los pasos a seguir son los siguientes
 
