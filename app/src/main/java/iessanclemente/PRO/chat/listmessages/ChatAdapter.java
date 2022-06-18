@@ -88,11 +88,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatRecyclerView.ChatViewH
     }
 
     private void setLastMessage(ImageView iv, TextView tv, Chat chat) {
-        ffStore.collection("chat")
-                .whereEqualTo("users", chat.getUsers())
-                .get().addOnCompleteListener(task -> {
-                    if(task.isSuccessful() && !task.getResult().isEmpty()){
-                        Chat currentChat = task.getResult().getDocuments().get(0).toObject(Chat.class);
+        ffStore.collection("chats")
+            .whereEqualTo("users", chat.getUsers())
+            .get().addOnCompleteListener(task -> {
+                if(task.isSuccessful() && !task.getResult().isEmpty()){
+                    Chat currentChat = task.getResult().getDocuments().get(0).toObject(Chat.class);
+                    if(currentChat.getMessages() != null){
                         Message lastMessage = currentChat.getMessages().get(currentChat.getMessages().size()-1);
                         tv.setText(lastMessage.getMessage());
                         if(lastMessage.getAuthor().equals(currentUserUid)) {
@@ -101,7 +102,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatRecyclerView.ChatViewH
                             iv.setImageDrawable(context.getDrawable(R.drawable.message_received));
                         }
                     }
-                });
-
+                }
+            });
     }
 }

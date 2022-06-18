@@ -175,7 +175,7 @@ public class AddPostActivity extends Activity {
 
     public void openFileChooser(){
         Intent chooser = new Intent(Intent.ACTION_PICK);
-        chooser.setType("*/*");
+        chooser.setType("image/*");
         startActivityForResult(chooser, CHOOSE_MULTIMEDIA_IMAGE);
     }
 

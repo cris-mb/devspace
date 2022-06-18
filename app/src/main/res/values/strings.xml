@@ -63,5 +63,6 @@
     <string name="title_typeFirstMessage">Start chatting</string>
     <string name="message_typeFirstMessage">Type your first message to start this conversation !!</string>
     <string name="tap_twice_to_exit">Tap again to exit</string>
+    <string name="default_profile_image"><![CDATA[https://firebasestorage.googleapis.com/v0/b/devspace-b93f2.appspot.com/o/profile_images%2Fanonymous.svg?alt=media&token=8587c03e-a4de-4144-ba5e-839662d1638f]]></string>
 
 </resources>

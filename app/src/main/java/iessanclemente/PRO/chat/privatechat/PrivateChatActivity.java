@@ -74,11 +74,7 @@ public class PrivateChatActivity extends AppCompatActivity {
         initializeComponents();
 
         initProgressDialog();
-        if(getIntent().hasExtra("receiverUid")){
-            receiverUid = getIntent().getStringExtra("receiverUid");
-            setReceiverOnToolbar(receiverUid);
-        }else
-            fetchUserByTag(getIntent().getStringExtra("receiverTag"));
+        fetchUserByTag(getIntent().getStringExtra("receiverTag"));
 
         prepareRecyclerView();
 
@@ -87,8 +83,7 @@ public class PrivateChatActivity extends AppCompatActivity {
             if(chatUidReference != null){
                 sendMessage(chatUidReference);
                 etMessage.setText("");
-                displayMessages(chatUidReference, true);
-                setChatMessagesListener();
+                displayMessages(chatUidReference);
             }
         });
     }
@@ -157,42 +152,37 @@ public class PrivateChatActivity extends AppCompatActivity {
     }
 
     private void prepareMessagesRecyclerView() {
-        ffStore.collection("chat")
+        ffStore.collection("chats")
                 .whereArrayContains("users", currentUserUid)
                 .get().addOnCompleteListener(task -> {
-                    if(task.isSuccessful()){
-                        if(task.getResult().isEmpty()){
-                            Log.i(TAG, "prepareMessagesRecyclerView: emptyChat");
-                            pDialog.dismiss();
-                            showFirstMessageDialog();
-                        }else{
-                            Log.i(TAG, "prepareMessagesRecyclerView: debug ("+task.getResult().getDocuments()+")");
-                            List<DocumentSnapshot> listObjects = task.getResult().getDocuments();
-                            for (DocumentSnapshot ds:listObjects) {
-                                ArrayList<String> chatUsers = (ArrayList<String>) ds.get("users");
-                                pDialog.dismiss();
-                                boolean hasMessages = ds.get("messages") != null
-                                        && ((ArrayList<Object>)ds.get("messages")).size() > 0;
+                    if(task.isSuccessful() && !task.getResult().isEmpty()){
+                        for (DocumentSnapshot ds:task.getResult().getDocuments()) {
+                            ArrayList<String> chatUsers = (ArrayList<String>) ds.get("users");
 
-                                if(chatUsers.contains(receiverUid) && hasMessages){
-                                    chatUidReference = ds.getId();
-                                    displayMessages(chatUidReference, true);
-                                }
+                            if(chatUsers != null && chatUsers.contains(receiverUid)){
+                                pDialog.dismiss();
+                                chatUidReference = ds.getId();
+                                displayMessages(chatUidReference);
                                 setChatMessagesListener();
+                                return;
                             }
                         }
                     }else {
-                        Log.i(TAG, "prepareMessagesRecyclerView: failed -> "+task.getException().getMessage());
+                        pDialog.dismiss();
+                        showFirstMessageDialog();
+                        Log.i(TAG, "prepareMessagesRecyclerView: new chat created");
                     }
                 });
     }
 
-    private void displayMessages(String chatUid, boolean sendMessage) {
+    private void displayMessages(String chatUid) {
         Log.i(TAG, "displayMessages: chatUid("+chatUid+")");
-        ffStore.collection("chat")
+        ffStore.collection("chats")
                 .document(chatUid)
                 .get().addOnCompleteListener(task -> {
-                    if(task.isSuccessful() && sendMessage){
+                    if(task.isSuccessful()
+                            && task.getResult().get("messages") != null
+                            && !((ArrayList<Object>) task.getResult().get("messages")).isEmpty()){
                         ArrayList<HashMap<String, Object>> messagesList = (ArrayList<HashMap<String, Object>>) task.getResult().get("messages");
                         bindAdapterToRecycler(toMessageArrayList(messagesList));
                     }
@@ -205,22 +195,21 @@ public class PrivateChatActivity extends AppCompatActivity {
     }
 
     private void setChatMessagesListener() {
-        ArrayList<String> usersUids = new ArrayList<>();
-            usersUids.add(currentUserUid);
-            usersUids.add(receiverUid);
-
-        ffStore.collection("chat")
-                .whereEqualTo("users", usersUids)
+        ffStore.collection("chats")
+                .whereEqualTo("uid", chatUidReference)
+                .limit(100)
                 .addSnapshotListener((value, error) -> {
                     if(error == null){
-                        Log.d(TAG, "Changes detected "+!value.isEmpty());
+                        Log.d(TAG, "Changes detected "+!value.getDocumentChanges().isEmpty());
                         if(value != null){
                             ArrayList<HashMap<String, Object>> messagesList = new ArrayList<>();
-                            if(!value.isEmpty()){
+                            if(!value.isEmpty()
+                                    && value.getDocuments().get(0) != null
+                                    && value.getDocuments().get(0).get("messages") != null){
                                 messagesList =
                                         (ArrayList<HashMap<String, Object>>) value.getDocuments().get(0).get("messages");
+                                Log.d(TAG, "messagesList retrieved -> "+messagesList);
                             }
-                            Log.d(TAG, "listener success "+messagesList);
                             MessagesAdapter adapter = new MessagesAdapter(toMessageArrayList(messagesList));
                             rvMessages.setAdapter(adapter);
                             rvMessages.smoothScrollToPosition(adapter.getItemCount());
@@ -250,19 +239,21 @@ public class PrivateChatActivity extends AppCompatActivity {
     }
 
     private void createNewChat(){
+        DocumentReference dr = ffStore.collection("chats").document();
+        chatUidReference = dr.getId();
+
         ArrayList<String> chatUsers = new ArrayList<>();
             chatUsers.add(currentUserUid);
             chatUsers.add(receiverUid);
 
         HashMap<String, Object> chatData = new HashMap<>();
+        chatData.put("uid", chatUidReference);
         chatData.put("date", Timestamp.now());
         chatData.put("users", chatUsers);
 
-        DocumentReference dr = ffStore.collection("chat").document();
         dr.set(chatData).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
-                chatUidReference = dr.getId();
-                displayMessages(chatUidReference, false);
+                setChatMessagesListener();
             }
         });
     }
@@ -270,7 +261,7 @@ public class PrivateChatActivity extends AppCompatActivity {
     private void sendMessage(String chatUidReference) {
         Message chatMessage = new Message(currentUserUid, etMessage.getText()+"", Timestamp.now());
 
-        ffStore.collection("chat")
+        ffStore.collection("chats")
                 .document(chatUidReference)
                 .update("messages", FieldValue.arrayUnion(chatMessage))
                 .addOnCompleteListener(task -> {

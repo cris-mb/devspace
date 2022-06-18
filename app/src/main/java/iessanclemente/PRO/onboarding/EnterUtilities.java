@@ -17,6 +17,8 @@ import com.google.firebase.storage.StorageReference;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Random;
+
+import iessanclemente.PRO.Profile;
 import iessanclemente.PRO.recycler.PostRecyclerView;
 
 public class EnterUtilities {
@@ -164,6 +166,12 @@ public class EnterUtilities {
         Intent login = new Intent(context.getApplicationContext(), LoginActivity.class);
         login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(login);
+    }
+
+    public void intentProfileActivity() {
+        Intent profile = new Intent(context.getApplicationContext(), Profile.class);
+        profile.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(profile);
     }
 
     public String generateRandomHash(int size) {

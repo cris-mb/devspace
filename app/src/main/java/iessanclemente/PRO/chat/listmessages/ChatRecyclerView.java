@@ -55,7 +55,7 @@ public class ChatRecyclerView extends AppCompatActivity {
     }
 
     private void bindAdapterToRecycler() {
-        ffStore.collection("chat")
+        ffStore.collection("chats")
                 .whereArrayContains("users", userUid)
                 .limit(100)
                 .addSnapshotListener((value, error) -> {

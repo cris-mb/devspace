@@ -110,7 +110,7 @@ public class RegisterActivity extends Activity{
             if(task.isSuccessful()) {
                 Log.d(TAG, "registerNewUserAuthentication was successful? = " + task.isSuccessful());
                 saveUserInfoToDatabase(email);
-                eu.intentPostRecyclerActivity();
+                eu.intentProfileActivity();
             }else {
                 Log.e(TAG, "registerNewUserAuthentication: " + task.getException());
                 setError(task.getException().getMessage());
@@ -122,7 +122,7 @@ public class RegisterActivity extends Activity{
         HashMap<String, Object> userData = new HashMap<>();
         userData.put("about", "Hey there! I'm a new user of DevSpace");
         userData.put("email", email);
-        userData.put("profileImage", "https://firebasestorage.googleapis.com/v0/b/devspace-b93f2.appspot.com/o/profile_images%2Fanonymous.png?alt=media&token=9d838688-6f99-4e6a-88f5-91ee892bbe89");
+        userData.put("profileImage", getResources().getString(R.string.default_profile_image));
         userData.put("tag", "devUser"+eu.generateRandomHash(12));
         userData.put("username", "Anonymous");
 

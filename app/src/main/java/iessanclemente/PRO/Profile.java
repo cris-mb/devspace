@@ -46,7 +46,6 @@ public class Profile extends AppCompatActivity {
     private static final int CHOOSE_PROFILE_IMAGE = 100;
 
     private EnterUtilities eu;
-    private StorageReference stRef;
     private FirebaseFirestore ffStore;
     private FirebaseUser fUser;
 
@@ -69,7 +68,6 @@ public class Profile extends AppCompatActivity {
         setContentView(R.layout.profile_activity);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         eu = new EnterUtilities(getApplicationContext());
-        stRef = FirebaseStorage.getInstance().getReference();
         ffStore = FirebaseFirestore.getInstance();
         fUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -219,10 +217,10 @@ public class Profile extends AppCompatActivity {
                         if(selectedImageBytes != null){
                             eu.uploadProfileImage(selectedImageBytes);
                         }
-                        super.onBackPressed();
+                        eu.intentPostRecyclerActivity();
                     })
                     .setNegativeButton("NO", (dialog1, which) -> {
-                        super.onBackPressed();
+                        eu.intentPostRecyclerActivity();
                     })
                     .create();
             dialog.show();
@@ -230,7 +228,7 @@ public class Profile extends AppCompatActivity {
             dwLayout.closeDrawer(GravityCompat.END);
             return;
         }else{
-            super.onBackPressed();
+            eu.intentPostRecyclerActivity();
         }
     }
 
