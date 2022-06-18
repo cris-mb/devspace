@@ -31,7 +31,7 @@ Toda esta información esta recogida en detalle en el [anteproyecto.pdf](doc/doc
 
 ## Instalación / Puesta en marcha
 
-Sigue estos pasos para instalar la aplicación en tu dispositivo móvil o para descargar el repositorio del proyecto en la ![Guía de instalación](/doc/installation/README.md).
+Sigue estos pasos para instalar la aplicación en tu dispositivo móvil o para descargar el repositorio del proyecto en la [Guía de instalación](/doc/installation/README.md).
 
 
 
@@ -46,7 +46,7 @@ Las interfaces de DevSpace se crearon con el objetivo de que fuesen lo mas intui
 4. Interactuar con las publicaciones de otros usuarios a través de likes y comentarios.
 5. Comunicarse con otros usuarios mediante el sistema de mensajería instantánea.
 
-Para más información sobre los diferentes usos de la aplicación, consulta el ![manual de uso](/doc/img/mockups.png)
+Para más información sobre los diferentes usos de la aplicación, consulta el [manual de uso](/doc/img/mockups.png)
 
 
 
