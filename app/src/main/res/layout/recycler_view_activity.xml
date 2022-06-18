@@ -18,6 +18,15 @@
             android:background="@drawable/background_gradient_dkblue"
             android:focusable="false">
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+=======
+>>>>>>> 3dbc52bc64867d4e17144693ab4b700684b75286
             <SearchView
                 android:id="@+id/searchView"
                 android:layout_width="match_parent"
@@ -26,6 +35,10 @@
                 android:queryHint="@string/filter_hint"
                 android:iconifiedByDefault="false"
                 android:background="@drawable/custom_search_view" />
+<<<<<<< HEAD
+=======
+>>>>>>> entrega_2
+>>>>>>> 3dbc52bc64867d4e17144693ab4b700684b75286
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler"
