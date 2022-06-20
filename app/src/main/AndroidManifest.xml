@@ -34,6 +34,7 @@
         <activity
             android:name=".Profile"
             android:exported="true"
+            android:label="@string/toolbar_label_Profile"
             android:parentActivityName=".recycler.PostRecyclerView">
         </activity>
 
@@ -47,11 +48,13 @@
         <activity
             android:name=".chat.listmessages.ChatRecyclerView"
             android:exported="true"
+            android:label="@string/toolbar_label_Messages"
             android:parentActivityName=".recycler.PostRecyclerView">
         </activity>
 
         <activity
             android:name=".chat.privatechat.PrivateChatActivity"
+            android:label="@string/toolbar_label_Chat"
             android:exported="true">
         </activity>
 

@@ -19,7 +19,7 @@
     <string name="title_miAddPost">Añadir Publicación</string>
     <string name="title_AddPost">Añadir nueva publicación</string>
     <string name="label_PostImage">Imagen</string>
-    <string name="tag_LearnMore">Más</string>
+    <string name="tag_LearnMore">Llévame ahí</string>
     <string name="label_PostCodeURL">"URL del código : "</string>
     <string name="label_PostDescription">Descripción</string>
     <string name="tag_btnPostCancel">Cancelar</string>
@@ -47,8 +47,13 @@
     <string name="add_post_url_hint"><i>Link a tu código ...</i></string>
     <string name="post_description_too_short">Añade una descripción competente (por lo menos 15 caracteres)</string>
     <string name="malformed_URL">No se pudo encontrar el link</string>
-    <string name="choose_post_image">Manten pulsado el icono para cambiar tu foto de perfil</string>
+    <string name="choose_post_image">Manten pulsado el icono para escoger la foto de tu publicación</string>
     <string name="title_typeFirstMessage">Empieza a chatear</string>
     <string name="message_typeFirstMessage">Escribe tu primer mensaje en esta conversación !!</string>
     <string name="tap_twice_to_exit">Pulsa dos veces para salir</string>
+    <string name="toolbar_label_Chat">Chat</string>
+    <string name="toolbar_label_Messages">Mensajes</string>
+    <string name="toolbar_label_Profile">Perfil</string>
+    <string name="text_edit_profile">Editar Perfil</string>
+    <string name="save_modifications">Guardar cambios</string>
 </resources>

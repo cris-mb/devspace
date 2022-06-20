@@ -69,7 +69,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostRecyclerView.PostViewH
         holder.ivPostSendMessage.setOnClickListener(v -> {
             Intent sendNewMessage = new Intent(context.getApplicationContext(), PrivateChatActivity.class);
             sendNewMessage.putExtra("receiverTag", holder.tvPostAuthorTag.getText()+"");
-            sendNewMessage.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             context.startActivity(sendNewMessage);
         });
 
@@ -106,7 +105,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostRecyclerView.PostViewH
             Picasso.with(context).load(multimediaUrl).into(holder.ivMultimediaPost);
         }else
             holder.ivMultimediaPost.setImageDrawable(context.getDrawable(R.drawable.image_not_found));
-
     }
 
     private void setPostLikes(String postUid, TextView tvPostLikes) {

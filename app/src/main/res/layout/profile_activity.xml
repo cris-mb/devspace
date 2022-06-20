@@ -13,7 +13,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:orientation="vertical"
             android:layout_margin="@dimen/general_margin"
             android:gravity="center_horizontal">
@@ -36,9 +36,10 @@
                 android:background="@android:color/transparent"
                 android:fontFamily="@font/play_r"
                 android:drawableStart="@drawable/ic_user"
-                android:inputType="none"
+                android:inputType="textPersonName"
+                android:maxLines="1"
                 android:maxLength="30"
-                android:longClickable="true"/>
+                android:enabled="false" />
 
             <EditText
                 android:id="@+id/etProfileUsername"
@@ -51,8 +52,9 @@
                 android:background="@android:color/transparent"
                 android:fontFamily="@font/play_b"
                 android:focusableInTouchMode="false"
+                android:maxLines="1"
                 android:maxLength="25"
-                android:longClickable="true" />
+                android:enabled="false" />
 
             <EditText
                 android:id="@+id/etProfileAboutMe"
@@ -61,9 +63,17 @@
                 android:layout_marginTop="@dimen/general_margin"
                 android:background="@android:color/transparent"
                 android:textAlignment="center"
-                android:focusable="false"
-                android:longClickable="true"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:enabled="false" />
+
+            <Button
+                android:id="@+id/btnEditProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/green"
+                android:textColor="@color/white"
+                android:text="@string/text_edit_profile"
+                android:layout_marginVertical="15dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

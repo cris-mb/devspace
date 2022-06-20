@@ -15,4 +15,5 @@
     <color name="statusTextColor">#4D4B4B</color>
     <color name="grey">#969696</color>
     <color name="blue_dark">#1B8F8E</color>
+    <color name="green">#4CAF50</color>
 </resources>
