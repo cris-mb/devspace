@@ -95,6 +95,7 @@ public class Profile extends AppCompatActivity {
 
         btnEditProfile.setOnClickListener(view -> {
             if(!etProfileTag.isEnabled()){
+                profileWasModified = true;
                 ivProfileImage.setOnClickListener(view1 -> {
                     Intent pickImage = new Intent();
                     pickImage.setAction(Intent.ACTION_GET_CONTENT);

@@ -26,15 +26,16 @@
         <entry key="app/src/main/res/drawable/message_received_bubble.xml" value="0.1465" />
         <entry key="app/src/main/res/drawable/message_sent.xml" value="0.1465" />
         <entry key="app/src/main/res/drawable/message_sent_bubble.xml" value="0.1465" />
+        <entry key="app/src/main/res/drawable/post_reference_layout_background.xml" value="0.1465" />
         <entry key="app/src/main/res/drawable/status_offline.xml" value="0.192" />
         <entry key="app/src/main/res/drawable/thumb_up_dkgrey_24.xml" value="0.1495" />
         <entry key="app/src/main/res/drawable/thumb_up_white_24.xml" value="0.1495" />
         <entry key="app/src/main/res/layout/add_post_activity.xml" value="0.9" />
         <entry key="app/src/main/res/layout/add_post_dialog.xml" value="0.9" />
         <entry key="app/src/main/res/layout/app_toolbar_layout.xml" value="0.7040229885057471" />
-        <entry key="app/src/main/res/layout/chat_item.xml" value="0.6004901960784313" />
-        <entry key="app/src/main/res/layout/chat_layout.xml" value="0.4936708860759494" />
-        <entry key="app/src/main/res/layout/chat_toolbar.xml" value="1.0" />
+        <entry key="app/src/main/res/layout/chat_item.xml" value="0.5861244019138756" />
+        <entry key="app/src/main/res/layout/chat_layout.xml" value="0.67" />
+        <entry key="app/src/main/res/layout/chat_toolbar.xml" value="0.5861244019138756" />
         <entry key="app/src/main/res/layout/choose_login_register.xml" value="0.24954710144927536" />
         <entry key="app/src/main/res/layout/contact_layout.xml" value="0.67" />
         <entry key="app/src/main/res/layout/contacts_list.xml" value="0.39963503649635035" />

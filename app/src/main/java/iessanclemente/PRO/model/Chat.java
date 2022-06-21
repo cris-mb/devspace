@@ -4,6 +4,7 @@ import com.google.firebase.Timestamp;
 import java.util.ArrayList;
 
 public class Chat {
+    private String postUid;
     private Timestamp date;
     private ArrayList<Message> messages;
     private ArrayList<String> users;
@@ -13,6 +14,14 @@ public class Chat {
 
     public Timestamp getDate() {
         return date;
+    }
+
+    public String getPostUid() {
+        return postUid;
+    }
+
+    public void setPostUid(String postUid) {
+        this.postUid = postUid;
     }
 
     public void setDate(Timestamp date) {

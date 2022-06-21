@@ -11,12 +11,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import iessanclemente.PRO.R;
@@ -31,6 +34,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatRecyclerView.ChatViewH
 
     private String currentUserUid;
     private String receiverUid;
+    private String multimediaRef;
 
     public ChatAdapter(Context context, List<Chat> list){
         this.context = context;
@@ -52,9 +56,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatRecyclerView.ChatViewH
     public void onBindViewHolder(@NonNull ChatRecyclerView.ChatViewHolder holder, int i) {
         decideEmitterReceiver(chatsList.get(i));
         setMessageHeader(holder.ivChatUserIcon, holder.tvChatUsername, holder.tvChatUserTag);
+        setMultimediaOnHeader(holder.ivChatPostMultimedia, holder.tvChatPostDate, chatsList.get(i));
         holder.itemView.setOnClickListener(chatView -> {
             Intent startPrivateChat = new Intent(context.getApplicationContext(), PrivateChatActivity.class);
             startPrivateChat.putExtra("receiverTag", holder.tvChatUserTag.getText()+"");
+            startPrivateChat.putExtra("postUid", chatsList.get(i).getPostUid());
             context.startActivity(startPrivateChat);
         });
         setLastMessage(holder.ivMessageType, holder.tvLastMessage, chatsList.get(i));
@@ -81,28 +87,37 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatRecyclerView.ChatViewH
                                .placeholder(context.getDrawable(R.drawable.account_40))
                                .into(iv);
 
-                       tvUsername.setText(task.getResult().get("username").toString());
-                       tvTag.setText(task.getResult().get("tag").toString());
+                       tvUsername.setText(task.getResult().get("username")+"");
+                       tvTag.setText(task.getResult().get("tag")+"");
                    }
                 });
     }
 
-    private void setLastMessage(ImageView iv, TextView tv, Chat chat) {
-        ffStore.collection("chats")
-            .whereEqualTo("users", chat.getUsers())
+    private void setMultimediaOnHeader(ImageView iv, TextView tv, Chat chat) {
+        ffStore.collection("posts")
+            .document(chat.getPostUid())
             .get().addOnCompleteListener(task -> {
-                if(task.isSuccessful() && !task.getResult().isEmpty()){
-                    Chat currentChat = task.getResult().getDocuments().get(0).toObject(Chat.class);
-                    if(currentChat.getMessages() != null){
-                        Message lastMessage = currentChat.getMessages().get(currentChat.getMessages().size()-1);
-                        tv.setText(lastMessage.getMessage());
-                        if(lastMessage.getAuthor().equals(currentUserUid)) {
-                            iv.setImageDrawable(context.getDrawable(R.drawable.message_sent));
-                        }else{
-                            iv.setImageDrawable(context.getDrawable(R.drawable.message_received));
-                        }
-                    }
+                if(task.isSuccessful()){
+                    multimediaRef = task.getResult().get("multimedia")+"";
+                    Picasso.with(context).load(multimediaRef)
+                            .placeholder(context.getDrawable(R.drawable.image_not_found))
+                            .into(iv);
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+                    Date date = ((Timestamp) task.getResult().get("date")).toDate();
+                    tv.setText(sdf.format(date));
                 }
             });
+    }
+
+    private void setLastMessage(ImageView iv, TextView tv, Chat chat) {
+        if(chat != null && chat.getMessages() != null){
+            Message lastMessage = chat.getMessages().get(chat.getMessages().size()-1);
+            tv.setText(lastMessage.getMessage());
+            if(lastMessage.getAuthor().equals(currentUserUid)) {
+                iv.setImageDrawable(context.getDrawable(R.drawable.message_sent));
+            }else{
+                iv.setImageDrawable(context.getDrawable(R.drawable.message_received));
+            }
+        }
     }
 }

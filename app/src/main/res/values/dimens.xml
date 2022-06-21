@@ -41,6 +41,8 @@
     <dimen name="size_receiver_icon">50dp</dimen>
     <dimen name="tvReceiverName_textSize">28sp</dimen>
     <dimen name="padding_interaction_buttons">10dp</dimen>
+    <dimen name="size_ivPrivateChatMultimedia">75dp</dimen>
+    <dimen name="marginStart_tvPrivateChatText">35dp</dimen>
 
 
 </resources>

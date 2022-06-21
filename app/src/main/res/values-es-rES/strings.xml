@@ -56,4 +56,8 @@
     <string name="toolbar_label_Profile">Perfil</string>
     <string name="text_edit_profile">Editar Perfil</string>
     <string name="save_modifications">Guardar cambios</string>
+    <string name="text_tvPrivateChatDate">comentó en </string>
+    <string name="title_notification">Nuevo chat creado</string>
+    <string name="body_notification">Has creado un nuevo chat y un correo será enviado como notificación</string>
+    <string name="email_sent">Se envió un correo de aviso correctamente</string>
 </resources>

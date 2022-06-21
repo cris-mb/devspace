@@ -69,5 +69,9 @@
     <string name="toolbar_label_Profile">Profile</string>
     <string name="text_edit_profile">Edit Profile</string>
     <string name="save_modifications">Save Changes</string>
+    <string name="text_tvPrivateChatDate">commented on </string>
+    <string name="title_notification">New chat created</string>
+    <string name="body_notification">You have created a new chat and an email will be sent to notify it</string>
+    <string name="email_sent">A notification email was sent to this user</string>
 
 </resources>

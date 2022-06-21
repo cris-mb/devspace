@@ -24,6 +24,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -34,6 +36,9 @@ import iessanclemente.PRO.model.Message;
 public class PrivateChatActivity extends AppCompatActivity {
 
     private static final String TAG = PrivateChatActivity.class.getSimpleName();
+
+    private ImageView ivPrivateChatMultimedia;
+    private TextView tvPrivateChatDate;
 
     private RecyclerView rvMessages;
     private ImageView ivSendMessage;
@@ -46,6 +51,8 @@ public class PrivateChatActivity extends AppCompatActivity {
     private String currentUserUid;
     private String receiverUid;
     private String chatUidReference;
+    private String postUid;
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +64,8 @@ public class PrivateChatActivity extends AppCompatActivity {
 
         initProgressDialog();
         setReceiverOnToolbar(getIntent().getStringExtra("receiverTag"));
+        postUid = getIntent().getStringExtra("postUid");
+        setMultimediaOnHeader(postUid);
 
         ivSendMessage = findViewById(R.id.ivSendMessage);
         ivSendMessage.setOnClickListener(v -> {
@@ -86,6 +95,9 @@ public class PrivateChatActivity extends AppCompatActivity {
         ivReceiverIcon = findViewById(R.id.ivReceiverIcon);
         tvReceiverName = findViewById(R.id.tvReceiverName);
 
+        ivPrivateChatMultimedia = findViewById(R.id.ivPrivateChatMultimedia);
+        tvPrivateChatDate = findViewById(R.id.tvPrivateChatDate);
+
         rvMessages = findViewById(R.id.rvMessages);
         rvMessages.setHasFixedSize(true);
             LinearLayoutManager llManager = new LinearLayoutManager(this);
@@ -108,7 +120,7 @@ public class PrivateChatActivity extends AppCompatActivity {
             .whereEqualTo("tag", receiverTag)
             .addSnapshotListener((value, error) -> {
                 if(error != null){
-                    Log.i(TAG, "fetchUserByTag: failed -> "+error.getMessage());
+                    Log.i(TAG, "setReceiverOnToolbar: failed -> "+error.getMessage());
                 }else if(value != null){
                     DocumentSnapshot ds = value.getDocuments().get(0);
 
@@ -123,6 +135,23 @@ public class PrivateChatActivity extends AppCompatActivity {
             });
     }
 
+    private void setMultimediaOnHeader(String postUidRef) {
+        ffStore.collection("posts")
+                .document(postUidRef)
+                .get().addOnCompleteListener(task -> {
+                   if(task.isSuccessful()){
+                       Timestamp time = (Timestamp) task.getResult().get("date");
+                       tvPrivateChatDate.setText(sdf.format(time.toDate()));
+
+                       Picasso.with(this)
+                               .load(task.getResult().get("multimedia")+"")
+                               .placeholder(getDrawable(R.drawable.image_not_found))
+                               .into(ivPrivateChatMultimedia);
+                   }else
+                       Log.e(TAG, "setMultimediaOnHeader: failed -> "+task.getException().getMessage());
+                });
+    }
+
     private void setChat() {
         ffStore.collection("chats")
             .whereArrayContains("users", currentUserUid)
@@ -130,8 +159,11 @@ public class PrivateChatActivity extends AppCompatActivity {
                 if(task.isSuccessful() && !task.getResult().isEmpty()){
                     for (DocumentSnapshot ds:task.getResult().getDocuments()) {
                         ArrayList<String> chatUsers = (ArrayList<String>) ds.get("users");
+                        String postUidRef = ds.get("postUid")+"";
 
-                        if(chatUsers != null && chatUsers.contains(receiverUid)){
+                        if(chatUsers != null
+                                && chatUsers.contains(receiverUid)
+                                && postUidRef.equals(postUid)){
                             pDialog.dismiss();
                             chatUidReference = ds.getId();
                             displayMessages(chatUidReference);
@@ -219,14 +251,34 @@ public class PrivateChatActivity extends AppCompatActivity {
 
         HashMap<String, Object> chatData = new HashMap<>();
         chatData.put("uid", chatUidReference);
+        chatData.put("postUid", postUid);
         chatData.put("date", Timestamp.now());
         chatData.put("users", chatUsers);
 
         dr.set(chatData).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 setChatMessagesListener();
+                sendNotificationEmail();
             }
         });
+    }
+
+    private void sendNotificationEmail() {
+        ffStore.collection("users")
+                .document(receiverUid)
+                .get().addOnCompleteListener(task -> {
+                   if(task.isSuccessful()){
+                       String receiverEmail = task.getResult().get("email")+"";
+                       String emailSubject = "DevSpace: New chat started!!";
+                       String emailMessage = "Someone wants to talk to you and recently created a new chat to communicate with you. Go take a look!!";
+
+                       DevspaceMessagingService mail = new DevspaceMessagingService(
+                               this, receiverEmail, emailSubject, emailMessage
+                       );
+                       mail.execute();
+                   }
+                });
+
     }
 
     private void sendMessage(String chatUidReference) {

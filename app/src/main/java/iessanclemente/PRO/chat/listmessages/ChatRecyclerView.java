@@ -82,6 +82,8 @@ public class ChatRecyclerView extends AppCompatActivity {
     public static class ChatViewHolder extends RecyclerView.ViewHolder{
         ImageView ivChatUserIcon;
         TextView tvChatUsername;
+        ImageView ivChatPostMultimedia;
+        TextView tvChatPostDate;
         TextView tvChatUserTag;
         ImageView ivMessageType;
         TextView tvLastMessage;
@@ -90,6 +92,8 @@ public class ChatRecyclerView extends AppCompatActivity {
             super(itemView);
             ivChatUserIcon = itemView.findViewById(R.id.ivChatUserIcon);
             tvChatUsername = itemView.findViewById(R.id.tvChatUsername);
+            ivChatPostMultimedia = itemView.findViewById(R.id.ivChatPostMultimedia);
+            tvChatPostDate = itemView.findViewById(R.id.tvChatPostDate);
             tvChatUserTag = itemView.findViewById(R.id.tvChatUserTag);
             ivMessageType = itemView.findViewById(R.id.ivMessageType);
             tvLastMessage = itemView.findViewById(R.id.tvLastMessage);

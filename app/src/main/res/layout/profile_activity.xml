@@ -51,7 +51,6 @@
                 android:textColor="@color/white"
                 android:background="@android:color/transparent"
                 android:fontFamily="@font/play_b"
-                android:focusableInTouchMode="false"
                 android:maxLines="1"
                 android:maxLength="25"
                 android:enabled="false" />

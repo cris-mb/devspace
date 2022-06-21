@@ -69,6 +69,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostRecyclerView.PostViewH
         holder.ivPostSendMessage.setOnClickListener(v -> {
             Intent sendNewMessage = new Intent(context.getApplicationContext(), PrivateChatActivity.class);
             sendNewMessage.putExtra("receiverTag", holder.tvPostAuthorTag.getText()+"");
+            sendNewMessage.putExtra("postUid", postsList.get(i).getUid());
+            sendNewMessage.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(sendNewMessage);
         });
 
